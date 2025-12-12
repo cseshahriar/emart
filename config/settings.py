@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "debug_toolbar",
     # Custom Service Apps
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -164,7 +165,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
