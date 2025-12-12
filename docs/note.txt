@@ -1,0 +1,5 @@
+
+pip install django-debug-toolbar
+pip freeze | grep django-debug-toolbar >> requirements/local.txt
+
+django-crispy-forms==<version>
