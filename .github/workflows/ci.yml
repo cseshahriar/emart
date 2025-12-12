@@ -91,7 +91,7 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 5432
         run: |
-          python manage.py test
+          python manage.py test --keepdb --noinput
 
       # Step 9: Optional: Cache pip packages for faster runs
       - name: Cache pip
