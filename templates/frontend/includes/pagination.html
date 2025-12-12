@@ -1,0 +1,115 @@
+{% load humanize %}
+{% if is_paginated %}
+<style>
+    .pagination-info {
+        font-size: 0.95rem;
+    }
+    .page-number-input::-webkit-inner-spin-button,
+    .page-number-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .pagination-buttons a.btn {
+        min-width: 70px;
+        font-size: 0.875rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .page-navigation-form {
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 767.98px) {
+        .pagination-info {
+            font-size: 0.8rem;
+        }
+        .page-navigation-form form {
+            gap: 4px;
+        }
+        .pagination-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .pagination-buttons a.btn {
+            min-width: 50px;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.4rem;
+        }
+        .pagination-buttons .d-none.d-sm-inline {
+            display: none !important;
+        }
+
+        .pagination-buttons .d-sm-none {
+            display: inline !important;
+        }
+
+        .page-navigation-form {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .pagination-info {
+            font-size: 0.75rem;
+        }
+        .page-number-input {
+            width: 60px;
+        }
+    }
+</style>
+
+<div class="row my-2">
+    <div class="col-md-6 text-muted text-center text-md-left pagination-info">
+        <span class="d-none d-md-inline">Showing</span>
+        {{ page_obj.start_index|intcomma }} to {{ page_obj.end_index|intcomma }}
+        of {{ page_obj.paginator.count|intcomma }}
+        <span class="d-none d-md-inline">entries</span>
+    </div>
+
+    <div class="col-md-6 text-center text-md-right">
+        <div class="page-navigation-form d-inline-flex flex-column flex-md-row align-items-center justify-content-center">
+            <form method="GET" class="d-inline-flex align-items-center flex-wrap justify-content-center" style="gap: 6px;">
+                {% for k, v in request.GET.items %}
+                    {% if k != 'page' %}
+                        <input type="hidden" name="{{ k }}" value="{{ v }}">
+                    {% endif %}
+                {% endfor %}
+                <label for="page_input" class="mb-0 small">Page</label>
+                <input type="number" id="page_input" name="page" min="1" max="{{ page_obj.paginator.num_pages }}"
+                    value="{{ page_obj.number }}" class="form-control form-control-sm page-number-input" style="width: 70px; min-width: 60px;">
+                <small class="text-muted">of {{ page_obj.paginator.num_pages|intcomma }}</small>
+            </form>
+
+            <div class="pagination-buttons mt-2 mt-md-0 ml-md-2">
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-sm btn-outline-secondary" href="?page={{page_obj.previous_page_number}}{% for k, v in request.GET.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}">
+                        <span class="d-none d-sm-inline">Previous</span>
+                        <span class="d-sm-none">&laquo;</span>
+                    </a>
+                {% else %}
+                    <a class="btn btn-sm btn-outline-secondary disabled" href="#">
+                        <span class="d-none d-sm-inline">Previous</span>
+                        <span class="d-sm-none">&laquo;</span>
+                    </a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-sm btn-outline-secondary" href="?page={{ page_obj.next_page_number }}{% for k, v in request.GET.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}">
+                        <span class="d-none d-sm-inline">Next</span>
+                        <span class="d-sm-none">&raquo;</span>
+                    </a>
+                {% else %}
+                    <a class="btn btn-sm btn-outline-secondary disabled" href="#">
+                        <span class="d-none d-sm-inline">Next</span>
+                        <span class="d-sm-none">&raquo;</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

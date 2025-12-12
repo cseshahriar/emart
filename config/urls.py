@@ -23,6 +23,8 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("i18n/", include("django.conf.urls.i18n")),
+    # include apps urls
+    path("", include("frontend.urls")),
 ]
 
 urlpatterns += i18n_patterns(

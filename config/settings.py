@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     # Custom Service Apps
     "users",
+    "frontend",
 ]
 
 MIDDLEWARE = [
@@ -182,11 +183,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.getenv("STATIC_DIR", BASE_DIR / "static")
-STATICFILES_DIRS = [os.getenv("STATICFILES_DIR", BASE_DIR / "staticfiles")]
+# STATIC_ROOT = os.getenv("STATIC_DIR", BASE_DIR / "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = [os.getenv("STATICFILES_DIR", BASE_DIR / "staticfiles")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.getenv("MEDIA_DIR", BASE_DIR / "media")
+# MEDIA_ROOT = os.getenv("MEDIA_DIR", BASE_DIR / "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 SITE_HEADER = "Shorna Mart Administration"
 SITE_TITLE = "Shorna Mart Administration"
