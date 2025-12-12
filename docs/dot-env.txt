@@ -1,3 +1,6 @@
+# Add this to your .env file
+export MYPYPATH=$(pwd)
+
 DEBUG=True
 SECRET_KEY="django-insecure-lss*pf41xr3u@u#tw^m5gz=p!3$(z8xt_$q&gmjg%bm*^_j@+!"
 

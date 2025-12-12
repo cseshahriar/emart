@@ -4,16 +4,19 @@ pip freeze | grep django-debug-toolbar >> requirements/local.txt
 
 django-crispy-forms==<version>
 
-
 1. Install pre-commit if you haven’t already:
 pip install pre-commit
 
 2. Install hooks for the repo (from the root directory):
 pre-commit install
+pre-commit autoupdate
 
 3. Run checks manually anytime:
 pre-commit run --all-files
 
+pre-commit clean
+pre-commit install
+pre-commit run --all-files
 
 python -m django check
 python manage.py check
@@ -22,3 +25,25 @@ flake8 --check .
 isort .
 pytest --cov=.
 pytest --cov=. --cov-report=html
+
+----------
+pre commit
+----------
+# Install pre-commit
+pip install pre-commit
+
+# Install the hooks
+pre-commit install
+
+# Run on all files
+pre-commit run --all-files
+
+# To skip a specific hook
+SKIP=mypy pre-commit run --all-files
+
+# To run only specific hooks
+pre-commit run black --all-files
+pre-commit run flake8 --all-files
+
+# Temporary fix
+python -m mypy config/ --exclude venv --exclude __pycache__

@@ -5,12 +5,14 @@ django-debug-toolbar==6.1.0
 django-extensions==4.1
 
 # Formatting / linting
-isort
-black==23.12.0
-flake8==7.0.0
-pytest-cov==4.0.0
+black==24.4.2
+flake8==7.1.0
+isort==5.13.2
+pre-commit==3.7.1
+
 
 # Testing tools
+pytest-cov==4.0.0
 pytest==8.0.0
 pytest-django==4.0.0
 model-bakery
