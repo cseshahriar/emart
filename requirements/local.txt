@@ -12,10 +12,9 @@ pre-commit==3.7.1
 
 
 # Testing tools
+coverage
 pytest-cov==4.0.0
 pytest==8.0.0
 pytest-django==4.0.0
 model-bakery
-
-# Better shell
 ipython

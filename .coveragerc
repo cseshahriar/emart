@@ -1,6 +1,26 @@
+# .coveragerc
 [run]
 source = .
-omit = *venv*,*migrations*,*tests*,*manage.py,*asgi*,*wsgi*,*apps.py,*urls.py,*__init__.py
+omit =
+    */tests/*
+    */migrations/*
+    */__pycache__/*
+    */venv/*
+    */.venv/*
+    manage.py
+    */settings.py
 
 [report]
-omit = *venv*,*migrations*,*tests*,*manage.py,*asgi*,*wsgi*,*apps.py,*urls.py,*__init__.py
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    class .*:\s*$
+    ^\s*$
+    ^\s*def test_.*:$
+
+show_missing = True
+skip_covered = True

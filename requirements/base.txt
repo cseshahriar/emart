@@ -36,3 +36,4 @@ uritemplate==4.2.0
 urllib3==2.6.2
 django-crispy-forms==2.5
 psycopg2-binary==2.9.11
+whitenoise

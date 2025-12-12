@@ -47,3 +47,22 @@ pre-commit run flake8 --all-files
 
 # Temporary fix
 python -m mypy config/ --exclude venv --exclude __pycache__
+
+python manage.py test users
+
+
+# Quick development workflow
+make install      # Install dependencies
+make migrate      # Run migrations
+make start        # Start server
+
+# Full CI check
+make check        # Format check + lint + test
+
+# Before committing
+make format       # Auto-format code
+make lint         # Check for issues
+make test         # Run tests
+
+# Clean up
+make clean        # Remove all cache files
