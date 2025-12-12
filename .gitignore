@@ -240,8 +240,21 @@ Thumbs.db
 
 # Django
 media/
-staticfiles/
 
 # Environment variables
 .env
 .env.local
+
+
+# Collected static files
+/static/
+
+# User uploads
+/media/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment files
+.env
