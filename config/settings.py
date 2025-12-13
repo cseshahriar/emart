@@ -88,6 +88,14 @@ INSTALLED_APPS = [
     # Custom Service Apps
     "users",
     "frontend",
+    "catalog",
+    "inventory",
+    "cart",
+    "orders",
+    "shipping",
+    "locations",
+    "reviews",
+    "payments",
 ]
 
 MIDDLEWARE = [
