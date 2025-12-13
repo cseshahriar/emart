@@ -58,6 +58,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    phone_verified = models.BooleanField(default=False)
+    date_of_birth = models.DateField(null=True, blank=True)
+
+    GENDER_CHOICES = [
+        ("M", "Male"),
+        ("F", "Female"),
+        ("O", "Other"),
+    ]
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, null=True, blank=True
+    )
+
     # Social login fields
     facebook_id = models.CharField(max_length=100, blank=True, null=True)
     google_id = models.CharField(max_length=100, blank=True, null=True)
@@ -91,3 +103,61 @@ class User(AbstractBaseUser, PermissionsMixin):
     def login_identifier(self):
         """Return the identifier used for login (email or phone)"""
         return self.email or self.phone
+
+
+class Address(models.Model):
+    """Customer addresses"""
+
+    ADDRESS_TYPE_CHOICES = [
+        ("billing", "Billing"),
+        ("shipping", "Shipping"),
+    ]
+
+    customer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="addresses"
+    )
+    address_type = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES)
+
+    # Contact
+    full_name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField(blank=True)
+
+    # Address
+    address_line1 = models.CharField(max_length=500)
+    address_line2 = models.CharField(max_length=500, blank=True)
+    # division = models.ForeignKey(Division, on_delete=models.PROTECT)
+    # district = models.ForeignKey(District, on_delete=models.PROTECT)
+    # upazila = models.ForeignKey(Upazila, on_delete=models.PROTECT)
+    postal_code = models.CharField(max_length=10, blank=True)
+
+    # Defaults
+    is_default_billing = models.BooleanField(default=False)
+    is_default_shipping = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Addresses"
+
+    def __str__(self):
+        return f"{self.full_name} - {self.address_line1}, {self.upazila}"
+
+    def save(self, *args, **kwargs):
+        # Ensure only one default per type per customer
+        if self.is_default_billing:
+            Address.objects.filter(
+                customer=self.customer,
+                address_type=self.address_type,
+                is_default_billing=True,
+            ).update(is_default_billing=False)
+
+        if self.is_default_shipping:
+            Address.objects.filter(
+                customer=self.customer,
+                address_type=self.address_type,
+                is_default_shipping=True,
+            ).update(is_default_shipping=False)
+
+        super().save(*args, **kwargs)

@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "debug_toolbar",
     # Custom Service Apps
+    "core",
     "users",
     "frontend",
     "catalog",
@@ -96,6 +97,8 @@ INSTALLED_APPS = [
     "locations",
     "reviews",
     "payments",
+    "wishlist",
+    "coupon",
 ]
 
 MIDDLEWARE = [
