@@ -1,41 +1,64 @@
 # .pre-commit-config.yaml (28.06.2024)
+# Purpose: Git commit করার আগে code quality, formatting এবং basic Django check নিশ্চিত করা
 
 repos:
+  # ===============================
+  # 1. Pre-commit built-in hooks
+  # ===============================
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v6.0.0  # hooks এর নির্দিষ্ট stable version
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
+      - id: trailing-whitespace   # লাইনের শেষে অপ্রয়োজনীয় space থাকলে remove করে
+      - id: end-of-file-fixer  # ফাইলের শেষে newline আছে কিনা নিশ্চিত করে
       # Ignore static and template files
         exclude: ^(static|staticfiles|templates)/
-      - id: check-added-large-files
+      - id: check-added-large-files   # খুব বড় ফাইল (default 500kb+) commit হওয়া আটকায়
         # Ignore static and template files
         exclude: ^(static|staticfiles|templates)/
 
-
+  # ===============================
+  # 2. isort – Python imports সাজানো
+  # ===============================
   - repo: https://github.com/PyCQA/isort
     rev: 7.0.0
     hooks:
       - id: isort
+      # import গুলো alphabetical + standard অনুযায়ী সাজায়
+      # example: stdlib → third-party → local import
 
-
+  # ===============================
+  # 3. Black – Python code formatter
+  # ===============================
   - repo: https://github.com/psf/black
     rev: 25.12.0
     hooks:
       - id: black
+      # Python code auto-format করে (PEP8 compatible)
+      # line-length default 88 characters
 
-
+  # ===============================
+  # 4. Flake8 – Python linting
+  # ===============================
   - repo: https://github.com/pycqa/flake8
     rev: 7.3.0
     hooks:
       - id: flake8
+      # syntax error, unused imports, style issue ধরবে
+      # Black এর সাথে ব্যবহার করলে config flake8 এ adjust করা ভালো
 
-
+  # ===============================
+  # 5. Local hook – Django system check
+  # ===============================
   - repo: local
     hooks:
       - id: django-check
         name: Run Django Check
         entry: python manage.py check
-        language: system
+        language: system   # system python ব্যবহার করবে (virtualenv respected)
         pass_filenames: false
         types: [python]
+        # commit এর আগে Django:
+        # - model error
+        # - migration issue
+        # - settings problem
+        # detect করবে
