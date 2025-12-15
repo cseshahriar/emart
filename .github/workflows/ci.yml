@@ -1,16 +1,36 @@
 # Build, Test, and Push
+
+# ==========================================
+# Workflow name (GitHub Actions UI তে দেখা যাবে)
+# ==========================================
 name: Django CI # Name of the workflow
 
-# Run on push to dev, main, release or PR targeting them
+# ==========================================
+# কখন এই workflow রান করবে, Run on push to dev,
+#  main, release or PR targeting them
+# ==========================================
 on:
+  # main, dev, release ব্রাঞ্চে push হলে রান করবে
   push:
     branches: [main, dev, release]
+
+  # main, dev, release ব্রাঞ্চে PR গেলে রান করবে
   pull_request:
     branches: [main, dev, release]
 
+# ==========================================
+# Workflow এর সব job এখানে define হয়
+# ==========================================
 jobs:
+  # Job name: test
   test:
+    # GitHub-hosted runner (Ubuntu latest)
     runs-on: ubuntu-latest # CI environment
+
+    # ----------------------------------------
+    # Environment variables (job-level)
+    # Django settings থেকে DB config পড়ার জন্য
+    # ----------------------------------------
     env:
       DB_NAME: test_db
       DB_USER: postgres
@@ -18,25 +38,40 @@ jobs:
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
 
+    # ========================================
+    # External services (Docker containers)
+    # এখানে PostgreSQL চালু হবে
+    # ========================================
 
-    # Services needed for Django tests (PostgreSQL)
     services:
       postgres:
-        image: postgres:15 # Docker image for PostgreSQL
+        image: postgres:15 # PostgreSQL Docker image
+
+        # Container এর ভিতরের environment
         env:
           POSTGRES_DB: test_db # DB name for CI
           POSTGRES_USER: postgres # DB user
           POSTGRES_PASSWORD: postgres # DB password
+
+        # Host → Container port mapping
         ports:
           - 5432:5432
+
+        # Health check: DB ready কিনা যাচাই
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
+    # ========================================
+    # Job এর ধাপে ধাপে কাজ
+    # ========================================
     steps:
-      # Step 1: Checkout code
+      # Step
+      # --------------------------------------
+      # Step 1: Repository code checkout
+      # --------------------------------------
       - uses: actions/checkout@v4
 
       # 2Step 2: Set up Python

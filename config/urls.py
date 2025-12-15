@@ -18,9 +18,15 @@ INDEX_TITLE = "Shorna Mart Admin Panel"
 
 
 urlpatterns = [
+    # admin urls
+    path(f"{settings.ADMIN_URL}/", admin.site.urls),
     # JWT Authentication
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path(
+        "api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"
+    ),
+    path(
+        "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
+    ),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("i18n/", include("django.conf.urls.i18n")),
     # include apps urls
@@ -29,13 +35,13 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("set-language/", set_language, name="set_language"),
-    # admin urls
-    path(f"{settings.ADMIN_URL}/", admin.site.urls),
 )
 
 # Serve media files in development environment
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
 
 # debug toolbar ---------------------------------------------------------------
 if settings.DEBUG:
