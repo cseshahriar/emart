@@ -4,6 +4,13 @@
 
 {% block extra_css %}
 <style>
+    .site-logo {
+        width: 245px;     /* EXACT width */
+        height: 51px;     /* EXACT height */
+        object-fit: contain;  /* prevents distortion */
+        display: block;
+    }
+
     .header.navbar-area {
         position: sticky;  /* Sticks to the top when scrolling */
         top: 0;            /* Stick to top */
