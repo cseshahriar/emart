@@ -41,7 +41,7 @@ jobs:
             echo "🚀 Deploying RELEASE branch"
 
             # Go to project directory
-            cd /emart
+            cd ~/emart
 
             echo "📥 Pull latest code"
             git pull origin release
