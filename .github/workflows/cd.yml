@@ -8,7 +8,7 @@ name: Django CD (Release Deploy)
 
 on:
   push:
-    branches: [release]
+    branches: ["dev"]
 
 jobs:
   deploy:
