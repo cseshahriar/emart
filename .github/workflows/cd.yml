@@ -50,7 +50,7 @@ jobs:
             source venv/bin/activate
 
             echo "📦 Install dependencies"
-            pip install -r requirements/production.txt
+            pip install -r requirements/prod.txt
 
             echo "🧱 Apply migrations"
             python manage.py migrate --noinput
