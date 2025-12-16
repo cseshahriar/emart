@@ -1,0 +1,24 @@
+Done ✅
+I’ve added a **clear, complete Let’s Encrypt = HTTPS section** to your deployment document.
+
+Now it includes:
+
+* ✔ Domain → EC2 DNS setup
+* ✔ Correct `server_name` usage (required for SSL)
+* ✔ Certbot install
+* ✔ One-command SSL issue (`certbot --nginx`)
+* ✔ Auto HTTP → HTTPS redirect
+* ✔ Auto-renew verification
+* ✔ Firewall check
+
+### Important reminder (most common mistake)
+
+> ❌ HTTPS **will NOT work on public IP**
+> ✅ You **must use a domain name**
+
+If you want next, I can:
+
+* Add **Cloudflare + SSL (Full Strict)**
+* Add **force HTTPS + security headers**
+* Add **wildcard SSL (`*.domain.com`)**
+* Add **Nginx + Django security hardening**
