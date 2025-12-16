@@ -145,6 +145,32 @@
     .hero-area .hero-small-banner .content {
         padding:15px;
     }
+    .category-card {
+            border: 1px solid #eee;
+            text-align: center;
+            padding: 15px;
+            height: 100%;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .category-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+        }
+
+        .category-card img {
+            max-width: 100%;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .category-card h6 {
+            font-size: 14px;
+            margin: 0;
+            color: #333;
+        }
 </style>
 {% endblock %}
 
@@ -177,13 +203,13 @@
                             <div class="single-slider"
                                 style="background-image: url({% static 'assets/images/hero/slider-bg2.jpg' %});">
                                 <div class="content">
-                                    <h2><span>Big Sale Offer</span>
+                                    <h2>
                                         Get the Best Deal on CCTV Camera
                                     </h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut
                                         labore dolore magna aliqua.</p>
                                     <h3><span>Combo Only:</span> $590.00</h3>
-                                    <div class="button">
+                                    <div class="button mb-2">
                                         <a href="product-grids.html" class="btn">Shop Now</a>
                                     </div>
                                 </div>
@@ -194,6 +220,7 @@
                     </div>
                 </div>
 
+                <!-- most popular product / most sale product -->
                 <div class="col-lg-4 col-12">
                     <div class="row">
                         <div class="col-lg-12 col-md-6 col-12 md-custom-padding">
@@ -322,10 +349,186 @@
                     </div>
                     <!-- End Single Product -->
                 </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
             </div>
         </div>
     </section>
     <!-- End Trending Product Area -->
+
+    <!-- Start Category Section Area -->
+    <section class="category-section section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title m-0">
+                        <h2 class="m-0">Categories</h2>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-5">
+                <!-- Category Item -->
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Anklets</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Other Projector Accessories</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Kitchen Fittings</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Womens Fashion</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Goat</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Watches & Accessories</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Watering Systems & Garden Hoses</h6>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Zakat</h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Zakat</h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Zakat</h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Zakat</h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-4">
+                    <div class="category-card">
+                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
+                        <h6>Zakat</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Category Section Area -->
 
     <!-- Start Trending Product Area -->
     <section class="trending-product section">
