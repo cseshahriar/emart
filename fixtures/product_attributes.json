@@ -1,0 +1,366 @@
+[
+{
+    "model": "catalog.productattribute",
+    "pk": 1,
+    "fields": {
+        "is_active": true,
+        "serial": 1,
+        "created_at": "2025-12-16T15:46:11.718Z",
+        "updated_at": "2025-12-16T15:46:11.718Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Color",
+        "slug": "color"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 2,
+    "fields": {
+        "is_active": true,
+        "serial": 2,
+        "created_at": "2025-12-16T15:46:32.885Z",
+        "updated_at": "2025-12-16T15:50:07.559Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Size",
+        "slug": "size"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 3,
+    "fields": {
+        "is_active": true,
+        "serial": 3,
+        "created_at": "2025-12-16T15:46:47.758Z",
+        "updated_at": "2025-12-16T15:46:47.758Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Material",
+        "slug": "material"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 4,
+    "fields": {
+        "is_active": true,
+        "serial": 4,
+        "created_at": "2025-12-16T15:47:08.520Z",
+        "updated_at": "2025-12-16T15:47:08.520Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Style",
+        "slug": "style"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 5,
+    "fields": {
+        "is_active": true,
+        "serial": 5,
+        "created_at": "2025-12-16T15:47:15.625Z",
+        "updated_at": "2025-12-16T15:47:15.625Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Pattern",
+        "slug": "pattern"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 6,
+    "fields": {
+        "is_active": true,
+        "serial": 6,
+        "created_at": "2025-12-16T15:48:11.079Z",
+        "updated_at": "2025-12-16T15:48:11.079Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Brand",
+        "slug": "brand"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 7,
+    "fields": {
+        "is_active": true,
+        "serial": 7,
+        "created_at": "2025-12-16T15:48:27.628Z",
+        "updated_at": "2025-12-16T15:48:27.628Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Model",
+        "slug": "model"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 8,
+    "fields": {
+        "is_active": true,
+        "serial": 8,
+        "created_at": "2025-12-16T15:48:40.002Z",
+        "updated_at": "2025-12-16T15:50:40.366Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Dimensions",
+        "slug": "dimensions"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 9,
+    "fields": {
+        "is_active": true,
+        "serial": 9,
+        "created_at": "2025-12-16T15:48:58.283Z",
+        "updated_at": "2025-12-16T15:50:44.693Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Warranty",
+        "slug": "warranty"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 10,
+    "fields": {
+        "is_active": true,
+        "serial": 10,
+        "created_at": "2025-12-16T15:50:54.490Z",
+        "updated_at": "2025-12-16T15:50:54.490Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Country of Origin",
+        "slug": "country-of-origin"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 11,
+    "fields": {
+        "is_active": true,
+        "serial": 11,
+        "created_at": "2025-12-16T15:51:06.899Z",
+        "updated_at": "2025-12-16T15:51:06.899Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Manufactured Date",
+        "slug": "manufactured-date"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 12,
+    "fields": {
+        "is_active": true,
+        "serial": 12,
+        "created_at": "2025-12-16T15:51:30.338Z",
+        "updated_at": "2025-12-16T15:51:30.338Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Battery Capacity",
+        "slug": "battery-capacity"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 13,
+    "fields": {
+        "is_active": true,
+        "serial": 13,
+        "created_at": "2025-12-16T15:51:46.637Z",
+        "updated_at": "2025-12-16T15:51:46.637Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Screen Size",
+        "slug": "screen-size"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 14,
+    "fields": {
+        "is_active": true,
+        "serial": 14,
+        "created_at": "2025-12-16T15:51:58.804Z",
+        "updated_at": "2025-12-16T15:51:58.805Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Operating System",
+        "slug": "operating-system"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 15,
+    "fields": {
+        "is_active": true,
+        "serial": 15,
+        "created_at": "2025-12-16T15:52:18.022Z",
+        "updated_at": "2025-12-16T15:52:18.022Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "RAM",
+        "slug": "ram"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 16,
+    "fields": {
+        "is_active": true,
+        "serial": 16,
+        "created_at": "2025-12-16T15:52:32.013Z",
+        "updated_at": "2025-12-16T15:52:32.013Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Storage",
+        "slug": "storage"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 17,
+    "fields": {
+        "is_active": true,
+        "serial": 17,
+        "created_at": "2025-12-16T15:52:45.739Z",
+        "updated_at": "2025-12-16T15:52:45.739Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Processor",
+        "slug": "processor"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 18,
+    "fields": {
+        "is_active": true,
+        "serial": 18,
+        "created_at": "2025-12-16T15:56:19.412Z",
+        "updated_at": "2025-12-16T15:56:19.412Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Display",
+        "slug": "display"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 19,
+    "fields": {
+        "is_active": true,
+        "serial": 19,
+        "created_at": "2025-12-16T15:56:44.739Z",
+        "updated_at": "2025-12-16T15:56:44.739Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Waterproof level",
+        "slug": "waterproof-level"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 20,
+    "fields": {
+        "is_active": true,
+        "serial": 20,
+        "created_at": "2025-12-16T15:57:05.080Z",
+        "updated_at": "2025-12-16T15:57:05.080Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Sports Modes",
+        "slug": "sports-modes"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 21,
+    "fields": {
+        "is_active": true,
+        "serial": 21,
+        "created_at": "2025-12-16T16:55:16.597Z",
+        "updated_at": "2025-12-16T16:56:27.682Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Connectivity",
+        "slug": "connectivity"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 22,
+    "fields": {
+        "is_active": true,
+        "serial": 22,
+        "created_at": "2025-12-16T16:57:25.276Z",
+        "updated_at": "2025-12-16T16:57:25.276Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "OS",
+        "slug": "os"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 23,
+    "fields": {
+        "is_active": true,
+        "serial": 23,
+        "created_at": "2025-12-16T16:57:37.772Z",
+        "updated_at": "2025-12-16T16:57:37.772Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "SpecialFeatures",
+        "slug": "specialfeatures"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 24,
+    "fields": {
+        "is_active": true,
+        "serial": 24,
+        "created_at": "2025-12-16T16:57:45.254Z",
+        "updated_at": "2025-12-16T16:57:45.254Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Sensor",
+        "slug": "sensor"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 25,
+    "fields": {
+        "is_active": true,
+        "serial": 25,
+        "created_at": "2025-12-16T16:57:59.750Z",
+        "updated_at": "2025-12-16T16:57:59.750Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Dimension",
+        "slug": "dimension"
+    }
+},
+{
+    "model": "catalog.productattribute",
+    "pk": 26,
+    "fields": {
+        "is_active": true,
+        "serial": 26,
+        "created_at": "2025-12-16T16:58:07.647Z",
+        "updated_at": "2025-12-16T16:58:07.647Z",
+        "created_by": null,
+        "updated_by": null,
+        "name": "Weight",
+        "slug": "weight"
+    }
+}
+]

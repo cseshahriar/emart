@@ -14,7 +14,7 @@ class Category(BaseModel):
 
     parent = models.ForeignKey(
         "self",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
         related_name="children",
@@ -244,7 +244,14 @@ class ProductImage(BaseModel):
 
 
 class ProductFeature(BaseModel):
-    """Product Features List"""
+    """
+    Product Features List
+    ✔ Long-lasting battery
+    ✔ Fast charging support
+    ✔ Premium metal body
+    ✔ Water resistant
+    ✔ Suitable for daily use
+    """
 
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="features"
@@ -260,19 +267,33 @@ class ProductFeature(BaseModel):
 
 
 class ProductSpecification(BaseModel):
-    """Product Specifications"""
+    """
+    Product Specifications
+    Brand: Apple
+    Model: iPhone 15
+    Battery: 5100 mAh
+    Screen Size: 6.1 inches
+    Weight: 171 g
+    """
 
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="specifications"
     )
-    name = models.CharField(max_length=200)
+    attribute = models.ForeignKey(
+        "catalog.ProductAttribute",
+        on_delete=models.PROTECT,
+        related_name="specifications",
+        null=True,
+        blank=False,
+    )
     value = models.CharField(max_length=500)
 
     class Meta:
         ordering = []
 
     def __str__(self):
-        return f"{self.product.name} - {self.name}: {self.value}"
+        return f"{self.product.name} - \
+            {self.attribute.name if self.attribute else ''}: {self.value}"
 
 
 # ==================== Product Variants ====================
@@ -298,7 +319,7 @@ class ProductAttributeValue(BaseModel):
     """Attribute values (Red, Large, 5100mAh, etc.)"""
 
     attribute = models.ForeignKey(
-        ProductAttribute, on_delete=models.CASCADE, related_name="values"
+        ProductAttribute, on_delete=models.PROTECT, related_name="values"
     )
     value = models.CharField(max_length=200)
     color_code = models.CharField(
@@ -315,6 +336,7 @@ class ProductAttributeValue(BaseModel):
         return f"{self.attribute.name}: {self.value}"
 
 
+# =================== product variant =========================================
 class ProductVariant(BaseModel):
     """Product Variants with different prices and stock"""
 
@@ -322,7 +344,6 @@ class ProductVariant(BaseModel):
         Product, on_delete=models.CASCADE, related_name="variants"
     )
     sku = models.CharField(max_length=100, unique=True, blank=True)
-
     # Pricing
     price = models.DecimalField(
         max_digits=10, decimal_places=2, validators=[MinValueValidator(0)]
@@ -375,7 +396,7 @@ class VariantAttribute(BaseModel):
         related_name="variant_attributes",
     )
     attribute_value = models.ForeignKey(
-        ProductAttributeValue, on_delete=models.CASCADE
+        ProductAttributeValue, on_delete=models.PROTECT
     )
 
     class Meta:

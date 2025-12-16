@@ -139,6 +139,8 @@ class ProductAdmin(admin.ModelAdmin):
                     "is_featured",
                     "is_new",
                     "is_bestseller",
+                    "is_top_rated",
+                    "is_slider",
                     "published_at",
                 )
             },
@@ -181,9 +183,16 @@ class ProductVariantAdmin(admin.ModelAdmin):
 
 @admin.register(ProductAttribute)
 class ProductAttributeAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = (
+        "pk",
+        "serial",
+        "name",
+        "slug",
+    )
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
+    ordering = ("serial",)
+    list_editable = ("serial",)
 
 
 @admin.register(ProductAttributeValue)

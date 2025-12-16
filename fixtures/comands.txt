@@ -1,0 +1,8 @@
+Dumpdata:
+---------
+python manage.py dumpdata catalog.ProductAttribute --indent 4 > fixtures/product_attributes.json
+
+
+Loaddata:
+---------
+python manage.py Loaddata fixtures/product_attributes.json
