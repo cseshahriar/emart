@@ -3,35 +3,16 @@
 # create, variables on repository and add server host, user, and public ket and
 # cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 # ssh key is private key
-# git push release
-#    ↓
-# GitHub Actions CD
-#    ↓
-# SSH → /emart
-#    ↓
-# git pull
-#    ↓
-# migrate → check → collectstatic
-#    ↓
-# restart gunicorn → restart nginx
 # ==========================================
 name: Django CD (Release Deploy)
 
 on:
-  workflow_run:
-    workflows: ["Django CI"]   # MUST match CI workflow name
-    types:
-      - completed
-    branches:
-      - release  # CRITICAL FIX: Only trigger when CI runs on release branch
+  push:
+    branches: [release]
 
 jobs:
   deploy:
     name: Deploy to Production Server
-    # Check both: workflow succeeded AND it was on release branch
-    if: |
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'release'
     runs-on: ubuntu-latest
 
     steps:
