@@ -3,30 +3,16 @@
 # create, variables on repository and add server host, user, and public ket and
 # cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 # ssh key is private key
-# git push release
-#    ↓
-# GitHub Actions CD
-#    ↓
-# SSH → /emart
-#    ↓
-# git pull
-#    ↓
-# migrate → check → collectstatic
-#    ↓
-# restart gunicorn → restart nginx
 # ==========================================
 name: Django CD (Release Deploy)
 
 on:
-  workflow_run:
-    workflows: ["Django CI"]   # MUST match CI workflow name
-    types:
-      - completed
+  push:
+    branches: [release]
 
 jobs:
   deploy:
     name: Deploy to Production Server
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
