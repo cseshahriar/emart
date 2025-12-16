@@ -12,11 +12,11 @@ name: Django CI # Name of the workflow
 on:
   # main, dev, release ব্রাঞ্চে push হলে রান করবে
   push:
-    branches: [main, dev, release]
+    branches: [main, release]
 
   # main, dev, release ব্রাঞ্চে PR গেলে রান করবে
   pull_request:
-    branches: [main, dev, release]
+    branches: [main, release]
 
 # ==========================================
 # Workflow এর সব job এখানে define হয়
