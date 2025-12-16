@@ -84,7 +84,6 @@ INSTALLED_APPS = [
     "djmoney",
     "import_export",
     "drf_yasg",
-    "debug_toolbar",
     # Custom Service Apps
     "core",
     "users",
@@ -103,7 +102,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "allauth.account.middleware.AccountMiddleware",
@@ -114,6 +112,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# Add debug toolbar only if DEBUG=True and app is installed
+if DEBUG:
+    try:
+        INSTALLED_APPS.append("debug_toolbar")
+        INSTALLED_APPS.append("django_extensions")
+        MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    except ImportError:
+        pass
+
 
 ROOT_URLCONF = "config.urls"
 
