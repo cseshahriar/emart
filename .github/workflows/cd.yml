@@ -17,14 +17,21 @@
 # ==========================================
 name: Django CD (Release Deploy)
 
+# on:
+#   push:
+#     branches:
+#       - release
+
 on:
-  push:
-    branches:
-      - release
+  workflow_run:
+    workflows: ["Django CI"]   # MUST match CI workflow name
+    types:
+      - completed
 
 jobs:
   deploy:
     name: Deploy to Production Server
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
