@@ -159,8 +159,10 @@ class Product(BaseModel):
     # Status
     # is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
-    is_new = models.BooleanField(default=False)
-    is_bestseller = models.BooleanField(default=False)
+    is_new = models.BooleanField(default=False)  # new arrivals
+    is_bestseller = models.BooleanField(default=False)  # best sellers
+    is_top_rated = models.BooleanField(default=False)  # top rated
+    is_slider = models.BooleanField(default=False)  # top rated
 
     # Timestamps
     # created_at = models.DateTimeField(auto_now_add=True)
