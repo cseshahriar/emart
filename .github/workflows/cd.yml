@@ -1,5 +1,8 @@
 # ==========================================
 # Continuous Deployment for Django (Release)
+# create, variables on repository and add server host, user, and public ket and
+# cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+# ssh key is private key
 # git push release
 #    ↓
 # GitHub Actions CD
