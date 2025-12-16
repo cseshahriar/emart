@@ -12,9 +12,9 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-SITE_HEADER = "Shorna Mart Administration"
-SITE_TITLE = "Shorna Mart Administration"
-INDEX_TITLE = "Shorna Mart Admin Panel"
+SITE_HEADER = settings.SITE_HEADER
+SITE_TITLE = settings.SITE_TITLE
+INDEX_TITLE = settings.SITE_TITLE
 
 
 urlpatterns = [
@@ -43,13 +43,17 @@ if settings.DEBUG:
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
     )
 
-# debug toolbar ---------------------------------------------------------------
-if settings.DEBUG:
-    import debug_toolbar
+    # debug toolbar - ONLY if DEBUG=True AND debug_toolbar is installed
+    if settings.DEBUG:
+        try:
+            import debug_toolbar  # noqa
 
-    urlpatterns = [
-        path("__debug__/", include(debug_toolbar.urls))
-    ] + urlpatterns  # noqa
+            urlpatterns = [
+                path("__debug__/", include(debug_toolbar.urls))
+            ] + urlpatterns
+        except ImportError:
+            # debug_toolbar not installed, skip it
+            pass
 
 # admin site customizations
 admin.sites.AdminSite.site_header = SITE_HEADER

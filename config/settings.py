@@ -31,7 +31,7 @@ LOGGING = get_logging_config(LOGS_DIR)
 SECRET_KEY = os.getenv("SECRET_KEY", "34v-i9fg8vbuvbij434395fvi-v-vv8lsdfnsdl")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", True)
+DEBUG = os.getenv("DEBUG", "True") == "True"  # String comparison
 
 # Add domain name or ip i.e. example.com
 ALLOWED_HOSTS_ENV = os.getenv("ALLOWED_HOSTS", "")
@@ -114,12 +114,18 @@ MIDDLEWARE = [
 ]
 
 # Add debug toolbar only if DEBUG=True and app is installed
+# FIXED: Add debug toolbar only if DEBUG=True and app is installed
 if DEBUG:
     try:
-        INSTALLED_APPS.append("debug_toolbar")
-        INSTALLED_APPS.append("django_extensions")
+        import debug_toolbar  # noqa
+
+        INSTALLED_APPS.insert(0, "debug_toolbar")  # Add at beginning
         MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
+        # Optional: Add django_extensions for development
+        # import django_extensions
+        # INSTALLED_APPS.append("django_extensions")
     except ImportError:
+        # If debug_toolbar is not installed, just skip it
         pass
 
 
@@ -216,18 +222,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.getenv("STATIC_DIR", BASE_DIR / "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# STATICFILES_DIRS = [os.getenv("STATICFILES_DIR", BASE_DIR / "staticfiles")]
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
 
 MEDIA_URL = "/media/"
 # MEDIA_ROOT = os.getenv("MEDIA_DIR", BASE_DIR / "media")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-SITE_HEADER = "Shorna Mart Administration"
-SITE_TITLE = "Shorna Mart Administration"
-INDEX_TITLE = "Shorna Mart Admin Panel"
+SITE_HEADER = os.getenv("SITE_HEADER")
+SITE_TITLE = os.getenv("SITE_TITLE")
+INDEX_TITLE = os.getenv("INDEX_TITLE")
 
 
 ADMIN_URL = "superadmin"
