@@ -1,0 +1,67 @@
+# ==========================================
+# Continuous Deployment for Django (Release)
+# git push release
+#    ↓
+# GitHub Actions CD
+#    ↓
+# SSH → /emart
+#    ↓
+# git pull
+#    ↓
+# migrate → check → collectstatic
+#    ↓
+# restart gunicorn → restart nginx
+# ==========================================
+name: Django CD (Release Deploy)
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  deploy:
+    name: Deploy to Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          timeout: 300s
+          script: |
+            set -e
+
+            echo "🚀 Deploying RELEASE branch"
+
+            # Go to project directory
+            cd /emart
+
+            echo "📥 Pull latest code"
+            git pull origin release
+
+            echo "🐍 Activate virtualenv"
+            source venv/bin/activate
+
+            echo "📦 Install dependencies"
+            pip install -r requirements/production.txt
+
+            echo "🧱 Apply migrations"
+            python manage.py migrate --noinput
+
+            echo "🔍 Django production check"
+            python manage.py check --deploy
+
+            echo "🎨 Collect static files"
+            python manage.py collectstatic --noinput
+
+            echo "🔄 Restart Gunicorn (only if all above succeeded)"
+            sudo systemctl restart gunicorn
+
+            echo "🌐 Restart Nginx"
+            sudo systemctl restart nginx
+
+            echo "✅ Release deployment successful"
