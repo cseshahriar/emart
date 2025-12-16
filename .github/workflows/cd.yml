@@ -17,11 +17,6 @@
 # ==========================================
 name: Django CD (Release Deploy)
 
-# on:
-#   push:
-#     branches:
-#       - release
-
 on:
   workflow_run:
     workflows: ["Django CI"]   # MUST match CI workflow name

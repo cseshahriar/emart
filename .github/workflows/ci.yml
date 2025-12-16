@@ -80,6 +80,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Step 9: Optional: Cache pip packages for faster runs
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements/local.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
@@ -127,12 +136,3 @@ jobs:
           DB_PORT: 5432
         run: |
           python manage.py test --keepdb --noinput
-
-      # Step 9: Optional: Cache pip packages for faster runs
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements/base.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
