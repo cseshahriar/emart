@@ -10,7 +10,9 @@ from django.utils import timezone
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email=None, phone=None, password=None, **extra_fields):
+    def create_user(
+        self, email=None, phone=None, password=None, **extra_fields
+    ):
         """Create and save a User with either email or phone"""
         if not email and not phone:
             raise ValueError("Either Email or Phone must be set")
@@ -24,7 +26,9 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email=None, phone=None, password=None, **extra_fields):
+    def create_superuser(
+        self, email=None, phone=None, password=None, **extra_fields
+    ):
         """Create and save a SuperUser"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -50,7 +54,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     # User info
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    username = models.CharField(max_length=30, unique=True, null=True, blank=True)
+    username = models.CharField(
+        max_length=30, unique=True, null=True, blank=True
+    )
 
     # Status fields
     is_active = models.BooleanField(default=True)
@@ -116,7 +122,9 @@ class Address(models.Model):
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="addresses"
     )
-    address_type = models.CharField(max_length=10, choices=ADDRESS_TYPE_CHOICES)
+    address_type = models.CharField(
+        max_length=10, choices=ADDRESS_TYPE_CHOICES
+    )
 
     # Contact
     full_name = models.CharField(max_length=200)

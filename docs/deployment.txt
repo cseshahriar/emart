@@ -1,0 +1,203 @@
+--------------------------------
+Step 1: Launch EC2 Instance
+-------------------------------
+    1.1 EC2 Configuration:
+    AMI: Ubuntu 22.04 LTS (ami-053b0d53c279acc90)
+    Instance Type: t2.micro
+    Storage: 30GB General Purpose SSD (gp2)
+
+    Security Group:
+        SSH (port 22) - restrict to your IP
+        HTTP (port 80)
+        HTTPS (port 443) - optional
+        Custom TCP (port 8000) - for testing
+
+
+    public: 3.1.24.234
+    # SSH to your instance
+    chmod 400 emart.pem
+    ssh -i emart.pem ubuntu@3.1.24.234
+
+    Amazon Linux: ec2-user
+    Ubuntu: ubuntu
+    RHEL: ec2-user or root
+    CentOS: centos
+
+    # Update system
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y git curl wget build-essential
+
+------------------------------------------------
+Step 2: Setup Swap Memory (Critical for 1GB RAM)
+------------------------------------------------
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Make permanent
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+# Verify
+free -h
+
+
+# Reduce PostgreSQL memory usage
+sudo nano /etc/postgresql/14/main/postgresql.conf
+
+# Edit postgresql.conf for memory optimization
+sudo nano /etc/postgresql/16/main/postgresql.conf
+
+# Update these values:
+shared_buffers = 128MB
+effective_cache_size = 256MB
+work_mem = 4MB
+maintenance_work_mem = 64MB
+
+# Restart PostgreSQL
+sudo systemctl restart postgresql
+
+---------------------
+A. Security:
+---------------------
+# Configure firewall
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw enable
+
+# Change SSH port (optional but recommended)
+sudo nano /etc/ssh/sshd_config
+# Port 2222
+
+----------------------------------------------
+Step 3: Install Python 3.11+ and PostgreSQL 16
+----------------------------------------------
+# Update system
+sudo apt update && sudo apt upgrade -y
+sudo apt install software-properties-common -y
+
+# Install build dependencies
+sudo apt install -y build-essential zlib1g-dev libncurses5-dev \
+libgdbm-dev libnss3-dev libssl-dev libreadline-dev \
+libffi-dev libsqlite3-dev wget libbz2-dev
+
+
+# Download Python 3.12.3
+cd /tmp
+wget https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tgz
+tar -xf Python-3.12.3.tgz
+cd Python-3.12.3
+
+# Configure with optimizations
+./configure --enable-optimizations --enable-shared
+
+# Compile (this takes 5-15 minutes)
+make -j$(nproc)
+
+# Install (this installs to /usr/local/)
+sudo make altinstall
+
+# Verify installation
+python3.12 --version
+
+# Check installation location
+which python3.12
+# Should be: /usr/local/bin/python3.12
+
+# Add Python 3.12 library path to ldconfig
+echo '/usr/local/lib' | sudo tee /etc/ld.so.conf.d/python3.12.conf
+sudo ldconfig
+
+or
+# Update system
+sudo apt update
+sudo apt upgrade -y
+
+# Add deadsnakes PPA for Python 3.12
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update
+
+# Install Python 3.12 and ALL dependencies
+sudo apt install -y python3.12 python3.12-venv python3.12-dev python3.12-distutils python3-pip python3.12-tk python3.12-gdbm python3.12-lib2to3
+
+# Install pip for Python 3.12 specifically
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
+
+# Verify installations
+python3.12 --version  # Should show 3.12.x
+python3.12 -m pip --version  # Should show pip version
+
+
+------------------------
+# Install PostgreSQL 16
+-----------------------
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+sudo apt install -y postgresql-16 postgresql-contrib-16
+
+# Start PostgreSQL
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+sudo systemctl status postgresql
+
+-------------------------------
+Step 4: Configure PostgreSQL
+------------------------------
+# Switch to postgres user
+sudo -i -u postgres
+
+# Create database and user
+createuser --interactive --pwprompt
+# Enter: shornamart
+# Password: shahriar8*****
+
+createdb shornamartdb --owner=shornamart
+and exit
+
+# Edit pg_hba.conf
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+
+# Add line for Django user
+# At the end of file, add:
+host    shornamartdb     shornamart     127.0.0.1/32    scram-sha-256
+
+exit  # Exit postgres user
+
+
+# Generate a new SSH key (use your GitHub email)
+ssh-keygen -t ed25519 -C "your-email@example.com"
+
+-----------------------
+Generate SSH Key Pair
+----------------------
+ssh-keygen -t ed25519 -C "your-email@example.com"
+# Or if your system doesn't support ed25519, use RSA:
+# ssh-keygen -t rsa -b 4096 -C "cse.shahriar.hosen@gmail.com"
+
+----------------------------
+Step 5: Setup Django Project
+---------------------------
+git clone --branch release --single-branch git@github.com:cseshahriar/e-mart.git
+
+or
+
+# Clone with sudo first
+sudo git clone --branch release --single-branch git@github.com:cseshahriar/e-mart.git
+# Change ownership to your user
+sudo chown -R ubuntu:ubuntu /opt/e-mart
+# Now you can work without sudo
+cd /opt/e-mart
+
+
+# Create virtual environment
+python3.11 -m venv venv
+source venv/bin/activate
+
+# Install Django and dependencies
+pip install --upgrade pip
+pip install django==6.0 gunicorn psycopg2-binary whitenoise[brotli] python-dotenv
+
+# Create Django project
+django-admin startproject config .

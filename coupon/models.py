@@ -19,7 +19,9 @@ class Coupon(BaseModel):
 
     code = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
-    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE_CHOICES)
+    discount_type = models.CharField(
+        max_length=20, choices=DISCOUNT_TYPE_CHOICES
+    )
     discount_value = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Limitations
@@ -30,7 +32,9 @@ class Coupon(BaseModel):
         max_digits=10, decimal_places=2, null=True, blank=True
     )
     usage_limit = models.PositiveIntegerField(null=True, blank=True)
-    usage_limit_per_customer = models.PositiveIntegerField(null=True, blank=True)
+    usage_limit_per_customer = models.PositiveIntegerField(
+        null=True, blank=True
+    )
 
     # Validity
     valid_from = models.DateTimeField()
@@ -68,7 +72,9 @@ class Coupon(BaseModel):
 class CouponUsage(BaseModel):
     """Track coupon usage"""
 
-    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, related_name="usages")
+    coupon = models.ForeignKey(
+        Coupon, on_delete=models.CASCADE, related_name="usages"
+    )
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2)

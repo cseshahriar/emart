@@ -13,7 +13,11 @@ class Category(BaseModel):
     """Nested Category for products"""
 
     parent = models.ForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="children",
     )
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(unique=True)
@@ -81,7 +85,11 @@ class Product(BaseModel):
         Category, on_delete=models.PROTECT, related_name="products"
     )
     brand = models.ForeignKey(
-        Brand, on_delete=models.SET_NULL, null=True, blank=True, related_name="products"
+        Brand,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="products",
     )
 
     # Descriptions
@@ -122,13 +130,25 @@ class Product(BaseModel):
         help_text="Weight in KG",  # Todo make gm
     )
     length = models.DecimalField(
-        max_digits=8, decimal_places=2, null=True, blank=True, help_text="Length in CM"
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Length in CM",
     )
     width = models.DecimalField(
-        max_digits=8, decimal_places=2, null=True, blank=True, help_text="Width in CM"
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Width in CM",
     )
     height = models.DecimalField(
-        max_digits=8, decimal_places=2, null=True, blank=True, help_text="Height in CM"
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Height in CM",
     )
 
     # SEO
@@ -172,7 +192,8 @@ class Product(BaseModel):
     def discount_percentage(self):
         if self.compare_price and self.compare_price > self.base_price:
             return int(
-                ((self.compare_price - self.base_price) / self.compare_price) * 100
+                ((self.compare_price - self.base_price) / self.compare_price)
+                * 100
             )
 
         return 0
@@ -213,9 +234,9 @@ class ProductImage(BaseModel):
 
     def save(self, *args, **kwargs):
         if self.is_primary:
-            ProductImage.objects.filter(product=self.product, is_primary=True).update(
-                is_primary=False
-            )
+            ProductImage.objects.filter(
+                product=self.product, is_primary=True
+            ).update(is_primary=False)
 
         super().save(*args, **kwargs)
 
@@ -279,7 +300,9 @@ class ProductAttributeValue(BaseModel):
     )
     value = models.CharField(max_length=200)
     color_code = models.CharField(
-        max_length=7, blank=True, help_text="Hex color code for color attributes"
+        max_length=7,
+        blank=True,
+        help_text="Hex color code for color attributes",
     )
 
     class Meta:
@@ -310,7 +333,9 @@ class ProductVariant(BaseModel):
     stock_quantity = models.PositiveIntegerField(default=0)
 
     # Physical
-    weight = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    weight = models.DecimalField(
+        max_digits=8, decimal_places=2, null=True, blank=True
+    )
 
     # Image
     image = models.ImageField(upload_to="variants/", blank=True, null=True)
@@ -343,9 +368,13 @@ class VariantAttribute(BaseModel):
     """Link variants to their attribute values"""
 
     variant = models.ForeignKey(
-        ProductVariant, on_delete=models.CASCADE, related_name="variant_attributes"
+        ProductVariant,
+        on_delete=models.CASCADE,
+        related_name="variant_attributes",
     )
-    attribute_value = models.ForeignKey(ProductAttributeValue, on_delete=models.CASCADE)
+    attribute_value = models.ForeignKey(
+        ProductAttributeValue, on_delete=models.CASCADE
+    )
 
     class Meta:
         unique_together = ["variant", "attribute_value"]

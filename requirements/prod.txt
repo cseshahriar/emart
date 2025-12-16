@@ -6,3 +6,4 @@ boto3==1.42.8
 
 # Performance / compression (optional)
 whitenoise
+gunicorn==23.0.0

@@ -32,7 +32,9 @@ class ShippingMethod(BaseModel):
     ]
 
     name = models.CharField(max_length=200)
-    delivery_type = models.CharField(max_length=20, choices=DELIVERY_TYPE_CHOICES)
+    delivery_type = models.CharField(
+        max_length=20, choices=DELIVERY_TYPE_CHOICES
+    )
     description = models.TextField(blank=True)
     estimated_days_min = models.PositiveIntegerField(default=1)
     estimated_days_max = models.PositiveIntegerField(default=7)
@@ -66,7 +68,9 @@ class ShippingRate(BaseModel):
     )
 
     # Flat rate
-    flat_rate = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal(0))
+    flat_rate = models.DecimalField(
+        max_digits=10, decimal_places=2, default=Decimal(0)
+    )
 
     # Weight based
     min_weight = models.DecimalField(

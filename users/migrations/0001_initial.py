@@ -24,7 +24,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -39,13 +42,17 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "phone",
-                    models.CharField(blank=True, max_length=15, null=True, unique=True),
+                    models.CharField(
+                        blank=True, max_length=15, null=True, unique=True
+                    ),
                 ),
                 ("first_name", models.CharField(blank=True, max_length=30)),
                 ("last_name", models.CharField(blank=True, max_length=30)),
                 (
                     "username",
-                    models.CharField(blank=True, max_length=30, null=True, unique=True),
+                    models.CharField(
+                        blank=True, max_length=30, null=True, unique=True
+                    ),
                 ),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_staff", models.BooleanField(default=False)),
@@ -58,11 +65,19 @@ class Migration(migrations.Migration):
                     "facebook_id",
                     models.CharField(blank=True, max_length=100, null=True),
                 ),
-                ("google_id", models.CharField(blank=True, max_length=100, null=True)),
-                ("github_id", models.CharField(blank=True, max_length=100, null=True)),
+                (
+                    "google_id",
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                (
+                    "github_id",
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
                 (
                     "profile_picture",
-                    models.ImageField(blank=True, null=True, upload_to="profile_pics/"),
+                    models.ImageField(
+                        blank=True, null=True, upload_to="profile_pics/"
+                    ),
                 ),
                 ("bio", models.TextField(blank=True)),
                 (

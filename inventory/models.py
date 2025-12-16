@@ -158,7 +158,9 @@ class StockMovement(BaseModel):
         blank=True,
         related_name="stock_movements",
     )
-    movement_type = models.CharField(max_length=20, choices=MOVEMENT_TYPE_CHOICES)
+    movement_type = models.CharField(
+        max_length=20, choices=MOVEMENT_TYPE_CHOICES
+    )
     quantity = models.IntegerField(
         help_text="Positive for additions, negative for deductions"
     )
@@ -242,7 +244,9 @@ class PurchaseOrder(BaseModel):
     supplier_phone = models.CharField(max_length=20, blank=True)
     supplier_address = models.TextField(blank=True)
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="draft"
+    )
 
     # Dates
     order_date = models.DateField()
@@ -250,7 +254,9 @@ class PurchaseOrder(BaseModel):
     received_date = models.DateField(null=True, blank=True)
 
     # Amounts
-    subtotal = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal(0))
+    subtotal = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal(0)
+    )
     tax_amount = models.DecimalField(
         max_digits=10, decimal_places=2, default=Decimal(0)
     )

@@ -14,7 +14,11 @@ class Cart(BaseModel):
     """Shopping cart"""
 
     customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="carts", null=True, blank=True
+        User,
+        on_delete=models.CASCADE,
+        related_name="carts",
+        null=True,
+        blank=True,
     )
     session_key = models.CharField(max_length=100, blank=True)
 
@@ -44,12 +48,16 @@ class Cart(BaseModel):
 class CartItem(BaseModel):
     """Cart items"""
 
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    cart = models.ForeignKey(
+        Cart, on_delete=models.CASCADE, related_name="items"
+    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variant = models.ForeignKey(
         ProductVariant, on_delete=models.CASCADE, null=True, blank=True
     )
-    quantity = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
+    quantity = models.PositiveIntegerField(
+        default=1, validators=[MinValueValidator(1)]
+    )
 
     class Meta:
         unique_together = ["cart", "product", "variant"]

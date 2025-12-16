@@ -15,8 +15,12 @@ class ProductReview(BaseModel):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="reviews"
     )
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    customer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviews"
+    )
+    order = models.ForeignKey(
+        Order, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     rating = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]

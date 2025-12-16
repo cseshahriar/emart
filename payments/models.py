@@ -39,7 +39,9 @@ class PaymentGateway(BaseModel):
     is_test_mode = models.BooleanField(default=True)
 
     # Display
-    logo = models.ImageField(upload_to="payment_gateways/", blank=True, null=True)
+    logo = models.ImageField(
+        upload_to="payment_gateways/", blank=True, null=True
+    )
     description = models.TextField(blank=True)
     instructions = models.TextField(
         blank=True, help_text="Instructions shown to customers"
@@ -91,7 +93,9 @@ class Payment(BaseModel):
 
     # Payment Info
     payment_id = models.CharField(max_length=100, unique=True)
-    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="payments")
+    order = models.ForeignKey(
+        Order, on_delete=models.PROTECT, related_name="payments"
+    )
     payment_gateway = models.ForeignKey(
         PaymentGateway, on_delete=models.PROTECT, related_name="payments"
     )
@@ -184,13 +188,17 @@ class Refund(BaseModel):
     payment = models.ForeignKey(
         Payment, on_delete=models.PROTECT, related_name="refunds"
     )
-    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="refunds")
+    order = models.ForeignKey(
+        Order, on_delete=models.PROTECT, related_name="refunds"
+    )
 
     refund_type = models.CharField(max_length=10, choices=REFUND_TYPE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Status
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="pending"
+    )
 
     # Gateway Response
     transaction_id = models.CharField(max_length=200, blank=True)
@@ -241,7 +249,9 @@ class PaymentMethodAccount(BaseModel):
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="payment_methods"
     )
-    payment_gateway = models.ForeignKey(PaymentGateway, on_delete=models.CASCADE)
+    payment_gateway = models.ForeignKey(
+        PaymentGateway, on_delete=models.CASCADE
+    )
 
     # Account details (masked)
     account_number = models.CharField(

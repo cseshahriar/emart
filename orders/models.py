@@ -43,7 +43,9 @@ class Order(BaseModel):
 
     # Order Info
     order_number = models.CharField(max_length=50, unique=True)
-    customer = models.ForeignKey(User, on_delete=models.PROTECT, related_name="orders")
+    customer = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name="orders"
+    )
 
     # Status
     order_status = models.CharField(
@@ -52,7 +54,9 @@ class Order(BaseModel):
     payment_status = models.CharField(
         max_length=20, choices=PAYMENT_STATUS_CHOICES, default="pending"
     )
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_METHOD_CHOICES
+    )
 
     # Amounts
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
@@ -114,7 +118,9 @@ class Order(BaseModel):
 class OrderItem(models.Model):
     """Order line items"""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="items"
+    )
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     variant = models.ForeignKey(
         ProductVariant, on_delete=models.SET_NULL, null=True, blank=True

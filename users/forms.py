@@ -35,7 +35,10 @@ class UserCreationForm(BaseUserCreationForm):
         )
         widgets = {
             "email": forms.EmailInput(
-                attrs={"class": "vTextField", "placeholder": "user@example.com"}
+                attrs={
+                    "class": "vTextField",
+                    "placeholder": "user@example.com",
+                }
             ),
             "phone": forms.TextInput(
                 attrs={"class": "vTextField", "placeholder": "+8801712345678"}
@@ -122,9 +125,15 @@ class UserChangeForm(BaseUserChangeForm):
         super().__init__(*args, **kwargs)
 
         # Add help text for social fields
-        self.fields["facebook_id"].help_text = "Facebook User ID (from social login)"
-        self.fields["google_id"].help_text = "Google User ID (from social login)"
-        self.fields["github_id"].help_text = "GitHub User ID (from social login)"
+        self.fields["facebook_id"].help_text = (
+            "Facebook User ID (from social login)"
+        )
+        self.fields["google_id"].help_text = (
+            "Google User ID (from social login)"
+        )
+        self.fields["github_id"].help_text = (
+            "GitHub User ID (from social login)"
+        )
 
         # Add Bootstrap classes to all fields
         for field_name, field in self.fields.items():
@@ -135,7 +144,9 @@ class UserChangeForm(BaseUserChangeForm):
         # Make certain fields readonly for non-superusers
         if not self.instance.is_superuser:
             self.fields["is_superuser"].disabled = True
-            self.fields["is_superuser"].help_text = "Only superusers can change this"
+            self.fields["is_superuser"].help_text = (
+                "Only superusers can change this"
+            )
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
@@ -143,7 +154,9 @@ class UserChangeForm(BaseUserChangeForm):
             # Remove all non-digit characters
             phone_digits = re.sub(r"\D", "", phone)
             if len(phone_digits) < 10:
-                raise ValidationError("Phone number must be at least 10 digits.")
+                raise ValidationError(
+                    "Phone number must be at least 10 digits."
+                )
             return phone_digits
         return phone
 
@@ -222,7 +235,8 @@ class UserRegistrationForm(forms.ModelForm):
     """Form for user registration on frontend"""
 
     password1 = forms.CharField(
-        label="Password", widget=forms.PasswordInput(attrs={"class": "form-control"})
+        label="Password",
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
     )
     password2 = forms.CharField(
         label="Confirm Password",
@@ -245,7 +259,9 @@ class UserRegistrationForm(forms.ModelForm):
         phone = cleaned_data.get("phone")
 
         if not email and not phone:
-            raise ValidationError("Please provide either email or phone number.")
+            raise ValidationError(
+                "Please provide either email or phone number."
+            )
 
         return cleaned_data
 
@@ -273,7 +289,14 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("email", "phone", "first_name", "last_name", "bio", "profile_picture")
+        fields = (
+            "email",
+            "phone",
+            "first_name",
+            "last_name",
+            "bio",
+            "profile_picture",
+        )
         widgets = {
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "phone": forms.TextInput(attrs={"class": "form-control"}),
@@ -293,7 +316,9 @@ class ProfileUpdateForm(forms.ModelForm):
         if phone:
             phone_digits = re.sub(r"\D", "", phone)
             if len(phone_digits) < 10:
-                raise ValidationError("Phone number must be at least 10 digits.")
+                raise ValidationError(
+                    "Phone number must be at least 10 digits."
+                )
             return phone_digits
         return phone
 
@@ -321,7 +346,9 @@ class PasswordChangeCustomForm(forms.Form):
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")
         if not self.user.check_password(old_password):
-            raise ValidationError("Your current password was entered incorrectly.")
+            raise ValidationError(
+                "Your current password was entered incorrectly."
+            )
         return old_password
 
     def clean_new_password2(self):
@@ -362,10 +389,14 @@ class GroupAssignmentForm(forms.Form):
 
     users = forms.ModelMultipleChoiceField(
         queryset=User.objects.all(),
-        widget=forms.SelectMultiple(attrs={"class": "form-control", "size": "10"}),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control", "size": "10"}
+        ),
     )
     groups = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(), widget=forms.CheckboxSelectMultiple, required=True
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
     )
     action = forms.ChoiceField(
         choices=[

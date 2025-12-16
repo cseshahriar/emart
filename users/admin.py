@@ -88,11 +88,17 @@ class SocialLoginFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "facebook":
-            return queryset.filter(facebook_id__isnull=False).exclude(facebook_id="")
+            return queryset.filter(facebook_id__isnull=False).exclude(
+                facebook_id=""
+            )
         elif self.value() == "google":
-            return queryset.filter(google_id__isnull=False).exclude(google_id="")
+            return queryset.filter(google_id__isnull=False).exclude(
+                google_id=""
+            )
         elif self.value() == "github":
-            return queryset.filter(github_id__isnull=False).exclude(github_id="")
+            return queryset.filter(github_id__isnull=False).exclude(
+                github_id=""
+            )
         elif self.value() == "any":
             return queryset.filter(
                 Q(facebook_id__isnull=False)
@@ -336,7 +342,9 @@ class CustomUserAdmin(UserAdmin):
         """Display groups with badges"""
         groups = obj.groups.all()
         if not groups:
-            return format_html('<span class="badge badge-secondary">No groups</span>')
+            return format_html(
+                '<span class="badge badge-secondary">No groups</span>'
+            )
 
         badges = []
         for group in groups:
@@ -377,7 +385,9 @@ class CustomUserAdmin(UserAdmin):
 
         # Impersonate button (for superusers)
         if self.request.user.is_superuser and obj != self.request.user:
-            impersonate_url = reverse("admin:accounts_user_impersonate", args=[obj.id])
+            impersonate_url = reverse(
+                "admin:accounts_user_impersonate", args=[obj.id]
+            )
             links.append(
                 f'<a href="{impersonate_url}" class="button" title="Impersonate">👤</a>'
             )
@@ -394,7 +404,9 @@ class CustomUserAdmin(UserAdmin):
     def password_display(self, obj):
         """Show password change link"""
         if obj.pk:
-            change_url = reverse("admin:auth_user_password_change", args=[obj.id])
+            change_url = reverse(
+                "admin:auth_user_password_change", args=[obj.id]
+            )
             return format_html(
                 '<a href="{}" class="button">Change Password</a>', change_url
             )
@@ -434,7 +446,9 @@ class CustomUserAdmin(UserAdmin):
     def permissions_summary(self, obj):
         """Show summary of permissions"""
         total_perms = obj.user_permissions.count()
-        group_perms = sum(group.permissions.count() for group in obj.groups.all())
+        group_perms = sum(
+            group.permissions.count() for group in obj.groups.all()
+        )
 
         return format_html(
             "<strong>Direct permissions:</strong> {}<br>"
@@ -453,21 +467,27 @@ class CustomUserAdmin(UserAdmin):
     def activate_users(self, request, queryset):
         updated = queryset.update(is_active=True)
         self.message_user(
-            request, f"{updated} user(s) have been activated.", messages.SUCCESS
+            request,
+            f"{updated} user(s) have been activated.",
+            messages.SUCCESS,
         )
 
     @admin.action(description=_("Deactivate selected users"))
     def deactivate_users(self, request, queryset):
         updated = queryset.update(is_active=False)
         self.message_user(
-            request, f"{updated} user(s) have been deactivated.", messages.WARNING
+            request,
+            f"{updated} user(s) have been deactivated.",
+            messages.WARNING,
         )
 
     @admin.action(description=_("Make selected users staff"))
     def make_staff(self, request, queryset):
         updated = queryset.update(is_staff=True)
         self.message_user(
-            request, f"{updated} user(s) are now staff members.", messages.SUCCESS
+            request,
+            f"{updated} user(s) are now staff members.",
+            messages.SUCCESS,
         )
 
     @admin.action(description=_("Remove staff status"))
@@ -476,7 +496,9 @@ class CustomUserAdmin(UserAdmin):
         queryset = queryset.exclude(is_superuser=True)
         updated = queryset.update(is_staff=False)
         self.message_user(
-            request, f"{updated} user(s) are no longer staff.", messages.WARNING
+            request,
+            f"{updated} user(s) are no longer staff.",
+            messages.WARNING,
         )
 
     @admin.action(description=_("Send welcome email"))
@@ -484,7 +506,9 @@ class CustomUserAdmin(UserAdmin):
         # Implement email sending logic here
         count = queryset.count()
         self.message_user(
-            request, f"Welcome email would be sent to {count} user(s).", messages.INFO
+            request,
+            f"Welcome email would be sent to {count} user(s).",
+            messages.INFO,
         )
 
     @admin.action(description=_("Export selected users to CSV"))
@@ -519,14 +543,22 @@ class CustomUserAdmin(UserAdmin):
     def impersonate_view(self, request, object_id):
         """Allow admin to impersonate a user"""
         if not request.user.is_superuser:
-            messages.error(request, _("Only superusers can impersonate users."))
-            return HttpResponseRedirect(reverse("admin:accounts_user_changelist"))
+            messages.error(
+                request, _("Only superusers can impersonate users.")
+            )
+            return HttpResponseRedirect(
+                reverse("admin:accounts_user_changelist")
+            )
 
         try:
             user = User.objects.get(id=object_id)
             if user == request.user:
-                messages.warning(request, _("You cannot impersonate yourself."))
-                return HttpResponseRedirect(reverse("admin:accounts_user_changelist"))
+                messages.warning(
+                    request, _("You cannot impersonate yourself.")
+                )
+                return HttpResponseRedirect(
+                    reverse("admin:accounts_user_changelist")
+                )
 
             # Store original user ID in session
             request.session["original_user_id"] = request.user.id
@@ -555,7 +587,9 @@ class CustomUserAdmin(UserAdmin):
 
         except User.DoesNotExist:
             messages.error(request, _("User not found."))
-            return HttpResponseRedirect(reverse("admin:accounts_user_changelist"))
+            return HttpResponseRedirect(
+                reverse("admin:accounts_user_changelist")
+            )
 
     # ============ OVERRIDES ============
 
