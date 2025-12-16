@@ -53,13 +53,6 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 
 ENABLE_HTTPS = os.getenv("ENABLE_HTTPS")
 
-# HTTPS configuration
-if ENABLE_HTTPS:  # local_settings
-    USE_X_FORWARDED_HOST = True
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -224,9 +217,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "staticfiles")]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.getenv("MEDIA_DIR", BASE_DIR / "media")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 SITE_HEADER = os.getenv("SITE_HEADER")
@@ -314,3 +307,54 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
 }
+
+# =============== PRODUCTION SECURITY SETTINGS ===============
+# These should be enabled when not in DEBUG mode (production)
+
+if not DEBUG:
+    # Security settings
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
+
+    # HSTS Settings (Warning W004)
+    SECURE_HSTS_SECONDS = 31_536_000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # SSL Settings (Warning W008)
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    # Cookie security
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+
+    # Additional security
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+    # Use WhiteNoise for static files in production
+    STATICFILES_STORAGE = (
+        "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    )
+
+    # Add WhiteNoise middleware
+    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+else:
+    # Development settings
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+    # Development cache
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        },
+        "file_resubmit": {
+            "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+            "LOCATION": "/tmp/file_resubmit/",
+        },
+    }
