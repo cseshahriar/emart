@@ -34,9 +34,9 @@ SECRET_KEY = os.getenv("SECRET_KEY", "34v-i9fg8vbuvbij434395fvi-v-vv8lsdfnsdl")
 DEBUG = os.getenv("DEBUG", True)
 
 # Add domain name or ip i.e. example.com
+ALLOWED_HOSTS_ENV = os.getenv("ALLOWED_HOSTS", "")
 ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
+    host.strip() for host in ALLOWED_HOSTS_ENV.split(",") if host.strip()
 ]
 
 # For Debug Toolbar
