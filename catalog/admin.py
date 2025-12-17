@@ -21,15 +21,19 @@ from .models import (
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "parent")
+    list_display = ("serial", "name", "parent")
     search_fields = ("name",)
+    list_display_links = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     list_filter = ("parent",)
+    list_editable = ("serial",)
 
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ("name", "website")
+    list_display = ("serial", "name", "website")
+    list_display_links = ("name",)
+    list_editable = ("serial",)
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
 
@@ -126,6 +130,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "category",
         "brand",
         "is_active",
+        "is_most_popular",
         "is_featured",
         "is_new",
         "is_bestseller",
@@ -167,6 +172,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
             {
                 "fields": (
                     "is_active",
+                    "is_most_popular",
                     "is_featured",
                     "is_new",
                     "is_bestseller",

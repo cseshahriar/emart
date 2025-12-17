@@ -147,21 +147,21 @@ class Product(BaseModel):
         decimal_places=2,
         null=True,
         blank=True,
-        help_text="Length in CM",
+        help_text="Length in mm",
     )
     width = models.DecimalField(
         max_digits=8,
         decimal_places=2,
         null=True,
         blank=True,
-        help_text="Width in CM",
+        help_text="Width in mm",
     )
     height = models.DecimalField(
         max_digits=8,
         decimal_places=2,
         null=True,
         blank=True,
-        help_text="Height in CM",
+        help_text="Height in mm",
     )
 
     # SEO
@@ -175,7 +175,9 @@ class Product(BaseModel):
     is_new = models.BooleanField(default=False)  # new arrivals
     is_bestseller = models.BooleanField(default=False)  # best sellers
     is_top_rated = models.BooleanField(default=False)  # top rated
-    is_slider = models.BooleanField(default=False)  # top rated
+    is_most_popular = models.BooleanField(default=False)
+    # is_most_popular, for slider right side show
+    is_slider = models.BooleanField(default=False)  # for home slider
 
     # Timestamps
     # created_at = models.DateTimeField(auto_now_add=True)
@@ -335,7 +337,7 @@ class ProductVariant(BaseModel):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="variants"
     )
-    sku = models.CharField(max_length=100, unique=True, blank=True)
+    sku = models.CharField(max_length=100, unique=True, blank=True, null=True)
     # Pricing
     price = models.DecimalField(
         max_digits=10, decimal_places=2, validators=[MinValueValidator(0)]
