@@ -26,17 +26,27 @@
     span.text-danger.d-inline-block.ml-2 {
         margin-left: 50px !important;
     }
+    .slider-head.border {
+        margin-right: 10px;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
+    {% if slider_products %}
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="container">
             <div class="row">
                 <!-- slider section -->
-                <div class="col-lg-8 col-12 custom-padding-right">
-                    <div class="slider-head">
+                <div
+                    {% if not most_popular_product %}
+                        class="col-lg-12 col-12 custom-padding-right"
+                    {% else %}
+                        class="col-lg-8 col-12 custom-padding-right"
+                    {% endif %}
+                >
+                    <div class="slider-head border">
                         <div class="hero-slider">
 
                             {% for product in slider_products %}
@@ -91,86 +101,90 @@
                     </div>
                 </div>
 
-                <!-- most popular product / most sale product -->
-                <div class="col-lg-4 col-12">
-                    <div class="row g-1"> <!-- Minimal gap -->
+                {% if most_popular_product %}
+                    <!-- most popular product / most sale product -->
+                    <div class="col-lg-4 col-12 border">
+                        <div class="row g-1"> <!-- Minimal gap -->
 
-                        <!-- TINY MOST POPULAR -->
-                        <div class="col-lg-12 col-md-6 col-12">
-                            <div class="card border-0 shadow-sm mt-3" style="height: 200px;">
-                                <div class="row g-0 h-100">
-                                    <!-- Image -->
-                                    <div class="col-6 h-100">
-                                        <div class="h-100 w-100"
-                                            style="background:
-                                            url('{% if most_popular_product and most_popular_product.feature_image %}{{ most_popular_product.feature_image.image.url }}{% else %}https://placehold.co/120x150/png{% endif %}')
-                                            center center / cover no-repeat;">
-                                            <span class="badge bg-danger position-absolute top-0 start-0 m-1 px-1 py-0" style="font-size: 0.6rem;">
-                                                <i class="fas fa-fire"></i>
-                                            </span>
+                            <!-- TINY MOST POPULAR -->
+                            <div class="col-lg-12 col-md-6 col-12">
+                                <div class="card border-0 shadow-sm mt-3" style="height: 240px;">
+                                    <div class="row g-0 h-100">
+                                        <!-- Image -->
+                                        <div class="col-6 h-100">
+                                            <div class="h-100 w-100"
+                                                style="background:
+                                                url('{% if most_popular_product and most_popular_product.feature_image %}{{ most_popular_product.feature_image.image.url }}{% else %}https://placehold.co/120x150/png{% endif %}')
+                                                center center / cover no-repeat;">
+                                                <span class="badge bg-danger position-absolute top-0 start-0 m-1 px-1 py-0" style="font-size: 0.6rem;">
+                                                    <i class="fas fa-fire"></i>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Content -->
-                                    <div class="col-6">
-                                        <div class="p-2 h-100 d-flex flex-column">
+                                        <!-- Content -->
+                                        <div class="col-6">
+                                            <div class="p-2 h-100 d-flex flex-column">
 
-                                            <!-- Product name (top) -->
-                                            <h6 class="fw-bold mb-1 text-left"
-                                                style="font-size: 0.85rem; line-height: 1.1;">
-                                                {{ most_popular_product.name|default_if_none:"" }}
-                                            </h6>
+                                                <!-- Product name (top) -->
+                                                <h6 class="fw-bold mb-1 text-left"
+                                                    style="font-size: 0.85rem; line-height: 1.1;">
+                                                    {{ most_popular_product.name|default_if_none:"" }}
+                                                </h6>
 
-                                            <!-- Features (center vertically) -->
-                                            {% if most_popular_product.features.all %}
-                                                <div class="flex-grow-1 d-flex justify-content-left align-items-left text-left">
-                                                    <div class="features-list" style="font-size: 0.7rem;">
-                                                        {% for feature in most_popular_product.features.all %}
-                                                            <div class="d-flex align-items-left justify-content-left mb-1">
-                                                                <span class="me-1" style="color:#2563eb;">•</span>
-                                                                <small class="text-muted">{{ feature }}</small>
-                                                            </div>
-                                                        {% endfor %}
+                                                <!-- Features (center vertically) -->
+                                                {% if most_popular_product.features.all %}
+                                                    <div class="flex-grow-1 d-flex justify-content-left align-items-left text-left">
+                                                        <div class="features-list" style="font-size: 0.7rem;">
+                                                            {% for feature in most_popular_product.features.all %}
+                                                                <div class="d-flex align-items-left justify-content-left mb-1">
+                                                                    <span class="me-1" style="color:#2563eb;">•</span>
+                                                                    <small class="text-muted">{{ feature }}</small>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            {% endif %}
+                                                {% endif %}
 
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- TINY SALE BANNER -->
-                        <div class="col-lg-12 col-md-6 col-12 p-1">
-                            <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #FE702F;">
-                                <div class="card-body p-2 d-flex flex-column justify-content-between">
-                                    <!-- Price at the bottom -->
-                                    <div class="mt-2 pt-1">
-                                        <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
-                                            <h3> ৳{{ most_popular_product.base_price|default:"" }}
-                                                <del class="text-danger"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
-                                            </h3>
+                                            </div>
                                         </div>
 
                                     </div>
-
-                                    <button class="btn btn-warning btn-block btn-lg text-black"">
-                                        Buy Now
-                                    </button>
                                 </div>
                             </div>
-                        </div>
 
+                            <!-- TINY SALE BANNER -->
+                            <div class="col-lg-12 col-md-6 col-12 p-1">
+                                <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #FE702F;">
+                                    <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                        <!-- Price at the bottom -->
+                                        <div class="mt-2 pt-1">
+                                            <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
+                                                <h5> ৳{{ most_popular_product.base_price|default:"" }}
+                                                    <del class="text-danger"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
+                                                </h5>
+                                            </div>
+
+                                        </div>
+
+                                        <button class="btn btn-warning btn-block btn-lg text-black"">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
             </div>
         </div>
     </section>
     <!-- End Hero Area -->
+    {% endif %}
 
+    {% if categories %}
     <!-- Start Category Section Area -->
     <section class="category-section section">
         <div class="container">
@@ -195,7 +209,9 @@
         </div>
     </div>
     <!-- End Category Section Area -->
+    {% endif %}
 
+    {% if featured_products %}
     <!-- Start Featured Product Area -->
     <section class="trending-product section">
         <div class="container">
@@ -248,7 +264,9 @@
         </div>
     </section>
     <!-- End Featured Product Area -->
+    {% endif %}
 
+    {% if new_products %}
     <!-- Start New Trends Product Area -->
     <section class="trending-product section">
         <div class="container">
@@ -301,7 +319,9 @@
         </div>
     </section>
     <!-- End New Trends Product Area -->
+    {% endif %}
 
+    {% if bestseller_products %}
     <!-- Start Best Seller Products Area -->
     <section class="trending-product section">
         <div class="container">
@@ -354,7 +374,9 @@
         </div>
     </section>
     <!-- End Best Seller Products Area -->
+    {% endif %}
 
+    {% if top_rated_products %}
     <!-- Start Top Rated Product Area -->
     <section class="trending-product section">
         <div class="container">
@@ -407,6 +429,7 @@
         </div>
     </section>
     <!-- End Top Rated Product Area -->
+    {% endif %}
 
 {% endblock %}
 
