@@ -113,6 +113,10 @@ class Product(BaseModel):
     base_price = models.DecimalField(
         max_digits=10, decimal_places=2, validators=[MinValueValidator(0)]
     )
+    # MEANING: This is the ACTUAL SELLING PRICE shown to customers
+    # EXAMPLE: If product is $99.99, this is 99.99
+    # ALWAYS SHOWN TO CUSTOMERS
+
     compare_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -120,6 +124,12 @@ class Product(BaseModel):
         blank=True,
         help_text="Original price for discount display",
     )
+    # MEANING: This is the ORIGINAL/STRIKETHROUGH price before discount
+    # EXAMPLE: If product was $149.99 but now $99.99:
+    #   - base_price = 99.99
+    #   - compare_price = 149.99
+    # DISPLAY: ~~$149.99~~ $99.99 (You save $50)
+
     cost_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -127,6 +137,11 @@ class Product(BaseModel):
         blank=True,
         help_text="Your cost (not shown to customers)",
     )
+    # MEANING: This is YOUR COST/BUYING PRICE from supplier
+    # EXAMPLE: You buy for $60, sell for $99.99
+    #   - cost_price = 60.00
+    #   - base_price = 99.99
+    # DISPLAY: NEVER SHOWN TO CUSTOMERS (admin/analytics only)
 
     # Inventory
     track_inventory = models.BooleanField(default=True)
@@ -231,6 +246,11 @@ class Product(BaseModel):
     @property
     def review_count(self):
         return self.reviews.filter(is_approved=True).count()
+
+    @property
+    def feature_image(self):
+        """return product feature image"""
+        return self.images.filter(is_primary=True).first()
 
 
 class ProductImage(BaseModel):

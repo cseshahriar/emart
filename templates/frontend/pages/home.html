@@ -4,6 +4,29 @@
 
 {% block extra_css %}
 <style>
+    /* Slider background */
+    .single-slider {
+        background-color: #f5f5f5; /* light gray */
+        padding: 60px 0;
+    }
+
+    /* Ensure image stays right */
+    .single-slider .image {
+        text-align: right;
+    }
+
+    /* Prevent image overflow */
+    .single-slider .image img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Optional: better text contrast */
+    .single-slider .content h2,
+    .single-slider .content p,
+    .single-slider .content h3 {
+        color: #111;
+    }
 </style>
 {% endblock %}
 
@@ -12,83 +35,140 @@
     <section class="hero-area">
         <div class="container">
             <div class="row">
+                <!-- slider section -->
                 <div class="col-lg-8 col-12 custom-padding-right">
                     <div class="slider-head">
-                        <!-- Start Hero Slider -->
                         <div class="hero-slider">
-                            <!-- Start Single Slider -->
-                            <div class="single-slider"
-                                style="background-image: url({% static 'assets/images/hero/slider-bg1.jpg' %});">
-                                <div class="content">
-                                    <h2><span>No restocking fee ($35 savings)</span>
-                                        M75 Sport Watch
-                                    </h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut
-                                        labore dolore magna aliqua.</p>
-                                    <h3><span>Now Only</span> $320.99</h3>
-                                    <div class="button">
-                                        <a href="product-grids.html" class="btn">Shop Now</a>
+
+                            {% for product in slider_products %}
+                            <div class="single-slider">
+                                <div class="container">
+                                    <div class="row align-items-center">
+
+                                        <!-- LEFT CONTENT -->
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <div class="content">
+                                                <h3>
+                                                    <span>{{ product.category.name }}</span><br>
+                                                    {{ product.name }}
+                                                </h3>
+
+                                                <p>
+                                                    {{ product.short_description|default:product.description|truncatechars:120 }}
+                                                </p>
+
+                                                <h3>
+                                                    <span>Now Only</span>
+                                                    ৳{{ product.base_price }}
+                                                </h3>
+
+                                                <div class="button">
+                                                    <a href="" class="btn">
+                                                        Shop Now
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- RIGHT IMAGE (THIS IS THE KEY FIX) -->
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <div class="image">
+                                                {% if product.feature_image %}
+                                                    <img src="{{ product.feature_image.image.url }}"
+                                                        alt="{{ product.name }}">
+                                                {% else %}
+                                                    <img src="https://placehold.net/600x400.png"
+                                                        alt="Default">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Single Slider -->
-                            <!-- Start Single Slider -->
-                            <div class="single-slider"
-                                style="background-image: url({% static 'assets/images/hero/slider-bg2.jpg' %});">
-                                <div class="content">
-                                    <h2>
-                                        Get the Best Deal on CCTV Camera
-                                    </h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut
-                                        labore dolore magna aliqua.</p>
-                                    <h3><span>Combo Only:</span> $590.00</h3>
-                                    <div class="button mb-2">
-                                        <a href="product-grids.html" class="btn">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Slider -->
+                            {% endfor %}
+
                         </div>
-                        <!-- End Hero Slider -->
                     </div>
                 </div>
 
                 <!-- most popular product / most sale product -->
                 <div class="col-lg-4 col-12">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-12 md-custom-padding">
-                            <!-- Start Small Banner -->
-                            <div class="hero-small-banner"
-                                style="background-image: url({% static 'assets/images/hero/slider-bnr.jpg' %});">
-                                <div class="content">
-                                    <h2>
-                                        <span>New line required</span>
-                                        iPhone 12 Pro Max
-                                    </h2>
-                                    <h3>$259.99</h3>
-                                </div>
-                            </div>
-                            <!-- End Small Banner -->
-                        </div>
+                    <div class="row g-1"> <!-- Minimal gap -->
+
+                        <!-- TINY MOST POPULAR -->
                         <div class="col-lg-12 col-md-6 col-12">
-                            <!-- Start Small Banner -->
-                            <div class="hero-small-banner style2">
-                                <div class="content">
-                                    <h2>Weekly Sale!</h2>
-                                    <p>Saving up to 50% off all online store items this week.</p>
-                                    <div class="button">
-                                        <a class="btn" href="product-grids.html">Shop Now</a>
+                            <div class="card border-0 shadow-sm" style="height: 250px;">
+                                <div class="row g-0 h-100">
+                                    <!-- Image -->
+                                    <div class="col-6 h-100">
+                                        <div class="h-100 w-100"
+                                            style="background:
+                                            url('{% if most_popular_product and most_popular_product.feature_image %}{{ most_popular_product.feature_image.image.url }}{% else %}https://placehold.co/120x150/png{% endif %}')
+                                            center center / cover no-repeat;">
+                                            <span class="badge bg-danger position-absolute top-0 start-0 m-1 px-1 py-0" style="font-size: 0.6rem;">
+                                                <i class="fas fa-fire"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="col-6">
+                                        <div class="p-2 h-100 d-flex flex-column">
+                                            <!-- Product -->
+                                            <h6 class="fw-bold mb-1" style="font-size: 0.85rem; line-height: 1.1;">
+                                                {{ most_popular_product.name|default:"" }}
+                                            </h6>
+
+                                            <!-- features -->
+                                            <div class="mt-auto">
+                                                {% if most_popular_product.features.all %}
+                                                    <div class="features-list" style="font-size: 0.7rem;">
+                                                        {% for feature in most_popular_product.features.all|slice:":5" %}
+                                                            <div class="d-flex align-items-start mb-1">
+                                                                <span class="me-1" style="color: #2563eb;">•</span>
+                                                                <small class="text-muted">{{ feature }}</small>
+                                                            </div>
+                                                        {% endfor %}
+
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Start Small Banner -->
                         </div>
+
+                        <!-- TINY SALE BANNER -->
+                        <div class="col-lg-12 col-md-6 col-12">
+                            <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #FE702F;">
+                                <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                    <!-- Price at the bottom -->
+                                    <div class="mt-2 pt-1">
+                                        <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
+                                            <h3> ৳{{ most_popular_product.base_price|default:"" }}
+                                                <del class="text-danger"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
+                                            </h3>
+                                        </div>
+
+                                    </div>
+
+                                    <button class="btn btn-warning btn-block btn-lg text-black"">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
     <!-- End Hero Area -->
+
 
     <!-- Start Trending Product Area -->
     <section class="trending-product section">
