@@ -1,5 +1,3 @@
-from frontend.views.home_page import HomePageView
+from frontend.views.home_page import HomePageView, ProductDetailPageView
 
-__all__ = [
-    HomePageView,
-]
+__all__ = ["HomePageView", "ProductDetailPageView"]

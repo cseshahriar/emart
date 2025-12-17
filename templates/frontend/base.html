@@ -195,6 +195,31 @@
             margin-right: 40px !important;
             padding-right: 40px !important;
         }
+        /* Slider background */
+        .single-slider {
+            padding: 60px 0;
+        }
+        /* Ensure image stays right */
+        .single-slider .image {
+            text-align: right;
+        }
+        /* Prevent image overflow */
+        .single-slider .image img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Optional: better text contrast */
+        .single-slider .content h2,
+        .single-slider .content p,
+        .single-slider .content h3 {
+            color: #111;
+        }
+        span.text-danger.d-inline-block.ml-2 {
+            margin-left: 50px !important;
+        }
+        .slider-head.border {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -224,10 +249,12 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/tiny-slider.js' %}"></script>
     <script src="{% static 'assets/js/glightbox.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
+
     <script type="text/javascript">
         //========= Hero Slider
         tns({

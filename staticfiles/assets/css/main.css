@@ -5302,11 +5302,11 @@ blockquote span {
 }
 
 .item-details .product-info .form-group.color-option .single-checkbox.checkbox-style-1 input[type="checkbox"] + label span {
-  border: 2px solid #081828;
+  border: 2px solid #fff; /* issue is her */
 }
 
 .item-details .product-info .form-group.color-option .single-checkbox.checkbox-style-1 input[type="checkbox"] + label span::before {
-  background-color: #081828;
+  background-color: #fff; /* issue is her */
 }
 
 .item-details .product-info .form-group.color-option .single-checkbox.checkbox-style-2 input[type="checkbox"] + label span {

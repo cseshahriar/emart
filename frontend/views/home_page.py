@@ -1,5 +1,7 @@
+import logging
+
 from django.db.models import Prefetch
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import View
 
 from catalog.models import (  # ProductSpecification,; ProductVariant,
@@ -8,6 +10,8 @@ from catalog.models import (  # ProductSpecification,; ProductVariant,
     ProductFeature,
     ProductImage,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class HomePageView(View):
@@ -49,5 +53,35 @@ class HomePageView(View):
             "new_products": new_products,
             "bestseller_products": bestseller_products,
             "top_rated_products": top_rated_products,
+        }
+        return render(request, self.template_name, context)
+
+
+class ProductDetailPageView(View):
+    template_name = "frontend/pages/product/detail.html"
+
+    def get(self, request, slug):
+        """Product Detail page"""
+        product = get_object_or_404(Product, slug=slug)
+        variants = product.variants.all()
+        variant_colors = []
+        for variant in variants:
+            colors = list(
+                variant.variant_attributes.filter(
+                    color__isnull=False
+                ).values_list("color__code", flat=True)
+            )
+            for color in colors:
+                variant_colors.append(color)
+
+        logger.info(f"{'*' * 10} variant_colors: {variant_colors}\n")
+        features = product.features.all()
+        specifications = product.specifications.all()
+        context = {
+            "product": product,
+            "variants": variants,
+            "variant_colors": variant_colors,
+            "features": features,
+            "specifications": specifications,
         }
         return render(request, self.template_name, context)
