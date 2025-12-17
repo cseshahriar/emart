@@ -68,7 +68,8 @@
 
                                                 <h3>
                                                     <span>Now Only</span>
-                                                    ৳{{ product.base_price }}
+                                                    <span class="text-primary">৳{{ product.base_price }}</span>
+                                                    <span><del>৳{{ product.compare_price }}</del></span>
                                                 </h3>
 
                                                 <div class="button">
@@ -160,8 +161,8 @@
                                         <!-- Price at the bottom -->
                                         <div class="mt-2 pt-1">
                                             <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
-                                                <h5> ৳{{ most_popular_product.base_price|default:"" }}
-                                                    <del class="text-danger"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
+                                                <h5 class="text-primary"> ৳{{ most_popular_product.base_price|default:"" }}
+                                                    <del class="text-secondary"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
                                                 </h5>
                                             </div>
                                         </div>

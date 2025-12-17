@@ -27,40 +27,74 @@
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                             <ul id="nav" class="navbar-nav ms-auto">
                                 <li class="nav-item">
-                                    <a href="/" class="active" aria-label="Toggle navigation">Home</a>
+                                    <a href="/" class="active" aria-label="Toggle navigation"> <i class="lni lni-home me-1"></i> Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/shop" aria-label="Toggle navigation">Shopping</a>
+                                    <a href="/shop" aria-label="Toggle navigation"><i class="lni lni-cart me-1"></i> Shopping</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/offers" aria-label="Toggle navigation">Offers</a>
+                                    <a href="/offers" aria-label="Toggle navigation"><i class="lni lni-offer me-1"></i> Offers</a>
                                 </li>
+                                <!-- Track Order -->
+                                <a href="" class="text-decoration-none d-flex align-items-center text-white">
+                                    <i class="lni lni-map-marker me-1"></i>
+                                    <span class="d-none d-lg-inline">Track Order</span>
+                                </a>
+
                             </ul>
                         </div> <!-- navbar collapse -->
                     </nav>
                     <!-- End Navbar -->
                 </div>
             </div>
+
             <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Nav Social -->
-                <div class="nav-social">
-                    <h5 class="title">Follow Us:</h5>
-                    <ul>
-                        <li>
-                            <a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"><i class="lni lni-instagram"></i></a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"><i class="lni lni-skype"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- End Nav Social -->
+                <nav class="navbar navbar-expand-lg">
+                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <ul id="nav" class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a href="" class="position-relative text-decoration-none text-white">
+                                        <i class="lni lni-cart fs-5"></i>
+                                        <span class="d-none d-lg-inline position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+                                            0
+                                        </span>
+                                    </a>
+
+                                </li>
+
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <a href="" class="text-decoration-none d-flex align-items-center text-white">
+                                            <i class="lni lni-exit me-1"></i>
+                                            <span class="d-none d-lg-inline">Logout</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                    <a href="" class="text-decoration-none d-flex align-items-center text-white">
+                                        <i class="lni lni-user me-1"></i>
+                                        <span class="d-none d-lg-inline">My Account</span>
+                                    </a>
+                                </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a href="" class="text-decoration-none d-flex align-items-center text-white">
+                                            <i class="lni lni-enter me-1"></i>
+                                            <span class="d-none d-lg-inline">Login</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="" class="text-decoration-none d-flex align-items-center text-white">
+                                            <i class="lni lni-user-plus me-1"></i>
+                                            <span class="d-none d-lg-inline">Register</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                            </ul>
+                        </div> <!-- navbar collapse -->
+                    </nav>
+
             </div>
         </div>
     </div>

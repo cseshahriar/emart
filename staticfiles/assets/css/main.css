@@ -2636,9 +2636,13 @@ ol {
 .sticky .navbar-nav .nav-item:hover a {
   color: #0167F3;
 }
-
+a.position-relative.text-decoration-none.text-white
+{
+  font-size: 16px;
+  margin-right: 30px;
+}
 .navbar-nav .nav-item a {
-  font-size: 14px;
+  font-size: 16px;
   color: #ffffff;
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
