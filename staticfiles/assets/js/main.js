@@ -1,11 +1,5 @@
-/*
-Template Name: ShopGrids - Bootstrap 5 eCommerce HTML Template.
-Author: GrayGrids
-*/
-
 (function () {
     //===== Prealoder
-
     window.onload = function () {
         window.setTimeout(fadeout, 500);
     }
@@ -31,12 +25,4 @@ Author: GrayGrids
             backToTo.style.display = "none";
         }
     };
-
-    //===== mobile-menu-btn
-    let navbarToggler = document.querySelector(".mobile-menu-btn");
-    navbarToggler.addEventListener('click', function () {
-        navbarToggler.classList.toggle("active");
-    });
-
-
 })();

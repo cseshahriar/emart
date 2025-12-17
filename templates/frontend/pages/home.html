@@ -72,7 +72,7 @@
                                                 </h3>
 
                                                 <div class="button">
-                                                    <a href="" class="btn">
+                                                    <a href="" class="btn add-cart">
                                                         Buy Now
                                                     </a>
                                                 </div>
@@ -155,7 +155,7 @@
 
                             <!-- TINY SALE BANNER -->
                             <div class="col-lg-12 col-md-6 col-12 p-1">
-                                <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #FE702F;">
+                                <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #fff;">
                                     <div class="card-body p-2 d-flex flex-column justify-content-between">
                                         <!-- Price at the bottom -->
                                         <div class="mt-2 pt-1">
@@ -164,12 +164,13 @@
                                                     <del class="text-danger"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
                                                 </h5>
                                             </div>
-
                                         </div>
 
-                                        <button class="btn btn-warning btn-block btn-lg text-black"">
-                                            Buy Now
-                                        </button>
+                                        <div class="button">
+                                            <a href="" class="btn add-cart">
+                                                Buy Now
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -247,11 +248,11 @@
 
                                 <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
-                                        Add to Cart
-                                    </a>
-                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
                                         <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+                                        <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
                             </div>
@@ -301,12 +302,13 @@
                                 </div>
 
                                 <!-- Product Buttons -->
+                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
-                                        Add to Cart
-                                    </a>
-                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
                                         <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+                                        <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
                             </div>
@@ -356,12 +358,13 @@
                                 </div>
 
                                 <!-- Product Buttons -->
+                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
-                                        Add to Cart
-                                    </a>
-                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
                                         <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+                                        <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
                             </div>
@@ -411,12 +414,13 @@
                                 </div>
 
                                 <!-- Product Buttons -->
+                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
-                                        Add to Cart
-                                    </a>
-                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
                                         <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+                                        <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
                             </div>
