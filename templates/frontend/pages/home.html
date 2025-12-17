@@ -8,23 +8,23 @@
     .single-slider {
         padding: 60px 0;
     }
-
     /* Ensure image stays right */
     .single-slider .image {
         text-align: right;
     }
-
     /* Prevent image overflow */
     .single-slider .image img {
         max-width: 100%;
         height: auto;
     }
-
     /* Optional: better text contrast */
     .single-slider .content h2,
     .single-slider .content p,
     .single-slider .content h3 {
         color: #111;
+    }
+    span.text-danger.d-inline-block.ml-2 {
+        margin-left: 50px !important;
     }
 </style>
 {% endblock %}
@@ -206,88 +206,44 @@
                 </div>
             </div>
             <div class="row">
-                <!-- loop -->
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
+                {% for product in featured_products %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
 
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
+                            <div class="product-image">
+                                <img
+                                    {% if product.feature_image %}
+                                        src="{{ product.feature_image.image.url }}"
+                                    {% endif %}
+                                    alt="#" />
                             </div>
 
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
+                            <div class="product-info">
+                                <h4 class="title">
+                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                </h4>
 
+                                <div class="price">
+                                    <span>৳ {{ product.base_price }}</span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                </div>
+
+                                <!-- Product Buttons -->
+                                <div class="product-buttons">
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
+                                        Add to Cart
+                                    </a>
+                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                        <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End Single Product -->
                     </div>
-                    <!-- End Single Product -->
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -303,168 +259,44 @@
                 </div>
             </div>
             <div class="row">
-                <!-- loop -->
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
+                {% for product in new_products %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
 
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
+                            <div class="product-image">
+                                <img
+                                    {% if product.feature_image %}
+                                        src="{{ product.feature_image.image.url }}"
+                                    {% endif %}
+                                    alt="#" />
                             </div>
 
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
+                            <div class="product-info">
+                                <h4 class="title">
+                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                </h4>
 
+                                <div class="price">
+                                    <span>৳ {{ product.base_price }}</span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                </div>
+
+                                <!-- Product Buttons -->
+                                <div class="product-buttons">
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
+                                        Add to Cart
+                                    </a>
+                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                        <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End Single Product -->
                     </div>
-                    <!-- End Single Product -->
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -480,88 +312,44 @@
                 </div>
             </div>
             <div class="row">
-                <!-- loop -->
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
+                {% for product in bestseller_products %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
 
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
+                            <div class="product-image">
+                                <img
+                                    {% if product.feature_image %}
+                                        src="{{ product.feature_image.image.url }}"
+                                    {% endif %}
+                                    alt="#" />
                             </div>
 
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
+                            <div class="product-info">
+                                <h4 class="title">
+                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                </h4>
 
+                                <div class="price">
+                                    <span>৳ {{ product.base_price }}</span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                </div>
+
+                                <!-- Product Buttons -->
+                                <div class="product-buttons">
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
+                                        Add to Cart
+                                    </a>
+                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                        <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End Single Product -->
                     </div>
-                    <!-- End Single Product -->
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -577,88 +365,44 @@
                 </div>
             </div>
             <div class="row">
-                <!-- loop -->
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
+                {% for product in top_rated_products %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
 
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
+                            <div class="product-image">
+                                <img
+                                    {% if product.feature_image %}
+                                        src="{{ product.feature_image.image.url }}"
+                                    {% endif %}
+                                    alt="#" />
                             </div>
 
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
+                            <div class="product-info">
+                                <h4 class="title">
+                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                </h4>
 
+                                <div class="price">
+                                    <span>৳ {{ product.base_price }}</span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                </div>
+
+                                <!-- Product Buttons -->
+                                <div class="product-buttons">
+                                    <a href="/add-to-cart/{{ product.slug }}" class="btn buy-now">
+                                        Add to Cart
+                                    </a>
+                                    <a href="/buy-now/{{ product.slug }}" class="btn add-cart">
+                                        <i class="lni lni-cart"></i>   Buy Now
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End Single Product -->
                     </div>
-                    <!-- End Single Product -->
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
