@@ -26,18 +26,23 @@ class Category(BaseModel):
         max_length=100, blank=True, help_text="Icon class (e.g., fa fa-search)"
     )
     image = models.ImageField(upload_to="categories/", blank=True, null=True)
+    is_featured = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["name"]
         verbose_name_plural = "Categories"
 
-    def __str__(self):
+    # property
+    def name_with_parents(self):
         full_path = [self.name]
         parent = self.parent
         while parent:
             full_path.append(parent.name)
             parent = parent.parent
         return " > ".join(full_path[::-1])
+
+    def __str__(self):
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:

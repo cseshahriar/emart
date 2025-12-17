@@ -21,12 +21,22 @@ from .models import (
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("serial", "name", "parent")
+    list_display = (
+        "serial",
+        "name",
+        "parent",
+        "is_active",
+        "is_featured",
+    )
     search_fields = ("name",)
     list_display_links = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     list_filter = ("parent",)
-    list_editable = ("serial",)
+    list_editable = (
+        "serial",
+        "is_active",
+        "is_featured",
+    )
 
 
 @admin.register(Brand)
@@ -121,8 +131,12 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "brand",
         "base_price",
         "stock_quantity",
-        "is_featured",
         "is_active",
+        "is_new",
+        "is_slider",
+        "is_featured",
+        "is_most_popular",
+        "is_bestseller",
         "published_at",
     )
 
@@ -130,6 +144,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "category",
         "brand",
         "is_active",
+        "is_slider",
         "is_most_popular",
         "is_featured",
         "is_new",
@@ -139,13 +154,29 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
     search_fields = ("name", "sku")
     prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ("category", "brand")
-
     readonly_fields = ("view_count", "sale_count")
-
+    list_editable = (
+        "is_active",
+        "is_slider",
+        "is_new",
+        "is_featured",
+        "is_most_popular",
+        "is_bestseller",
+    )
     fieldsets = (
         (
             "Basic Info",
-            {"fields": ("name", "slug", "sku", "category", "brand")},
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "sku",
+                    "category",
+                    "brand",
+                    "short_description",
+                    "description",
+                )
+            },
         ),
         ("Pricing", {"fields": ("base_price", "compare_price", "cost_price")}),
         (

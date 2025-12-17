@@ -6,7 +6,6 @@
 <style>
     /* Slider background */
     .single-slider {
-        background-color: #f5f5f5; /* light gray */
         padding: 60px 0;
     }
 
@@ -64,7 +63,7 @@
 
                                                 <div class="button">
                                                     <a href="" class="btn">
-                                                        Shop Now
+                                                        Buy Now
                                                     </a>
                                                 </div>
                                             </div>
@@ -98,7 +97,7 @@
 
                         <!-- TINY MOST POPULAR -->
                         <div class="col-lg-12 col-md-6 col-12">
-                            <div class="card border-0 shadow-sm" style="height: 250px;">
+                            <div class="card border-0 shadow-sm mt-3" style="height: 200px;">
                                 <div class="row g-0 h-100">
                                     <!-- Image -->
                                     <div class="col-6 h-100">
@@ -115,33 +114,36 @@
                                     <!-- Content -->
                                     <div class="col-6">
                                         <div class="p-2 h-100 d-flex flex-column">
-                                            <!-- Product -->
-                                            <h6 class="fw-bold mb-1" style="font-size: 0.85rem; line-height: 1.1;">
-                                                {{ most_popular_product.name|default:"" }}
+
+                                            <!-- Product name (top) -->
+                                            <h6 class="fw-bold mb-1 text-left"
+                                                style="font-size: 0.85rem; line-height: 1.1;">
+                                                {{ most_popular_product.name|default_if_none:"" }}
                                             </h6>
 
-                                            <!-- features -->
-                                            <div class="mt-auto">
-                                                {% if most_popular_product.features.all %}
+                                            <!-- Features (center vertically) -->
+                                            {% if most_popular_product.features.all %}
+                                                <div class="flex-grow-1 d-flex justify-content-left align-items-left text-left">
                                                     <div class="features-list" style="font-size: 0.7rem;">
-                                                        {% for feature in most_popular_product.features.all|slice:":5" %}
-                                                            <div class="d-flex align-items-start mb-1">
-                                                                <span class="me-1" style="color: #2563eb;">•</span>
+                                                        {% for feature in most_popular_product.features.all %}
+                                                            <div class="d-flex align-items-left justify-content-left mb-1">
+                                                                <span class="me-1" style="color:#2563eb;">•</span>
                                                                 <small class="text-muted">{{ feature }}</small>
                                                             </div>
                                                         {% endfor %}
-
                                                     </div>
-                                                {% endif %}
-                                            </div>
+                                                </div>
+                                            {% endif %}
+
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
 
                         <!-- TINY SALE BANNER -->
-                        <div class="col-lg-12 col-md-6 col-12">
+                        <div class="col-lg-12 col-md-6 col-12 p-1">
                             <div class="card border-0 shadow-sm text-white" style="height: 120px; background: #FE702F;">
                                 <div class="card-body p-2 d-flex flex-column justify-content-between">
                                     <!-- Price at the bottom -->
@@ -169,287 +171,38 @@
     </section>
     <!-- End Hero Area -->
 
-
-    <!-- Start Trending Product Area -->
-    <section class="trending-product section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title">
-                        <h2>Trending Product</h2>
-                </div>
-            </div>
-            <div class="row">
-                <!-- loop -->
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Product -->
-                    <div class="single-product">
-
-                        <div class="product-image">
-                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
-                        </div>
-
-                        <div class="product-info">
-                            <h4 class="title">
-                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
-                            </h4>
-
-                            <ul class="review">
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star-filled"></i></li>
-                                <li><i class="lni lni-star"></i></li>
-                                <li><span>4.0 Review(s)</span></li>
-                            </ul>
-
-                            <div class="price">
-                                <span>$199.00</span>
-                            </div>
-
-                            <!-- Product Buttons -->
-                            <div class="product-buttons">
-                                <a href="#" class="btn add-cart">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </a>
-                                <a href="#" class="btn buy-now">
-                                    Buy Now
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Single Product -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Trending Product Area -->
-
     <!-- Start Category Section Area -->
     <section class="category-section section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-title m-0">
-                        <h2 class="m-0">Categories</h2>
+                        <h2 class="m-0">Featured Categories</h2>
                 </div>
             </div>
 
             <div class="row g-3 mb-5">
+                {% for category in categories %}
                 <!-- Category Item -->
                 <div class="col-lg-2 col-md-3 col-4">
                     <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Anklets</h6>
+                        {% comment %} <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets"> {% endcomment %}
+                        <h6><a href="/category/{{category.slug}}">{{ category }}</a></h6>
                     </div>
                 </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Other Projector Accessories</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Kitchen Fittings</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Womens Fashion</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Goat</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Watches & Accessories</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Watering Systems & Garden Hoses</h6>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Zakat</h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Zakat</h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Zakat</h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Zakat</h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-4">
-                    <div class="category-card">
-                        <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets">
-                        <h6>Zakat</h6>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
     <!-- End Category Section Area -->
 
-    <!-- Start Trending Product Area -->
+    <!-- Start Featured Product Area -->
     <section class="trending-product section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-title">
-                        <h2>Most Popular Product</h2>
+                        <h2>Featured Products</h2>
                 </div>
             </div>
             <div class="row">
@@ -538,15 +291,192 @@
             </div>
         </div>
     </section>
-    <!-- End Trending Product Area -->
+    <!-- End Featured Product Area -->
 
-    <!-- Start Trending Product Area -->
+    <!-- Start New Trends Product Area -->
     <section class="trending-product section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-title">
-                        <h2>Category</h2>
+                        <h2>New Trends</h2>
+                </div>
+            </div>
+            <div class="row">
+                <!-- loop -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
+                        </div>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Single Product -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End New Trends Product Area -->
+
+    <!-- Start Best Seller Products Area -->
+    <section class="trending-product section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Best Seller Products</h2>
                 </div>
             </div>
             <div class="row">
@@ -635,142 +565,105 @@
             </div>
         </div>
     </section>
-    <!-- End Trending Product Area -->
+    <!-- End Best Seller Products Area -->
 
-    <!-- Start Home Product List -->
-    <section class="home-product-list section">
+    <!-- Start Top Rated Product Area -->
+    <section class="trending-product section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-12 custom-responsive-margin">
-                    <h4 class="list-title">Best Sellers</h4>
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/01.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">GoPro Hero4 Silver</a>
-                            </h3>
-                            <span>$287.99</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/02.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Puro Sound Labs BT2200</a>
-                            </h3>
-                            <span>$95.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/03.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">HP OfficeJet Pro 8710</a>
-                            </h3>
-                            <span>$120.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Top Rated Products</h2>
                 </div>
-                <div class="col-lg-4 col-md-4 col-12 custom-responsive-margin">
-                    <h4 class="list-title">New Arrivals</h4>
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/04.jpg' %}" alt="#"></a>
+            </div>
+            <div class="row">
+                <!-- loop -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
                         </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">iPhone X 256 GB Space Gray</a>
-                            </h3>
-                            <span>$1150.00</span>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
                         </div>
+
                     </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/05.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Canon EOS M50 Mirrorless Camera</a>
-                            </h3>
-                            <span>$950.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/06.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Microsoft Xbox One S</a>
-                            </h3>
-                            <span>$298.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
+                    <!-- End Single Product -->
                 </div>
-                <div class="col-lg-4 col-md-4 col-12">
-                    <h4 class="list-title">Top Rated</h4>
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/07.jpg' %}" alt="#"></a>
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Product -->
+                    <div class="single-product">
+
+                        <div class="product-image">
+                            <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="#">
                         </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Samsung Gear 360 VR Camera</a>
-                            </h3>
-                            <span>$68.00</span>
+
+                        <div class="product-info">
+                            <h4 class="title">
+                                <a href="product-grids.html">Xiaomi Mi Band 5</a>
+                            </h4>
+
+                            <ul class="review">
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star-filled"></i></li>
+                                <li><i class="lni lni-star"></i></li>
+                                <li><span>4.0 Review(s)</span></li>
+                            </ul>
+
+                            <div class="price">
+                                <span>$199.00</span>
+                            </div>
+
+                            <!-- Product Buttons -->
+                            <div class="product-buttons">
+                                <a href="#" class="btn add-cart">
+                                    <i class="lni lni-cart"></i> Add to Cart
+                                </a>
+                                <a href="#" class="btn buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
                         </div>
+
                     </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/08.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Samsung Galaxy S9+ 64 GB</a>
-                            </h3>
-                            <span>$840.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <div class="single-list">
-                        <div class="list-image">
-                            <a href="product-grids.html"><img src="{% static 'assets/images/home-product-list/09.jpg' %}" alt="#"></a>
-                        </div>
-                        <div class="list-info">
-                            <h3>
-                                <a href="product-grids.html">Zeus Bluetooth Headphones</a>
-                            </h3>
-                            <span>$28.00</span>
-                        </div>
-                    </div>
-                    <!-- End Single List -->
+                    <!-- End Single Product -->
                 </div>
             </div>
         </div>
     </section>
-    <!-- End Home Product List -->
+    <!-- End Top Rated Product Area -->
+
 {% endblock %}
 
 {% block extra_js %}{% endblock %}
