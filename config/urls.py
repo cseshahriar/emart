@@ -20,6 +20,7 @@ INDEX_TITLE = settings.SITE_TITLE
 urlpatterns = [
     # admin urls
     path(f"{settings.ADMIN_URL}/", admin.site.urls),
+    path("_nested_admin/", include("nested_admin.urls")),
     # JWT Authentication
     path(
         "api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"

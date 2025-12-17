@@ -1,11 +1,12 @@
+import nested_admin
 from django.contrib import admin
 
 from .models import (
     Brand,
     Category,
+    Color,
     Product,
     ProductAttribute,
-    ProductAttributeValue,
     ProductFeature,
     ProductImage,
     ProductSpecification,
@@ -33,24 +34,37 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+@admin.register(Color)
+class ColorAdmin(admin.ModelAdmin):
+    list_display = (
+        "serial",
+        "name",
+        "code",
+    )
+    search_fields = ("name",)
+
+
 # ==========================
 # PRODUCT INLINES
 # ==========================
 
 
-class ProductImageInline(admin.TabularInline):
+class ProductImageInline(nested_admin.NestedTabularInline):
     model = ProductImage
     extra = 1
+    # Don't specify fields - Django will show all fields
 
 
-class ProductFeatureInline(admin.TabularInline):
+class ProductFeatureInline(nested_admin.NestedTabularInline):
     model = ProductFeature
     extra = 1
+    # Don't specify fields - Django will show all fields
 
 
-class ProductSpecificationInline(admin.TabularInline):
+class ProductSpecificationInline(nested_admin.NestedTabularInline):
     model = ProductSpecification
     extra = 1
+    # Don't specify fields - Django will show all fields
 
 
 # ==========================
@@ -58,10 +72,11 @@ class ProductSpecificationInline(admin.TabularInline):
 # ==========================
 
 
-class VariantAttributeInline(admin.TabularInline):
+class VariantAttributeInline(nested_admin.NestedTabularInline):
     model = VariantAttribute
     extra = 1
-    autocomplete_fields = ("attribute_value",)
+    autocomplete_fields = ("value",)
+    min_num = 0
 
 
 # ==========================
@@ -69,11 +84,21 @@ class VariantAttributeInline(admin.TabularInline):
 # ==========================
 
 
-class ProductVariantInline(admin.StackedInline):
+class ProductVariantInline(nested_admin.NestedStackedInline):
     model = ProductVariant
-    extra = 0
+    extra = 1
     show_change_link = True
-    inlines = [VariantAttributeInline]  # visual grouping only
+    # Optional: Customize displayed fields
+    fields = (
+        "sku",
+        "price",
+        "compare_price",
+        "stock_quantity",
+        "weight",
+        "is_default",
+    )
+    readonly_fields = ("sku",)  # If you want to make SKU read-only
+    inlines = [VariantAttributeInline]  # This will work with nested_admin
 
 
 # ==========================
@@ -82,7 +107,7 @@ class ProductVariantInline(admin.StackedInline):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(nested_admin.NestedModelAdmin):
     list_display = (
         "name",
         "category",
@@ -158,22 +183,8 @@ class ProductAdmin(admin.ModelAdmin):
         ProductImageInline,
         ProductFeatureInline,
         ProductSpecificationInline,
+        ProductVariantInline,
     ]
-
-
-# ==========================
-# VARIANT ADMIN (SEPARATE)
-# ==========================
-
-
-@admin.register(ProductVariant)
-class ProductVariantAdmin(admin.ModelAdmin):
-    list_display = ("product", "sku", "price", "stock_quantity", "is_default")
-    list_filter = ("product", "is_default")
-    search_fields = ("sku", "product__name")
-    autocomplete_fields = ("product",)
-
-    inlines = [VariantAttributeInline]
 
 
 # ==========================
@@ -193,11 +204,3 @@ class ProductAttributeAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     ordering = ("serial",)
     list_editable = ("serial",)
-
-
-@admin.register(ProductAttributeValue)
-class ProductAttributeValueAdmin(admin.ModelAdmin):
-    list_display = ("attribute", "value", "color_code")
-    list_filter = ("attribute",)
-    search_fields = ("value", "attribute__name")
-    autocomplete_fields = ("attribute",)

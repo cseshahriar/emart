@@ -74,6 +74,19 @@ class Brand(BaseModel):
         super().save(*args, **kwargs)
 
 
+class Color(BaseModel):
+    name = models.CharField(max_length=50, unique=True)
+    code = models.CharField(
+        max_length=7, help_text="Hex color code (e.g. #FF5733)"
+    )
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
 class Product(BaseModel):
     """Main Product Model"""
 
@@ -315,27 +328,6 @@ class ProductAttribute(BaseModel):
         super().save(*args, **kwargs)
 
 
-class ProductAttributeValue(BaseModel):
-    """Attribute values (Red, Large, 5100mAh, etc.)"""
-
-    attribute = models.ForeignKey(
-        ProductAttribute, on_delete=models.PROTECT, related_name="values"
-    )
-    value = models.CharField(max_length=200)
-    color_code = models.CharField(
-        max_length=7,
-        blank=True,
-        help_text="Hex color code for color attributes",
-    )
-
-    class Meta:
-        unique_together = ["attribute", "value"]
-        ordering = ["attribute", "value"]
-
-    def __str__(self):
-        return f"{self.attribute.name}: {self.value}"
-
-
 # =================== product variant =========================================
 class ProductVariant(BaseModel):
     """Product Variants with different prices and stock"""
@@ -395,12 +387,25 @@ class VariantAttribute(BaseModel):
         on_delete=models.CASCADE,
         related_name="variant_attributes",
     )
-    attribute_value = models.ForeignKey(
-        ProductAttributeValue, on_delete=models.PROTECT
+    attribute = models.ForeignKey(
+        ProductAttribute,
+        on_delete=models.PROTECT,
+        related_name="product_attribute_values",
+        null=True,
+        blank=False,
+    )
+    value = models.CharField(max_length=200, null=True, blank=False)
+    color = models.ForeignKey(
+        Color,
+        on_delete=models.PROTECT,
+        related_name="product_attribute_values",
+        null=True,
+        blank=False,
     )
 
     class Meta:
-        unique_together = ["variant", "attribute_value"]
+        unique_together = ["variant", "attribute"]
 
     def __str__(self):
-        return f"{self.variant} - {self.attribute_value}"
+        return f"{self.variant} - \
+            {self.attribute.name if self.attribute else ''} - {self.value}"

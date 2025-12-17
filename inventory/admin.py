@@ -110,7 +110,7 @@ class StockMovementAdmin(admin.ModelAdmin):
 class PurchaseOrderItemInline(admin.TabularInline):
     model = PurchaseOrderItem
     extra = 1
-    autocomplete_fields = ("product", "variant")
+    # autocomplete_fields = ("product", "variant")
     readonly_fields = ("total_cost",)
 
 

@@ -56,6 +56,7 @@ ENABLE_HTTPS = os.getenv("ENABLE_HTTPS")
 # Application definition
 
 INSTALLED_APPS = [
+    "nested_admin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
