@@ -1,8 +1,10 @@
 Dumpdata:
 ---------
 python manage.py dumpdata catalog.ProductAttribute --indent 4 > fixtures/product_attributes.json
+python manage.py dumpdata catalog.Color --indent 4 > fixtures/colors.json
 
 
 Loaddata:
 ---------
-python manage.py Loaddata fixtures/product_attributes.json
+python manage.py loaddata fixtures/product_attributes.json
+python manage.py loaddata fixtures/colors.json

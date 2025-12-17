@@ -41,7 +41,10 @@ class ColorAdmin(admin.ModelAdmin):
         "name",
         "code",
     )
+    list_display_links = ("name",)
     search_fields = ("name",)
+    list_editable = ("serial",)
+    ordering = ("serial",)
 
 
 # ==========================
@@ -115,12 +118,14 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "base_price",
         "stock_quantity",
         "is_featured",
+        "is_active",
         "published_at",
     )
 
     list_filter = (
         "category",
         "brand",
+        "is_active",
         "is_featured",
         "is_new",
         "is_bestseller",
@@ -161,6 +166,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
             "Status",
             {
                 "fields": (
+                    "is_active",
                     "is_featured",
                     "is_new",
                     "is_bestseller",

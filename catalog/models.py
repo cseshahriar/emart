@@ -368,7 +368,7 @@ class ProductVariant(BaseModel):
     def __str__(self):
         attrs = " - ".join(
             [
-                f"{va.attribute_value.attribute.name}: {va.attribute_value.value}"
+                f"{va.attribute.name}: {va.value}"
                 for va in self.variant_attributes.all()
             ]
         )
@@ -400,11 +400,15 @@ class VariantAttribute(BaseModel):
         on_delete=models.PROTECT,
         related_name="product_attribute_values",
         null=True,
-        blank=False,
+        blank=True,
     )
 
     class Meta:
-        unique_together = ["variant", "attribute"]
+        unique_together = [
+            "variant",
+            "attribute",
+            "value",
+        ]
 
     def __str__(self):
         return f"{self.variant} - \
