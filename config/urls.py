@@ -1,5 +1,3 @@
-"""base urls."""
-
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
@@ -17,7 +15,12 @@ SITE_TITLE = settings.SITE_TITLE
 INDEX_TITLE = settings.SITE_TITLE
 
 
+# ======================
+# NON-TRANSLATED URLS
+# ======================
 urlpatterns = [
+    # Custom set_language view to fix redirect issues
+    path("set-language/", set_language, name="set_language_custom"),
     # admin urls
     path(f"{settings.ADMIN_URL}/", admin.site.urls),
     path("_nested_admin/", include("nested_admin.urls")),
@@ -29,34 +32,43 @@ urlpatterns = [
         "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
     ),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("i18n/", include("django.conf.urls.i18n")),
-    # include apps urls
-    path("", include("frontend.urls")),
 ]
 
+
+# ======================
+# TRANSLATED URLS
+# /en/  /bn/
+# ======================
 urlpatterns += i18n_patterns(
-    path("set-language/", set_language, name="set_language"),
+    path("", include("frontend.urls")),
+    # Add the default django set_language as fallback
+    path("i18n/", include("django.conf.urls.i18n")),
+    prefix_default_language=True,  # Important: This prefixes default language too
 )
 
-# Serve media files in development environment
+
+# ======================
+# MEDIA & DEBUG
+# ======================
 if settings.DEBUG:
     urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
     )
 
-    # debug toolbar - ONLY if DEBUG=True AND debug_toolbar is installed
-    if settings.DEBUG:
-        try:
-            import debug_toolbar  # noqa
+    try:
+        import debug_toolbar  # noqa
 
-            urlpatterns = [
-                path("__debug__/", include(debug_toolbar.urls))
-            ] + urlpatterns
-        except ImportError:
-            # debug_toolbar not installed, skip it
-            pass
+        urlpatterns = [
+            path("__debug__/", include(debug_toolbar.urls)),
+        ] + urlpatterns
+    except ImportError:
+        pass
 
-# admin site customizations
+
+# ======================
+# ADMIN UI TEXT
+# ======================
 admin.sites.AdminSite.site_header = SITE_HEADER
 admin.sites.AdminSite.site_title = SITE_TITLE
 admin.sites.AdminSite.index_title = INDEX_TITLE

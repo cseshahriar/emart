@@ -3,7 +3,7 @@ from catalog.models import Category
 
 
 def common_data(request):
-    '''return all common data for all templates'''
+    """return all common data for all templates"""
     categories = Category.objects.filter(
         parent__isnull=True, is_active=True
     ).prefetch_related("children")
@@ -12,5 +12,5 @@ def common_data(request):
     ).prefetch_related("children")
     return {
         "categories": categories,
-        "main_menu_categories": main_menu_categories
+        "main_menu_categories": main_menu_categories,
     }

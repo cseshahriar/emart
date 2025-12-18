@@ -1,3 +1,48 @@
+======= translation ===========
+system dependencies:
+sudo apt update
+sudo apt install gettext -y
+msguniq --version
+
+
+STEP 1: Mark text
+------------------
+{% trans "Welcome to our shop" %}
+
+STEP 2: Extract messages
+------------------------
+django-admin makemessages -l bn   # create/update Bangla translations
+django-admin makemessages -l en   # create/update English translations
+locale/
+ ├── bn/LC_MESSAGES/django.po
+ └── en/LC_MESSAGES/django.po
+
+STEP 3: Translate (django.po)
+----------------------------
+msgid "Welcome to our shop"
+msgstr "আমাদের দোকানে স্বাগতম"
+
+STEP 4: Compile
+-----------------
+django-admin compilemessages
+
+STEP 5: Restart serve
+---------------------
+python manage.py runserver
+
+Common Mistakes
+---------------
+Mistake	Result
+Run compilemessages before translating	No effect
+Forget compilemessages	Translations not shown
+Edit .mo directly	Lost on next compile
+Run makemessages every time	Overwrites comments
+
+makemessages → edit → compilemessages → restart
+
+❌ Do NOT add English text in bn/django.po
+❌ Do NOT add Bangla text in en/django.po
+
 
 pip install django-debug-toolbar
 pip freeze | grep django-debug-toolbar >> requirements/local.txt

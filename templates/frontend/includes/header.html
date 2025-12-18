@@ -1,6 +1,8 @@
 {% load static %}
+{% load i18n %}
+
 <!-- Start Header Area -->
-    <header class="header navbar-area">
+    <header class="header navbar-area" id="main-menu">
 
         <!-- Start Topbar -->
         <div class="topbar">
@@ -10,23 +12,34 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-left">
                             <ul class="menu-top-link">
-                                <li>
-                                    <div class="select-position">
-                                        <select id="select5" name="language">
-                                            <option value="1">বাংলা</option>
-                                            <option value="2" selected>English</option>
-                                        </select>
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="top-left">
+                                        <form action="{% url 'set_language' %}" method="post" class="language-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="next" value="{{ redirect_to }}">
+
+                                            <select name="language" class="form-select" onchange="this.form.submit()">
+                                                {% get_current_language as LANGUAGE_CODE %}
+                                                {% get_available_languages as LANGUAGES %}
+
+                                                {% for code, name in LANGUAGES %}
+                                                    <option value="{{ code }}"
+                                                            {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                                                        {{ name|upper }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </form>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
-                                <li><a href="index.html">Offers</a></li>
-                                <li><a href="index.html">Track your order</a></li>
+                                <li><a href="index.html">{% trans "Offers" %}</a></li>
+                                <li><a href="index.html">{% trans "Track your order" %} </a></li>
                             </ul>
                         </div>
                     </div>
@@ -38,10 +51,10 @@
                             </div>
                             <ul class="user-login">
                                 <li>
-                                    <a href="login.html">Sign In</a>
+                                    <a href="login.html">{% trans "Sign In" %}</a>
                                 </li>
                                 <li>
-                                    <a href="register.html">Register</a>
+                                    <a href="register.html">{% trans "Register" %} </a>
                                 </li>
                             </ul>
                         </div>
@@ -87,8 +100,8 @@
                         <div class="middle-right-area">
                             <div class="nav-hotline">
                                 <i class="lni lni-phone"></i>
-                                <h3>Hotline:
-                                    <span>(+88) 01837-724712 </span>
+                                <h3>{% trans "Hotline" %}:
+                                    <span> {% trans "(+88) 01837-724712" %}</span>
                                 </h3>
                             </div>
                             <div class="navbar-cart">
@@ -107,8 +120,8 @@
                                     <!-- Shopping Item -->
                                     <div class="shopping-item">
                                         <div class="dropdown-cart-header">
-                                            <span>2 Items</span>
-                                            <a href="cart.html">View Cart</a>
+                                            <span>2 {% trans "Items" %}</span>
+                                            <a href="cart.html">{% trans "View Cart" %} </a>
                                         </div>
                                         <ul class="shopping-list">
                                             <li>
@@ -145,7 +158,7 @@
                                                 <span class="total-amount">$134.00</span>
                                             </div>
                                             <div class="button">
-                                                <a href="checkout.html" class="btn animate">Checkout</a>
+                                                <a href="checkout.html" class="btn animate">{% trans "Checkout" %}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +179,10 @@
                     <div class="nav-inner">
                         <!-- Start Mega Category Menu -->
                         <div class="mega-category-menu">
-                            <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
+                            <span class="cat-button">
+                                <i class="lni lni-menu"></i>
+                                {% trans "All Categories" %}
+                            </span>
                             <ul class="sub-category">
                             {% for category in categories %}
                                 <li>
@@ -208,7 +224,7 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="/" class="active" aria-label="Toggle navigation">Home</a>
+                                        <a href="/" class="active" aria-label="Toggle navigation">{% trans "Home" %}</a>
                                     </li>
                                     {% for category in main_menu_categories %}
                                         {% if category.children.exists %}
@@ -254,7 +270,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- Start Nav Social -->
                     <div class="nav-social">
-                        <h5 class="title">Follow Us:</h5>
+                        <h5 class="title">{% trans "Follow Us:" %} </h5>
                         <ul>
                             <li>
                                 <a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a>

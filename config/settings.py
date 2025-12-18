@@ -98,6 +98,8 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "core.middleware.LanguageMiddleware",  # Add custom middleware
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -203,16 +205,32 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = "users.User"
 
+TIME_ZONE = "Asia/Dhaka"
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
+LANGUAGE_COOKIE_NAME = "django_language"
+LANGUAGE_COOKIE_AGE = 60 * 60 * 24 * 365  # 1 year
+LANGUAGE_COOKIE_SAMESITE = "Lax"
+LANGUAGE_COOKIE_HTTPONLY = False  # Required for JavaScript access
+LANGUAGE_CODE = "bn"  # default language
 
-LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+# Enable i18n
+LANGUAGES = [
+    ("bn", "বাংলা"),
+    ("en", "English"),
+]
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale"),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -259,11 +277,6 @@ SERVICE_NAME = "TIGER ONE"
 EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-LANGUAGES = [
-    ("en", "English"),
-    ("bn", "Bengali"),
-]
 
 CRONJOBS = [
     # Added job scheduling everyday morning 5:00 am for db backup
