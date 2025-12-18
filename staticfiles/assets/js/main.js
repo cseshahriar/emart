@@ -1,5 +1,6 @@
 (function () {
     //===== Prealoder
+
     window.onload = function () {
         window.setTimeout(fadeout, 500);
     }
@@ -25,4 +26,12 @@
             backToTo.style.display = "none";
         }
     };
+
+    //===== mobile-menu-btn
+    let navbarToggler = document.querySelector(".mobile-menu-btn");
+    navbarToggler.addEventListener('click', function () {
+        navbarToggler.classList.toggle("active");
+    });
+
+
 })();

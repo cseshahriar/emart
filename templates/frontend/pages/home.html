@@ -69,7 +69,9 @@
                                                 <h3>
                                                     <span>Now Only</span>
                                                     <span class="text-primary">৳{{ product.base_price }}</span>
-                                                    <span><del>৳{{ product.compare_price }}</del></span>
+                                                    {% if product.compare_price %}
+                                                        <span><del>৳{{ product.compare_price }}</del></span>
+                                                    {% endif %}
                                                 </h3>
 
                                                 <div class="button">
@@ -162,7 +164,10 @@
                                         <div class="mt-2 pt-1">
                                             <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
                                                 <h5 class="text-primary"> ৳{{ most_popular_product.base_price|default:"" }}
+
+                                                    {% if most_popular_product.compare_price %}
                                                     <del class="text-secondary"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
+                                                    {% endif %}
                                                 </h5>
                                             </div>
                                         </div>
@@ -244,7 +249,9 @@
 
                                 <div class="price">
                                     <span>৳ {{ product.base_price }}</span>
+                                    {% if product.compare_price %}
                                     <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% endif %}
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -299,7 +306,9 @@
 
                                 <div class="price">
                                     <span>৳ {{ product.base_price }}</span>
+                                    {% if product.compare_price %}
                                     <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% endif %}
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -355,7 +364,9 @@
 
                                 <div class="price">
                                     <span>৳ {{ product.base_price }}</span>
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% endif %}
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -411,7 +422,9 @@
 
                                 <div class="price">
                                     <span>৳ {{ product.base_price }}</span>
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% endif %}
                                 </div>
 
                                 <!-- Product Buttons -->
