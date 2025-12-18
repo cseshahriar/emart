@@ -1,9 +1,15 @@
+import logging
+
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from cart.models import CartItem
-from catalog.models import Product
+from cart.models import Cart, CartItem
 from cart.utils import get_or_create_cart
+from catalog.models import Product
+from locations.models import District
+
+logger = logging.getLogger(__name__)
 
 
 def add_to_cart(request, slug):
@@ -46,44 +52,51 @@ def buy_now(request, slug):
 
 def cart_detail(request):
     """Cart details with update functionality"""
+    print(f"{'*' * 10} cart_detail called \n")
+    districts = District.objects.filter(is_active=True).select_related(
+        "shipping_zone"
+    )
     cart = get_or_create_cart(request)
 
     if request.method == "POST":
+        print(f"{'*' * 10} post block \n")
         action = request.POST.get("submit")
         cart_item_id = request.POST.get("cart_item_id")
-
+        print("action ", action)
+        print("cart_item_id ", cart_item_id)
         try:
-            if cart_item_id:
-                cart_item = CartItem.objects.get(id=cart_item_id, cart=cart)
-
-                if action == "increment":
-                    cart_item.quantity += 1
+            cart_item = CartItem.objects.get(id=cart_item_id, cart=cart)
+            if action == "increment":
+                cart_item.quantity += 1
+                cart_item.save()
+                messages.success(
+                    request, f"Quantity updated to {cart_item.quantity}"
+                )
+            elif action == "decrement":
+                if cart_item.quantity > 1:
+                    cart_item.quantity -= 1
                     cart_item.save()
                     messages.success(
-                        request, f"Quantity updated to {cart_item.quantity}"
+                        request,
+                        f"Quantity updated to {cart_item.quantity}",
                     )
-
-                elif action == "decrement":
-                    if cart_item.quantity > 1:
-                        cart_item.quantity -= 1
-                        cart_item.save()
-                        messages.success(
-                            request,
-                            f"Quantity updated to {cart_item.quantity}",
-                        )
-                    else:
-                        messages.warning(request, "Minimum quantity is 1")
-
-                elif action == "remove":
-                    product_name = cart_item.product.name
-                    cart_item.delete()
-                    messages.success(
-                        request, f"{product_name} removed from cart"
-                    )
-
                 else:
-                    messages.error(request, "Invalid action")
-
+                    messages.warning(request, "Minimum quantity is 1")
+            elif action == "remove":
+                product_name = cart_item.product.name
+                cart_item.delete()
+                messages.success(request, f"{product_name} removed from cart")
+            elif action == "location":
+                district_id = request.POST.get("district")
+                print(f"{'*' * 10} district_id: {district_id}\n")
+                if district_id:
+                    district = District.objects.filter(
+                        pk=int(district_id)
+                    ).select_related("shipping_zone")
+                    if district and cart:
+                        cart.district = district
+                        cart.save()
+                        messages.success(request, "Deliver location changed")
             else:
                 messages.error(request, "Item not found")
 
@@ -95,6 +108,7 @@ def cart_detail(request):
         # Redirect to refresh page and show messages
         return redirect("cart_detail")
 
+    # get method
     # Calculate totals for the template
     cart_items = cart.items.all()
     cart_total = sum(item.total_price for item in cart_items)
@@ -102,6 +116,7 @@ def cart_detail(request):
 
     context = {
         "cart": cart,
+        "districts": districts,
         "cart_items": cart_items,
         "cart_total": cart_total,
         "item_count": item_count,
@@ -114,3 +129,23 @@ def checkout_start(request):
     """checkout processing"""
     cart = get_or_create_cart(request)
     return render(request, "frontend/pages/checkout.html", {"cart": cart})
+
+
+def cart_shipping_ajax(request):
+    logger.info(f"{'*' * 10} cart_shipping_ajax called\n")
+    district_id = request.GET.get("district_id")
+    cart_id = request.GET.get("cart_id")
+
+    if district_id and cart_id:
+        cart = Cart.objects.filter(pk=int(cart_id)).first()
+        district = District.objects.filter(pk=district_id).first()
+        if cart and district:
+            cart.district = district
+            cart.save()
+            logger.info(f"{'*' * 10} cart district updated \n")
+            data = {"message": "Success"}
+            return JsonResponse(data, status=200)
+
+    return JsonResponse(
+        {"success": False, "message": "Cart not found"}, status=404
+    )

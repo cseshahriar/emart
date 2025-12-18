@@ -1,14 +1,16 @@
 from django.contrib import admin
 
-from .models import ShippingMethod, ShippingRate, ShippingZone
+from .models import ShippingMethod, ShippingRate, ShippingSetting, ShippingZone
 
 
 @admin.register(ShippingZone)
 class ShippingZoneAdmin(admin.ModelAdmin):
-    list_display = ("name", "division_list", "created_at")
+    list_display = ("serial", "name", "division_list", "created_at")
+    list_display_links = ("name",)
     search_fields = ("name", "divisions__name")
     filter_horizontal = ("divisions",)
     readonly_fields = ("created_at", "updated_at")
+    list_editable = (("serial"),)
 
     def division_list(self, obj):
         return ", ".join(obj.divisions.values_list("name", flat=True))
@@ -135,3 +137,15 @@ class ShippingRateAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+@admin.register(ShippingSetting)
+class ShippingSettingAdmin(admin.ModelAdmin):
+    list_display = (
+        "serial",
+        "cod_percentage",
+        "vat_percentage",
+        "is_active",
+        "created_at",
+    )
+    readonly_fields = ("created_at", "updated_at")

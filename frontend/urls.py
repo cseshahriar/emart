@@ -4,6 +4,7 @@ from frontend.views.cart import (
     add_to_cart,
     buy_now,
     cart_detail,
+    cart_shipping_ajax,
     checkout_start,
 )
 from frontend.views.home_page import HomePageView, ProductDetailPageView
@@ -21,6 +22,7 @@ urlpatterns = [
     path("add-to-cart/<slug:slug>/", add_to_cart, name="add_to_cart"),
     path("buy-now/<slug:slug>/", buy_now, name="buy_now"),
     path("cart/", cart_detail, name="cart_detail"),
+    path("cart_shipping_ajax/", cart_shipping_ajax, name="cart_shipping_ajax"),
     # checkout
     path("checkout/", checkout_start, name="checkout"),
 ]

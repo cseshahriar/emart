@@ -1,9 +1,34 @@
 {% extends 'frontend/base.html' %}
 {% load static %}
-{% block title %}Home Page | Shorna Mart{% endblock %}
+{% block title %}Cart Details | Shorna Mart{% endblock %}
 
 {% block extra_css %}
 <style>
+    .shipping-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+    }
+    .shipping-label {
+        flex: 1;
+        font-weight: 500;
+    }
+    .shipping-select {
+        flex: 2;
+        text-align: center;
+    }
+    .shipping-select select {
+        width: 100%;
+        max-width: 180px;
+        padding: 6px 8px;
+    }
+    .shipping-price {
+        flex: 1;
+        text-align: right;
+        font-weight: 600;
+    }
 </style>
 {% endblock %}
 
@@ -12,108 +37,122 @@
     <!-- Shopping Cart -->
     <div class="shopping-cart section">
         <div class="container">
-            <div class="cart-list-head">
-                {% if cart and cart.items %}
+
+            <div class="row">
+                <!-- cart item list -->
+                <div class="col-8">
                     <div class="cart-list-head">
-
-                        <!-- Cart Title -->
-                        <div class="cart-list-title">
-                            <div class="row">
-                                <div class="col-lg-1"></div>
-                                <div class="col-lg-4"><p>Product Name</p></div>
-                                <div class="col-lg-2"><p>Quantity</p></div>
-                                <div class="col-lg-2"><p>Subtotal</p></div>
-                                <div class="col-lg-1"><p>Remove</p></div>
-                            </div>
-                        </div>
-
-                        <!-- Cart Items -->
-                        {% for item in cart.items.all %}
-                            <div class="cart-single-list">
-                                <div class="row align-items-center">
-
-                                    <!-- Image -->
-                                    <div class="col-lg-1">
-                                        <a href="{{ item.product.get_absolute_url }}">
-                                            <img src="{{ item.product.feature_image.image.url }}" alt="{{ item.product.name }}">
-                                        </a>
+                        {% if cart and cart.items %}
+                            <div class="cart-list-head">
+                                <!-- Cart Title -->
+                                <div class="cart-list-title">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-4"><p>Product Name</p></div>
+                                        <div class="col-lg-2"><p>Quantity</p></div>
+                                        <div class="col-lg-2"><p>Subtotal</p></div>
+                                        <div class="col-lg-1"><p>Remove</p></div>
                                     </div>
+                                </div>
 
-                                    <!-- Name -->
-                                    <div class="col-lg-4">
-                                        <h5 class="product-name">
-                                            <a href="{{ item.product.get_absolute_url }}">
-                                                {{ item.product.name }}
+                                <!-- Cart Items -->
+                                {% for item in cart.items.all %}
+                                <div class="cart-single-list">
+                                    <div class="row align-items-center">
+                                        <!-- Image -->
+                                        <div class="col-lg-1">
+                                            <a href="{%  url 'product_detail' item.product.slug %}" target="_blank">
+                                                <img src="{{ item.product.feature_image.image.url }}" alt="{{ item.product.name }}">
                                             </a>
-                                        </h5>
-                                    </div>
+                                        </div>
 
-                                    <!-- Quantity -->
-                                    <div class="col-lg-2">
-                                        <div class="count-input">
-                                            <form action"" method="POST">
+                                        <!-- Name -->
+                                        <div class="col-lg-4">
+                                            <h5 class="product-name">
+                                                <a href="{%  url 'product_detail' item.product.slug %}" target="_blank">
+                                                    {{ item.product.name }}
+                                                </a>
+                                            </h5>
+                                        </div>
+
+                                        <!-- Quantity -->
+                                        <div class="col-lg-2">
+                                            <div class="count-input">
+                                                <form action="" method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
+                                                    <button type="submit" class="btn btn-sm mr-2 d-inline-block" name="submit" value="decrement">
+                                                        <i class="lni lni-minus"></i>
+                                                    </button>
+                                                    {{ item.quantity }}
+                                                    <button type="submit" class="btn btn-sm ml-2 d-inline-block" name="submit" value="increment">
+                                                        <i class="lni lni-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Subtotal -->
+                                        <div class="col-lg-2">
+                                            <p>৳ {{ item.total_price }}</p>
+                                        </div>
+
+                                        <!-- Remove -->
+                                        <div class="col-lg-1">
+                                            <form action="" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
-                                                <button type="submit" class="btn btn-sm mr-2 d-inline-block" name="submit" value="decrement">
-                                                    <i class="lni lni-minus"></i>
-                                                </button>
-                                                {{ item.quantity }}
-                                                <button type="submit" class="btn btn-sm ml-2 d-inline-block" name="submit" value="increment">
-                                                    <i class="lni lni-plus"></i>
+                                                <button class="remove-item" type="submit" name="submit" value="remove">
+                                                    <i class="lni lni-trash-3"></i>
                                                 </button>
                                             </form>
                                         </div>
-                                    </div>
 
-                                    <!-- Subtotal -->
-                                    <div class="col-lg-2">
-                                        <p>৳ {{ item.total_price }}</p>
                                     </div>
-
-                                    <!-- Remove -->
-                                    <div class="col-lg-1">
-                                        <form action"" method="POST">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
-                                            <button class="remove-item" type="submit" name="submit" value="remove">
-                                                <i class="lni lni-close"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-
                                 </div>
-                            </div>
                                 {% endfor %}
                             </div>
                         {% else %}
                             <p class="text-center py-5">Your cart is empty 🛒</p>
                         {% endif %}
+                    </div>
+                </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-12">
+                <div class="col-4">
                     <!-- Total Amount -->
                     <div class="total-amount">
                         <div class="row">
-                            <div class="col-lg-8 col-md-6 col-12">
-                                <div class="left">
-                                    <div class="coupon">
-                                        <form action="cart.html#" target="_blank">
-                                            <input name="Coupon" placeholder="Enter Your Coupon">
-                                            <div class="button">
-                                                <button class="btn">Apply Coupon</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                <div class="right">
+                            <div class="col-12">
+                                <div class="right pt-0 mt-0">
+                                    <h3 class="mb-3 mt-3">Order Summary</h3>
                                     <ul>
-                                        <li>Cart Subtotal<span>৳ {{ cart.subtotal }}</span></li>
-                                        <li>Shipping<span>Free</span></li> <!-- location * product weight-->
-                                        <li class="last">You Pay<span>${{ cart.subtotal }}</span></li>
+                                        <li>Subtotal<span>৳ {{ cart.subtotal }}</span></li>
+                                        <li class="shipping-row">
+                                            <span class="shipping-label">Shipping</span>
+
+                                            <span class="shipping-select">
+                                                <form id="district-form" action="" method="post">
+                                                    {% csrf_token %}
+                                                    <select name="district" id="district" class="d-inline-block">
+                                                        <option value="">Select District</option>
+                                                        {% for district in districts %}
+                                                            <option
+                                                                value="{{ district.pk }}"
+                                                                {% if cart.district and cart.district.pk == district.pk %}selected{% endif %}
+                                                            >
+                                                                {{ district }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </form>
+                                            </span>
+
+                                            <span class="shipping-price" id="shipping-charge">
+                                                ৳ {{cart.get_shipping_charge }}
+                                            </span>
+                                        </li>
+
+                                        <li class="last">You Pay<span> ৳{{ cart.grand_total }}</span></li>
                                     </ul>
                                     <div class="button">
                                         <a href="checkout.html" class="btn">Checkout</a>
@@ -125,11 +164,78 @@
                     </div>
                     <!--/ End Total Amount -->
                 </div>
+
+                <div class="col-12">
+                    <div style="padding: 15px;border: 1px solid #eee;background-color: #fff;border-radius: 4px;margin-top: 20px;">
+                        <h4 class="mb-1">Shipping Options:</h4>
+                        <ul class="normal-list">
+                            <li>
+                                <span>Inside Dhaka:</span> 1 – 3 working days, ৳70 (up to 1kg)
+                            </li>
+                            <li>
+                                <span>Dhaka Suburbs:</span> 2 – 3 working days, ৳100 (up to 1kg)
+                            </li>
+                            <li>
+                                <span>Outside Dhaka:</span> 3 – 5 working days, ৳130 (up to 1kg)
+                            </li>
+                            <li>
+                                <span>Same Day Delivery:</span> Dhaka City only, ৳120+
+                            </li>
+                            <li>
+                                <span>Cash on Delivery (COD):</span> 1% COD charge applicable
+                            </li>
+                            <li>
+                                <span>Additional Charges:</span> Extra weight & VAT may apply
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
     <!--/ End Shopping Cart -->
 {% endblock %}
 
-{% block extra_js %}{% endblock %}
+{% block extra_js %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(function() {
+        setTimeout(function() {
+            $("#message").hide()
+        }, 5000)
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#district').select2({
+            placeholder: 'Select your district',
+            allowClear: false
+        });
 
+        // calculation ajax
+        $("#district").on("change", function () {
+            var district_id = $(this).val();
+            var url = "{% url 'cart_shipping_ajax' %}";
+            console.log('district_id ', district_id);
+            console.log('district_id ', district_id);
+
+            $.ajax({
+                url: url,
+                data: {
+                    'district_id': district_id,
+                    'cart_id': "{{cart.id}}",
+                },
+                traditional: true,  // 👈 add this line
+                success: function (data) {
+                    console.log('ajax success', data);
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

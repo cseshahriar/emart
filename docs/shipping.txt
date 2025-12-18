@@ -1,0 +1,15 @@
+✔ Bangladesh rules
+✔ 1% COD charge
+✔ Weight logic (up to 1kg)
+✔ Clean calculation service
+✔ Checkout flow (district → zone → rate)
+
+Division
+   ↓ (ManyToMany)
+ShippingZone
+   ↓
+ShippingRate  ←→ ShippingMethod
+   ↓
+calculate_shipping_cost()
+   ↓
+COD + VAT

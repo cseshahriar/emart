@@ -22,6 +22,7 @@ class CartAdmin(admin.ModelAdmin):
         "id",
         "customer",
         "session_key",
+        "district",
         "total_items",
         "subtotal",
         "created_at",

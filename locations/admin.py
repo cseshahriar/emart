@@ -9,9 +9,11 @@ from .models import District, Division, Upazila
 
 @admin.register(Division)
 class DivisionAdmin(admin.ModelAdmin):
-    list_display = ("name", "bn_name", "slug")
+    list_display = ("serial", "name", "bn_name", "slug")
     search_fields = ("name", "bn_name")
     prepopulated_fields = {"slug": ("name",)}
+    list_editable = ("serial",)
+    list_display_links = ("name",)
 
     def has_delete_permission(self, request, obj=None):
         # Prevent delete if districts exist
@@ -27,11 +29,16 @@ class DivisionAdmin(admin.ModelAdmin):
 
 @admin.register(District)
 class DistrictAdmin(admin.ModelAdmin):
-    list_display = ("name", "division", "bn_name")
+    list_display = ("serial", "name", "bn_name", "division", "shipping_zone")
     list_filter = ("division",)
     search_fields = ("name", "bn_name", "division__name")
     autocomplete_fields = ("division",)
     prepopulated_fields = {"slug": ("name",)}
+    list_editable = (
+        "serial",
+        "shipping_zone",
+    )
+    list_display_links = ("name",)
 
     def has_delete_permission(self, request, obj=None):
         # Prevent delete if upazilas exist

@@ -30,6 +30,13 @@ class District(BaseModel):
     division = models.ForeignKey(
         Division, on_delete=models.CASCADE, related_name="districts"
     )
+    shipping_zone = models.ForeignKey(
+        "shipping.ShippingZone",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="districts",
+    )
     name = models.CharField(max_length=100)
     bn_name = models.CharField(max_length=100, blank=True)
     slug = models.SlugField()
@@ -39,7 +46,7 @@ class District(BaseModel):
         unique_together = ["division", "name"]
 
     def __str__(self):
-        return f"{self.name}, {self.division.name}"
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:

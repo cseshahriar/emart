@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -6,8 +7,12 @@ from django.db import models
 
 from catalog.models import Product, ProductVariant
 from core.models import BaseModel
+from locations.models import District
+from shipping.models import ShippingRate
 
 User = get_user_model()
+
+logger = logging.getLogger(__name__)
 
 
 class Cart(BaseModel):
@@ -21,6 +26,13 @@ class Cart(BaseModel):
         blank=True,
     )
     session_key = models.CharField(max_length=100, blank=True)
+    district = models.ForeignKey(
+        District,
+        on_delete=models.SET_NULL,
+        related_name="carts",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"Cart {self.id} - {self.customer or self.session_key}"
@@ -31,7 +43,8 @@ class Cart(BaseModel):
 
     @property
     def subtotal(self):
-        return sum(item.total_price for item in self.items.all())
+        total = sum(item.total_price for item in self.items.all())
+        return Decimal(total) or 0
 
     def get_shipping_weight(self):
         """Calculate total weight for shipping in KG"""
@@ -43,6 +56,39 @@ class Cart(BaseModel):
                 weight = item.product.weight or 0
             total_weight += weight * item.quantity
         return total_weight
+
+    def get_shipping_charge(self):
+        """
+        Calculate shipping charge based on:
+        - district -> shipping zone
+        - total weight
+        """
+        if not self.district:
+            return Decimal("0.00")
+
+        weight = self.get_shipping_weight()
+        logger.info(f"{'*' * 10} weight: {weight}\n")
+
+        # Find shipping zone for district
+        shipping_zone = self.district.shipping_zone
+        logger.info(f"{'*' * 10} shipping_zone: {shipping_zone}\n")
+        if not shipping_zone:
+            return Decimal("0.00")
+
+        # Find matching rate slab, by method
+        rate = ShippingRate.objects.filter(
+            shipping_zone=shipping_zone,
+        ).first()
+        logger.info(f"{'*' * 10} rate: {rate}\n")
+
+        if rate:
+            return rate.rate_per_kg
+
+        return Decimal("0.00")
+
+    @property
+    def grand_total(self):
+        return self.subtotal + self.get_shipping_charge()
 
 
 class CartItem(BaseModel):

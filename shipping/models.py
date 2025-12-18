@@ -11,7 +11,13 @@ User = get_user_model()
 
 # ==================== Shipping Models ====================
 class ShippingZone(BaseModel):
-    """Shipping zones based on divisions"""
+    """
+    Shipping zones based on divisions
+    Zone            Divisions
+    Dhaka City	    Dhaka
+    Dhaka Suburbs	Gazipur, Narayanganj
+    Outside Dhaka	All others
+    """
 
     name = models.CharField(max_length=200)
     divisions = models.ManyToManyField(Division, related_name="shipping_zones")
@@ -144,3 +150,15 @@ class ShippingRate(BaseModel):
             return self.flat_rate
 
         return self.flat_rate
+
+
+class ShippingSetting(BaseModel):
+    cod_percentage = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal("1.00")
+    )
+    vat_percentage = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal("0.00")
+    )
+
+    def __str__(self):
+        return "Shipping Settings"
