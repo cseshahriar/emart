@@ -20,6 +20,7 @@ class Category(BaseModel):
         related_name="children",
     )
     name = models.CharField(max_length=200, unique=True)
+    bn_name = models.CharField(max_length=200, null=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     icon = models.CharField(
@@ -27,6 +28,7 @@ class Category(BaseModel):
     )
     image = models.ImageField(upload_to="categories/", blank=True, null=True)
     is_featured = models.BooleanField(default=True)
+    is_main_menu = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["name"]

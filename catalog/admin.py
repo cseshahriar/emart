@@ -24,9 +24,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "serial",
         "name",
+        "bn_name",
         "parent",
         "is_active",
         "is_featured",
+        "is_main_menu",
     )
     search_fields = ("name",)
     list_display_links = ("name",)
@@ -34,8 +36,10 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ("parent",)
     list_editable = (
         "serial",
+        "bn_name",
         "is_active",
         "is_featured",
+        "is_main_menu",
     )
 
 
