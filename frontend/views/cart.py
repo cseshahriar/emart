@@ -7,7 +7,7 @@ from cart.utils import get_or_create_cart
 
 
 def add_to_cart(request, slug):
-    ''' add to cart '''
+    """add to cart"""
     product = get_object_or_404(Product, slug=slug)
     cart = get_or_create_cart(request)
 
@@ -26,7 +26,7 @@ def add_to_cart(request, slug):
 
 
 def buy_now(request, slug):
-    ''' add to cart and redirect to checkout '''
+    """add to cart and redirect to checkout"""
     product = get_object_or_404(Product, slug=slug)
     cart = get_or_create_cart(request)
 
@@ -45,7 +45,7 @@ def buy_now(request, slug):
 
 
 def cart_detail(request):
-    '''Cart details with update functionality'''
+    """Cart details with update functionality"""
     cart = get_or_create_cart(request)
 
     if request.method == "POST":
@@ -59,20 +59,27 @@ def cart_detail(request):
                 if action == "increment":
                     cart_item.quantity += 1
                     cart_item.save()
-                    messages.success(request, f"Quantity updated to {cart_item.quantity}")
+                    messages.success(
+                        request, f"Quantity updated to {cart_item.quantity}"
+                    )
 
                 elif action == "decrement":
                     if cart_item.quantity > 1:
                         cart_item.quantity -= 1
                         cart_item.save()
-                        messages.success(request, f"Quantity updated to {cart_item.quantity}")
+                        messages.success(
+                            request,
+                            f"Quantity updated to {cart_item.quantity}",
+                        )
                     else:
                         messages.warning(request, "Minimum quantity is 1")
 
                 elif action == "remove":
                     product_name = cart_item.product.name
                     cart_item.delete()
-                    messages.success(request, f"{product_name} removed from cart")
+                    messages.success(
+                        request, f"{product_name} removed from cart"
+                    )
 
                 else:
                     messages.error(request, "Invalid action")
@@ -86,7 +93,7 @@ def cart_detail(request):
             messages.error(request, f"Error: {str(e)}")
 
         # Redirect to refresh page and show messages
-        return redirect('cart_detail')
+        return redirect("cart_detail")
 
     # Calculate totals for the template
     cart_items = cart.items.all()
@@ -104,6 +111,6 @@ def cart_detail(request):
 
 
 def checkout_start(request):
-    ''' checkout processing '''
+    """checkout processing"""
     cart = get_or_create_cart(request)
     return render(request, "frontend/pages/checkout.html", {"cart": cart})
