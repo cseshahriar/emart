@@ -110,6 +110,9 @@ jobs:
                       echo "🧱 Apply database migrations"
                       python manage.py migrate --noinput
 
+                      echo "🌍 Compile translation messages"
+                      python manage.py compilemessages
+
                       echo "🔍 Run Django production checks"
                       python manage.py check --deploy
 
