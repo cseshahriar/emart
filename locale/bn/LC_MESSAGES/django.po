@@ -56,7 +56,7 @@ msgstr ""
 
 #: templates/frontend/includes/header.html:118
 msgid "Items"
-msgstr "(+৮৮) ০১৮৩৭-৭২৪৭১২"
+msgstr ""
 
 #: templates/frontend/includes/header.html:119
 msgid "View Cart"

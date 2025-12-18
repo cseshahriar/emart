@@ -104,6 +104,7 @@
                                     <span> {% trans "(+88) 01837-724712" %}</span>
                                 </h3>
                             </div>
+
                             <div class="navbar-cart">
                                 <div class="wishlist">
                                     <a href="javascript:void(0)">
@@ -114,51 +115,52 @@
                                 <div class="cart-items">
                                     <a href="javascript:void(0)" class="main-btn">
                                         <i class="lni lni-cart"></i>
-                                        <span class="total-items">2</span>
+                                        <span class="total-items">
+                                            {{ cart.total_items|default_if_none:"0"}}
+                                        </span>
                                     </a>
 
                                     <!-- Shopping Item -->
                                     <div class="shopping-item">
                                         <div class="dropdown-cart-header">
-                                            <span>2 {% trans "Items" %}</span>
-                                            <a href="cart.html">{% trans "View Cart" %} </a>
+                                            <span>{{ cart.total_items }} {% trans "Items" %}</span>
+                                            <a href="#">{% trans "View Cart" %} </a>
                                         </div>
-                                        <ul class="shopping-list">
-                                            <li>
-                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
-                                                        class="lni lni-close"></i></a>
-                                                <div class="cart-img-head">
-                                                    <a class="cart-img" href="product-details.html"><img
-                                                            src="" alt="#"></a>
-                                                </div>
 
-                                                <div class="content">
-                                                    <h4><a href="product-details.html">
-                                                            Apple Watch Series 6</a></h4>
-                                                    <p class="quantity">1x - <span class="amount">$99.00</span></p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
-                                                        class="lni lni-close"></i></a>
-                                                <div class="cart-img-head">
-                                                    <a class="cart-img" href="product-details.html"><img
-                                                            src="" alt="#"></a>
-                                                </div>
-                                                <div class="content">
-                                                    <h4><a href="product-details.html">Wi-Fi Smart Camera</a></h4>
-                                                    <p class="quantity">1x - <span class="amount">$35.00</span></p>
-                                                </div>
-                                            </li>
+                                        <ul class="shopping-list">
+                                            {% if cart %}
+                                                {% for item in cart.items.all %}
+                                                <li>
+                                                    <a href="javascript:void(0)" class="remove" title="Remove this item">
+                                                        <i class="lni lni-close"></i></a>
+                                                    <div class="cart-img-head">
+                                                        <a class="cart-img" href="{% url 'product_detail' item.product.slug %}">
+                                                            <img src="{{ item.product.feature_image.image.url }}" alt="{{ item.product.name }}">
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="content">
+                                                        <h4>
+                                                            <a href="{%  url 'product_detail' item.product.slug %}">
+                                                                {{ item.product.name }}
+                                                            </a>
+                                                        </h4>
+                                                        <p class="quantity">
+                                                            {{ item.quantity }}x - <span class="amount">৳ {{ item.total_price }}</span>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                            {% endif %}
                                         </ul>
 
                                         <div class="bottom">
                                             <div class="total">
                                                 <span>Total</span>
-                                                <span class="total-amount">$134.00</span>
+                                                <span class="total-amount">৳ {{ cart.grand_total|default_if_none:"0" }}</span>
                                             </div>
                                             <div class="button">
-                                                <a href="checkout.html" class="btn animate">{% trans "Checkout" %}</a>
+                                                <a href="/checkout" class="btn animate">{% trans "Checkout" %}</a>
                                             </div>
                                         </div>
                                     </div>

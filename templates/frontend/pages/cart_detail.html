@@ -82,11 +82,11 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
                                                     <button type="submit" class="btn btn-sm mr-2 d-inline-block" name="submit" value="decrement">
-                                                        <i class="lni lni-minus"></i>
+                                                        <i class="fa fa-minus text-danger"></i>
                                                     </button>
                                                     {{ item.quantity }}
                                                     <button type="submit" class="btn btn-sm ml-2 d-inline-block" name="submit" value="increment">
-                                                        <i class="lni lni-plus"></i>
+                                                        <i class="fa fa-plus text-success"></i>
                                                     </button>
                                                 </form>
                                             </div>
@@ -102,8 +102,8 @@
                                             <form action="" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
-                                                <button class="remove-item" type="submit" name="submit" value="remove">
-                                                    <i class="lni lni-trash-3"></i>
+                                                <button class="border-0" type="submit" name="submit" value="remove">
+                                                    <i class="fa fa-times  text-danger"></i>
                                                 </button>
                                             </form>
                                         </div>
@@ -155,8 +155,8 @@
                                         <li class="last">You Pay<span> ৳{{ cart.grand_total }}</span></li>
                                     </ul>
                                     <div class="button">
-                                        <a href="checkout.html" class="btn">Checkout</a>
-                                        <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
+                                        <a href="/checkout" class="btn">Checkout</a>
+                                        <a href="/" class="btn btn-alt">Continue shopping</a>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                 </div>
 
                 <div class="col-12">
-                    <div style="padding: 15px;border: 1px solid #eee;background-color: #fff;border-radius: 4px;margin-top: 20px;">
+                    <div style="padding: 30px;border: 1px solid #eee;background-color: #fff;border-radius: 4px;margin-top: 20px;">
                         <h4 class="mb-1">Shipping Options:</h4>
                         <ul class="normal-list">
                             <li>

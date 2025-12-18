@@ -1,6 +1,7 @@
 import json
 
 from django.core.management.base import BaseCommand
+
 from locations.models import Division
 
 
@@ -10,9 +11,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "json_file",
-            type=str,
-            help="Path to divisions JSON file"
+            "json_file", type=str, help="Path to divisions JSON file"
         )
 
     def handle(self, *args, **options):
@@ -32,7 +31,7 @@ class Command(BaseCommand):
                     defaults={
                         "name": item["name"],
                         "bn_name": item["bn_name"],
-                    }
+                    },
                 )
 
                 if created:
