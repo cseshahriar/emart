@@ -118,9 +118,14 @@ class Address(models.Model):
         ("billing", "Billing"),
         ("shipping", "Shipping"),
     ]
-
+    session_key = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        db_index=True,
+    )
     customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="addresses"
+        User, on_delete=models.CASCADE, related_name="addresses", null=True
     )
     address_type = models.CharField(
         max_length=10, choices=ADDRESS_TYPE_CHOICES
@@ -134,8 +139,13 @@ class Address(models.Model):
     # Address
     address_line1 = models.CharField(max_length=500)
     address_line2 = models.CharField(max_length=500, blank=True)
-    # division = models.ForeignKey(Division, on_delete=models.PROTECT)
-    # district = models.ForeignKey(District, on_delete=models.PROTECT)
+    district = models.ForeignKey(
+        "locations.District",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="addresses",
+    )
     # upazila = models.ForeignKey(Upazila, on_delete=models.PROTECT)
     postal_code = models.CharField(max_length=10, blank=True)
 

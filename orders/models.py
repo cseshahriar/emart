@@ -44,9 +44,17 @@ class Order(BaseModel):
     # Order Info
     order_number = models.CharField(max_length=50, unique=True)
     customer = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="orders"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
     )
-
+    session_key = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     # Status
     order_status = models.CharField(
         max_length=20, choices=ORDER_STATUS_CHOICES, default="pending"
@@ -71,15 +79,30 @@ class Order(BaseModel):
     )
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
+    # by Address
+    # full_name = models.CharField(max_length=200)
+    # phone = models.CharField(max_length=20)
+    # district = models.ForeignKey(
+    #     District, on_delete=models.SET_NULL, null=True
+    # )  # location base per kg product shipping charge calculate
+
     # Shipping
     shipping_method = models.ForeignKey(
         ShippingMethod, on_delete=models.SET_NULL, null=True
     )
     shipping_address = models.ForeignKey(
-        Address, on_delete=models.PROTECT, related_name="shipping_orders"
+        Address,
+        on_delete=models.SET_NULL,
+        related_name="shipping_orders",
+        null=True,
+        blank=True,
     )
     billing_address = models.ForeignKey(
-        Address, on_delete=models.PROTECT, related_name="billing_orders"
+        Address,
+        on_delete=models.SET_NULL,
+        related_name="billing_orders",
+        null=True,
+        blank=True,
     )
 
     # Tracking

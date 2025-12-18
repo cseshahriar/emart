@@ -1,0 +1,135 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block title %}Home Page | Shorna Mart{% endblock %}
+
+{% block extra_css %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+    {% include 'frontend/includes/message.html' %}
+    <!-- Shopping Cart -->
+    <div class="shopping-cart section">
+        <div class="container">
+            <div class="cart-list-head">
+                {% if cart and cart.items %}
+                    <div class="cart-list-head">
+
+                        <!-- Cart Title -->
+                        <div class="cart-list-title">
+                            <div class="row">
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-4"><p>Product Name</p></div>
+                                <div class="col-lg-2"><p>Quantity</p></div>
+                                <div class="col-lg-2"><p>Subtotal</p></div>
+                                <div class="col-lg-1"><p>Remove</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Items -->
+                        {% for item in cart.items.all %}
+                            <div class="cart-single-list">
+                                <div class="row align-items-center">
+
+                                    <!-- Image -->
+                                    <div class="col-lg-1">
+                                        <a href="{{ item.product.get_absolute_url }}">
+                                            <img src="{{ item.product.feature_image.image.url }}" alt="{{ item.product.name }}">
+                                        </a>
+                                    </div>
+
+                                    <!-- Name -->
+                                    <div class="col-lg-4">
+                                        <h5 class="product-name">
+                                            <a href="{{ item.product.get_absolute_url }}">
+                                                {{ item.product.name }}
+                                            </a>
+                                        </h5>
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div class="col-lg-2">
+                                        <div class="count-input">
+                                            <form action"" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
+                                                <button type="submit" class="btn btn-sm mr-2 d-inline-block" name="submit" value="decrement">
+                                                    <i class="lni lni-minus"></i>
+                                                </button>
+                                                {{ item.quantity }}
+                                                <button type="submit" class="btn btn-sm ml-2 d-inline-block" name="submit" value="increment">
+                                                    <i class="lni lni-plus"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Subtotal -->
+                                    <div class="col-lg-2">
+                                        <p>৳ {{ item.total_price }}</p>
+                                    </div>
+
+                                    <!-- Remove -->
+                                    <div class="col-lg-1">
+                                        <form action"" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
+                                            <button class="remove-item" type="submit" name="submit" value="remove">
+                                                <i class="lni lni-close"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-center py-5">Your cart is empty 🛒</p>
+                        {% endif %}
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6 col-12">
+                                <div class="left">
+                                    <div class="coupon">
+                                        <form action="cart.html#" target="_blank">
+                                            <input name="Coupon" placeholder="Enter Your Coupon">
+                                            <div class="button">
+                                                <button class="btn">Apply Coupon</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="right">
+                                    <ul>
+                                        <li>Cart Subtotal<span>৳ {{ cart.subtotal }}</span></li>
+                                        <li>Shipping<span>Free</span></li> <!-- location * product weight-->
+                                        <li class="last">You Pay<span>${{ cart.subtotal }}</span></li>
+                                    </ul>
+                                    <div class="button">
+                                        <a href="checkout.html" class="btn">Checkout</a>
+                                        <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ End Total Amount -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ End Shopping Cart -->
+{% endblock %}
+
+{% block extra_js %}{% endblock %}
+

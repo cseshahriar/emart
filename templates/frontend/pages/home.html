@@ -75,7 +75,7 @@
                                                 </h3>
 
                                                 <div class="button">
-                                                    <a href="" class="btn add-cart">
+                                                    <a href="{% url 'buy_now' product.slug %}" class="btn add-cart">
                                                         Buy Now
                                                     </a>
                                                 </div>
@@ -173,7 +173,7 @@
                                         </div>
 
                                         <div class="button">
-                                            <a href="" class="btn add-cart">
+                                            <a href="{% url 'buy_now' most_popular_product.slug %}" class="btn add-cart">
                                                 Buy Now
                                             </a>
                                         </div>
@@ -256,13 +256,15 @@
 
                                 <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i>   Buy Now
+                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                        <i class="lni lni-cart"></i> Buy Now
                                     </a>
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+
+                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
                                         <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
+
                             </div>
 
                         </div>
@@ -312,15 +314,16 @@
                                 </div>
 
                                 <!-- Product Buttons -->
-                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i>   Buy Now
+                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                        <i class="lni lni-cart"></i> Buy Now
                                     </a>
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+
+                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
                                         <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
+
                             </div>
 
                         </div>
@@ -370,15 +373,16 @@
                                 </div>
 
                                 <!-- Product Buttons -->
-                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i>   Buy Now
+                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                        <i class="lni lni-cart"></i> Buy Now
                                     </a>
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+
+                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
                                         <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
+
                             </div>
 
                         </div>
@@ -428,15 +432,16 @@
                                 </div>
 
                                 <!-- Product Buttons -->
-                                <!-- Product Buttons -->
                                 <div class="product-buttons">
-                                    <a href="/buy-now/{{ product.slug }}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i>   Buy Now
+                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                        <i class="lni lni-cart"></i> Buy Now
                                     </a>
-                                    <a href="/add-to-cart/{{ product.slug }}" class="btn btn-outline-secondary">
+
+                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
                                         <i class="lni lni-cart-1"></i> Add to Cart
                                     </a>
                                 </div>
+
                             </div>
 
                         </div>

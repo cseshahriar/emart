@@ -34,7 +34,7 @@ class Cart(BaseModel):
         return sum(item.total_price for item in self.items.all())
 
     def get_shipping_weight(self):
-        """Calculate total weight for shipping"""
+        """Calculate total weight for shipping in KG"""
         total_weight = Decimal("0.00")
         for item in self.items.all():
             if item.variant:
