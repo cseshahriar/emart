@@ -45,14 +45,16 @@ class Cart(BaseModel):
     @property
     def subtotal(self):
         total = sum(item.total_price for item in self.items.all())
-        return Decimal(total) or 0
+        return Decimal(total).quantize(Decimal("0.01"))
 
     @property
-    def cod_charge(self):
+    def cod_charge(self, payment_method="cod"):
         """
         1% Cash On Delivery charge based on subtotal
         """
-        return (self.subtotal * Decimal("0.01")).quantize(Decimal("0.01"))
+        if payment_method == "cod":
+            return (self.subtotal * Decimal("0.01")).quantize(Decimal("0.01"))
+        return Decimal("0.00")
 
     def get_shipping_weight(self):
         """Calculate total weight for shipping in KG"""

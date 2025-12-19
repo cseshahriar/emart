@@ -21,3 +21,17 @@ COD + VAT
 পার্সেল সাইজের কারণে ডেলিভারি মাশুল পরিবর্তিত হতে পারে
 উক্ত চার্জসমূহ ভ্যাট ও ট্যাক্স ব্যাতিত
 অনাকাঙ্ক্ষিত কারণবশত ডেলিভারি সময়ের পরিবর্তন হতে পারে
+
+
+# checkout
+Cart
+ ├─ subtotal
+ ├─ shipping_cost
+ ├─ cod_charge (if COD)
+ └─ grand_total
+        ↓
+Create Order
+        ↓
+Create OrderItems
+        ↓
+Clear Cart
