@@ -86,7 +86,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         upload_to="profile_pics/", blank=True, null=True
     )
     bio = models.TextField(blank=True)
+
+    # otp
     otp = models.CharField(max_length=8, null=True, blank=True)
+    otp_created_at = models.DateTimeField(
+        auto_now_add=False, auto_now=False, null=True
+    )
 
     objects = CustomUserManager()
 
@@ -110,6 +115,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def login_identifier(self):
         """Return the identifier used for login (email or phone)"""
         return self.email or self.phone
+
+    def is_expired(self):
+        return timezone.now() > self.otp_created_at + timezone.timedelta(
+            minutes=2
+        )
 
 
 class Address(models.Model):

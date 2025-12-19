@@ -1,7 +1,10 @@
+import random
 from decimal import Decimal
 
+from django.utils import timezone
+
 from shipping.models import ShippingSetting
-from users.models import Address
+from users.models import Address, User
 
 
 def get_default_shipping_address(user):
@@ -51,3 +54,16 @@ def calculate_shipping(
     total += vat
 
     return total.quantize(Decimal("0.01"))
+
+
+def opt_generation(phone: str):
+    """OTP generation and store user model"""
+    if len(phone) == 1:
+        user, created = User.objects.get_or_create(phone=phone)
+        otp = str(random.randint(100000, 999999))
+        if user:
+            user.otp = otp
+            user.otp_created_at = timezone.now()
+            user.save()
+            return otp
+    return None
