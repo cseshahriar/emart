@@ -1,4 +1,5 @@
 import re
+
 from allauth.account.adapter import DefaultAccountAdapter
 from django.core.exceptions import ValidationError
 
@@ -27,10 +28,10 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             raise ValidationError("Phone number is required")
 
         # Normalize +880
-        if phone.startswith('0'):
-            phone = '+880' + phone[1:]
+        if phone.startswith("0"):
+            phone = "+880" + phone[1:]
 
-        pattern = r'^\+8801\d{9}$'
+        pattern = r"^\+8801\d{9}$"
         if not re.match(pattern, phone):
             raise ValidationError("Enter a valid Bangladeshi phone number")
         return phone

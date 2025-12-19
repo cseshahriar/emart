@@ -1,5 +1,6 @@
 # accounts/forms.py
 import re
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -15,17 +16,19 @@ class SignupForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['phone']
+        fields = ["phone"]
 
     def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
+        phone = self.cleaned_data.get("phone")
 
         # Remove any spaces or dashes
         phone = phone.replace(" ", "").replace("-", "")
 
         # Bangladeshi phone number regex: starts with 01 and 11 digits total
-        if not re.fullmatch(r'01\d{9}', phone):
-            raise ValidationError("Enter a valid Bangladeshi phone number (e.g., 017XXXXXXXX).")
+        if not re.fullmatch(r"01\d{9}", phone):
+            raise ValidationError(
+                "Enter a valid Bangladeshi phone number (e.g., 017XXXXXXXX)."
+            )
 
         # Optional: check if phone already exists
         if User.objects.filter(phone=phone).exists():
