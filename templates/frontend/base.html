@@ -246,7 +246,9 @@
 
     <!-- Main Content -->
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+            {% include 'frontend/includes/messages.html' %}
+        {% endblock %}
     </main>
 
     <!-- Footer -->

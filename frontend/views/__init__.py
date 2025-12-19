@@ -1,5 +1,6 @@
 from frontend.views.home_page import HomePageView, ProductDetailPageView
 
+from .auth import login_view, logout_view, signup_view
 from .cart import (
     add_to_cart,
     buy_now,
@@ -7,6 +8,7 @@ from .cart import (
     cart_shipping_ajax,
 )
 from .checkout import checkout_start, order_detail, order_success
+from .dashboard import customer_dashboard
 
 __all__ = [
     "HomePageView",
@@ -18,4 +20,8 @@ __all__ = [
     "checkout_start",
     "order_success",
     "order_detail",
+    "login_view",
+    "signup_view",
+    "logout_view",
+    "customer_dashboard",
 ]

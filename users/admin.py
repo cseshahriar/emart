@@ -7,7 +7,7 @@ from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import path, reverse
-from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UserChangeForm, UserCreationForm
@@ -175,7 +175,8 @@ class CustomUserAdmin(UserAdmin):
                 "fields": (
                     "email",
                     "phone",
-                    "password_display",
+                    "username",
+                    "password",
                 )
             },
         ),
@@ -185,8 +186,13 @@ class CustomUserAdmin(UserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
-                    "profile_picture_display",
                     "bio",
+                    "phone_verified",
+                    "date_of_birth",
+                    "gender",
+                    "profile_picture",
+                    "otp",
+                    "otp_created_at",
                 )
             },
         ),
@@ -294,21 +300,18 @@ class CustomUserAdmin(UserAdmin):
 
     # ============ CUSTOM METHODS ============
 
-    # Display methods
+    # Display email and phone together
     def email_phone_display(self, obj):
-        """Display email and phone in list view"""
         items = []
         if obj.email:
             items.append(f"📧 {obj.email}")
         if obj.phone:
             items.append(f"📱 {obj.phone}")
-
         if not items:
             items.append(f"ID: {obj.id}")
+        return mark_safe("<br>".join(items))
 
-        return format_html("<br>".join(items))
-
-    email_phone_display.short_description = _("Contact")
+    email_phone_display.short_description = "Email / Phone"
     email_phone_display.admin_order_field = "email"
 
     def full_name_display(self, obj):
@@ -333,7 +336,7 @@ class CustomUserAdmin(UserAdmin):
         </div>
         """
 
-        return format_html(f"{avatar} {name}")
+        return mark_safe(f"{avatar} {name}")
 
     full_name_display.short_description = _("Name")
     full_name_display.admin_order_field = "first_name"
@@ -342,7 +345,7 @@ class CustomUserAdmin(UserAdmin):
         """Display groups with badges"""
         groups = obj.groups.all()
         if not groups:
-            return format_html(
+            return mark_safe(
                 '<span class="badge badge-secondary">No groups</span>'
             )
 
@@ -351,7 +354,7 @@ class CustomUserAdmin(UserAdmin):
             badges.append(
                 f'<span class="badge badge-info" style="margin-right: 4px;">{group.name}</span>'
             )
-        return format_html(" ".join(badges))
+        return mark_safe(" ".join(badges))
 
     groups_display.short_description = _("Groups")
 
@@ -368,7 +371,7 @@ class CustomUserAdmin(UserAdmin):
         if not providers:
             return "-"
 
-        return format_html(" ".join(providers))
+        return mark_safe(" ".join(providers))
 
     social_login_display.short_description = _("Social")
 
@@ -393,10 +396,10 @@ class CustomUserAdmin(UserAdmin):
             )
 
         # Edit button
-        edit_url = reverse("admin:accounts_user_change", args=[obj.id])
+        edit_url = reverse("admin:users_user_change", args=[obj.id])
         links.append(f'<a href="{edit_url}" class="button">✏️</a>')
 
-        return format_html(" ".join(links))
+        return mark_safe(" ".join(links))
 
     actions_column.short_description = _("Actions")
 
@@ -407,24 +410,12 @@ class CustomUserAdmin(UserAdmin):
             change_url = reverse(
                 "admin:auth_user_password_change", args=[obj.id]
             )
-            return format_html(
+            return mark_safe(
                 '<a href="{}" class="button">Change Password</a>', change_url
             )
         return "Password will be set after saving"
 
     password_display.short_description = _("Password")
-
-    def profile_picture_display(self, obj):
-        """Display profile picture if exists"""
-        if obj.profile_picture:
-            return format_html(
-                '<img src="{}" style="max-width: 150px; max-height: 150px; \
-                    border-radius: 50%;" />',
-                obj.profile_picture.url,
-            )
-        return "No profile picture"
-
-    profile_picture_display.short_description = _("Profile Picture")
 
     def social_ids_display(self, obj):
         """Display social IDs nicely"""
@@ -439,25 +430,27 @@ class CustomUserAdmin(UserAdmin):
         if not items:
             return "No social accounts linked"
 
-        return format_html("<br>".join(items))
+        return mark_safe("<br>".join(items))
 
     social_ids_display.short_description = _("Linked Social Accounts")
 
     def permissions_summary(self, obj):
-        """Show summary of permissions"""
         total_perms = obj.user_permissions.count()
         group_perms = sum(
             group.permissions.count() for group in obj.groups.all()
         )
 
-        return format_html(
+        html = (
             "<strong>Direct permissions:</strong> {}<br>"
             "<strong>Group permissions:</strong> {}<br>"
-            "<strong>Total effective:</strong> {}",
+            "<strong>Total effective:</strong> {}"
+        ).format(
             total_perms,
             group_perms,
             total_perms + group_perms,
         )
+
+        return mark_safe(html)
 
     permissions_summary.short_description = _("Permissions Summary")
 
@@ -546,9 +539,7 @@ class CustomUserAdmin(UserAdmin):
             messages.error(
                 request, _("Only superusers can impersonate users.")
             )
-            return HttpResponseRedirect(
-                reverse("admin:accounts_user_changelist")
-            )
+            return HttpResponseRedirect(reverse("admin:users_user_changelist"))
 
         try:
             user = User.objects.get(id=object_id)
@@ -557,7 +548,7 @@ class CustomUserAdmin(UserAdmin):
                     request, _("You cannot impersonate yourself.")
                 )
                 return HttpResponseRedirect(
-                    reverse("admin:accounts_user_changelist")
+                    reverse("admin:users_user_changelist")
                 )
 
             # Store original user ID in session
@@ -587,9 +578,7 @@ class CustomUserAdmin(UserAdmin):
 
         except User.DoesNotExist:
             messages.error(request, _("User not found."))
-            return HttpResponseRedirect(
-                reverse("admin:accounts_user_changelist")
-            )
+            return HttpResponseRedirect(reverse("admin:users_user_changelist"))
 
     # ============ OVERRIDES ============
 

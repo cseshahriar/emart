@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load socialaccount %}
 
 <!-- Start Header Area -->
     <header class="header navbar-area" id="main-menu">
@@ -45,17 +46,34 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-end">
-                            <div class="user">
-                                <i class="lni lni-user"></i>
-                                Username
-                            </div>
                             <ul class="user-login">
-                                <li>
-                                    <a href="login.html">{% trans "Sign In" %}</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">{% trans "Register" %} </a>
-                                </li>
+                                {% if user.is_authenticated %}
+                                    <div class="user">
+                                        <i class="lni lni-user"></i>
+                                        {{ user.get_full_name|default:user.phone }}
+                                    </div>
+                                    {% if user.is_superuser %}
+                                        <li>
+                                            <a href="/superadmin" target="_blank">Admin Panel</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url 'customer_dashboard' %}">Accounts</a>
+                                        </li>
+                                    {% endif %}
+
+                                    <li>
+                                        <a href="{% url 'user_logout' %}">Logout</a>
+                                    </li>
+
+                                {% else %}
+                                    <li>
+                                        <a href="{% url 'user_login' %}">{% trans "Sign In" %}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'user_register' %}">{% trans "Register" %} </a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

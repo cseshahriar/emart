@@ -1,0 +1,88 @@
+{% extends "frontend/base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block extra_css %}
+<style>
+  .alert-error {
+    color: #dc3545;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4 mb-3">
+      <div class="card shadow-sm mt-5">
+        <div class="card-body p-4">
+
+          <h4 class="text-center mb-3">সাইন আপ</h4>
+
+          <p class="text-center text-muted small">
+            ইতিমধ্যে একাউন্ট আছে?
+            <a href="{% url 'user_login' %}">লগ ইন করুন</a>
+          </p>
+
+          <!-- 🔴 FORM ERRORS -->
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                {% for field, errors in form.errors.items %}
+                  {% for error in errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <!-- 🔵 DJANGO MESSAGES -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" action="{% url 'user_register' %}">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+              </div>
+            {% endif %}
+
+            <!-- Phone -->
+            <div class="mb-3">
+              <label class="form-label">মোবাইল নম্বর</label>
+              {{ form.phone|add_class:"form-control" }}
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label class="form-label">পাসওয়ার্ড</label>
+              {{ form.password|add_class:"form-control" }}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+              <label class="form-label">পাসওয়ার্ড নিশ্চিত করুন</label>
+              {{ form.password2|add_class:"form-control" }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+              একাউন্ট তৈরি করুন
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

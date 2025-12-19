@@ -1,36 +1,44 @@
-import re
-
+# users/backends.py
 from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.backends import BaseBackend
 
-UserModel = get_user_model()
+User = get_user_model()
 
 
-class EmailPhoneBackend(ModelBackend):
+class EmailOrPhoneBackend(BaseBackend):
     """
-    Authenticate using either email or phone number
+    Authenticate using email or phone number.
     """
 
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        if username is None:
-            username = kwargs.get(UserModel.USERNAME_FIELD)
-
-        # Check if input is email or phone
-        if "@" in username:
-            # Email authentication
-            kwargs = {"email": username}
-        else:
-            # Phone authentication (remove non-digits)
-            phone = re.sub(r"\D", "", username)
-            kwargs = {"phone": phone}
-
-        try:
-            user = UserModel.objects.get(**kwargs)
-        except UserModel.DoesNotExist:
-            # Run the default password hasher once to reduce timing difference
-            UserModel().set_password(password)
+    def authenticate(
+        self, request, email_or_phone=None, password=None, **kwargs
+    ):
+        user = None
+        if email_or_phone is None or password is None:
             return None
+
+        # Check email
+        if "@" in email_or_phone:
+            try:
+                user = User.objects.get(email=email_or_phone)
+            except User.DoesNotExist:
+                return None
+        else:
+            # Check phone
+            try:
+                user = User.objects.get(phone=email_or_phone)
+            except User.DoesNotExist:
+                return None
 
         if user.check_password(password) and self.user_can_authenticate(user):
             return user
         return None
+
+    def user_can_authenticate(self, user):
+        return getattr(user, "is_active", False)
+
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None

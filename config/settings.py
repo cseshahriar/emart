@@ -72,12 +72,14 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "axes",
     "corsheaders",
     "django_countries",
     "djmoney",
     "import_export",
     "drf_yasg",
+    "widget_tweaks",
     # Custom Service Apps
     "core",
     "users",
@@ -197,11 +199,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     "axes.backends.AxesStandaloneBackend",
+    "users.backends.EmailOrPhoneBackend",
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-SITE_ID = 1
+SITE_ID = 1  # It allows Django to Know which domain your project is running on
 
 AUTH_USER_MODEL = "users.User"
 

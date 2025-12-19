@@ -6,14 +6,18 @@ from frontend.views import (
     cart_detail,
     cart_shipping_ajax,
     checkout_start,
+    customer_dashboard,
+    login_view,
+    logout_view,
     order_detail,
     order_success,
+    signup_view,
 )
 from frontend.views.home_page import HomePageView, ProductDetailPageView
 
 urlpatterns = [
     # home page
-    path("", HomePageView.as_view(), name="home_page"),
+    path("", HomePageView.as_view(), name="home"),
     # product
     path(
         "product/<str:slug>/detail",
@@ -37,4 +41,22 @@ urlpatterns = [
         order_detail,
         name="order_detail",
     ),
+    # auth
+    path(
+        "login/",
+        login_view,
+        name="user_login",
+    ),
+    path(
+        "register/",
+        signup_view,
+        name="user_register",
+    ),
+    path(
+        "logout/",
+        logout_view,
+        name="user_logout",
+    ),
+    # dashboard
+    path("dashboard/", customer_dashboard, name="customer_dashboard"),
 ]

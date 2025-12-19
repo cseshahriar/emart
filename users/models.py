@@ -17,6 +17,7 @@ class CustomUserManager(BaseUserManager):
         if not email and not phone:
             raise ValueError("Either Email or Phone must be set")
 
+        extra_fields.setdefault("is_active", True)  # ✅ VERY IMPORTANT
         user = self.model(
             email=self.normalize_email(email) if email else None,
             phone=self.normalize_phone(phone) if phone else None,
@@ -90,7 +91,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # otp
     otp = models.CharField(max_length=8, null=True, blank=True)
     otp_created_at = models.DateTimeField(
-        auto_now_add=False, auto_now=False, null=True
+        auto_now_add=False, auto_now=False, null=True, blank=True
     )
 
     objects = CustomUserManager()
@@ -183,6 +184,8 @@ class Address(models.Model):
                 defaults={
                     "username": self.phone,
                     "email": self.email or "",
+                    "is_active": True,
+                    "phone_verified": True,
                 },
             )
             self.customer = user

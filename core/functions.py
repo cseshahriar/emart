@@ -59,7 +59,15 @@ def calculate_shipping(
 def opt_generation(phone: str):
     """OTP generation and store user model"""
     if len(phone) == 1:
-        user, created = User.objects.get_or_create(phone=phone)
+        user, created = User.objects.get_or_create(
+            phone=phone,
+            defaults={
+                "username": phone,
+                "email": "",
+                "is_active": True,
+                "phone_verified": True,
+            },
+        )
         otp = str(random.randint(100000, 999999))
         if user:
             user.otp = otp
