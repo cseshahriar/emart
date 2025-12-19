@@ -1,274 +1,96 @@
-{% extends 'frontend/base.html' %}
-{% load static %}
-{% block title %}Cart Details | Shorna Mart{% endblock %}
+{% extends "frontend/base.html" %}
+
+{% block title %}অর্ডার সফল | {{ order.order_number }}{% endblock %}
 
 {% block extra_css %}
 <style>
-    .shipping-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 10px 0;
-    }
-    .shipping-label {
-        flex: 1;
-        font-weight: 500;
-    }
-    .shipping-select {
-        flex: 2;
-        text-align: center;
-    }
-    .shipping-select select {
-        width: 100%;
-        max-width: 180px;
-        padding: 6px 8px;
-    }
-    .shipping-price {
-        flex: 1;
-        text-align: right;
-        font-weight: 600;
-    }
-
-    .normal-list {
-        list-style-type: none; /* Remove default bullets */
-        padding-left: 0;
-        margin: 1rem 0;
-        font-family: 'Segoe UI', 'Noto Sans Bengali', 'Kalpurush', sans-serif;
-    }
-
-    .normal-list li {
-        padding: 0.5rem 0;
-        border-bottom: 1px dashed #e0e0e0; /* Optional: divider between items */
-        display: flex;
-        align-items: flex-start;
-    }
-
-    .normal-list li:last-child {
-        border-bottom: none;
-    }
-
-    .normal-list li span {
-        font-weight: 600;
-        color: #333;
-        min-width: 180px; /* Adjust based on your longest label */
-        display: inline-block;
-        padding-right: 10px;
-    }
-
-    /* If you want custom bullet icons */
-    .normal-list li::before {
-        content: "•";
-        color: #007bff; /* Custom bullet color */
-        font-weight: bold;
-        display: inline-block;
-        width: 1em;
-        margin-right: 10px;
-    }
 </style>
 {% endblock %}
 
 {% block content %}
-    {% include 'frontend/includes/message.html' %}
-    <!-- Shopping Cart -->
-    <div class="shopping-cart section">
-        <div class="container">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-10 offset-1">
 
-            <div class="row">
-                <!-- cart item list -->
-                <div class="col-8">
-                    <div class="cart-list-head">
-                        {% if cart and cart.items %}
-                            <div class="cart-list-head">
-                                <!-- Cart Title -->
-                                <div class="cart-list-title">
-                                    <div class="row">
-                                        <div class="col-lg-1"></div>
-                                        <div class="col-lg-4"><p>Product Name</p></div>
-                                        <div class="col-lg-2"><p>Quantity</p></div>
-                                        <div class="col-lg-2"><p>Subtotal</p></div>
-                                        <div class="col-lg-1"><p>Remove</p></div>
-                                    </div>
-                                </div>
+            <div class="card shadow border-0">
+                <div class="card-body text-center p-4">
 
-                                <!-- Cart Items -->
-                                {% for item in cart.items.all %}
-                                <div class="cart-single-list">
-                                    <div class="row align-items-center">
-                                        <!-- Image -->
-                                        <div class="col-lg-1">
-                                            <a href="{%  url 'product_detail' item.product.slug %}" target="_blank">
-                                                <img src="{{ item.product.feature_image.image.url }}" alt="{{ item.product.name }}">
-                                            </a>
-                                        </div>
-
-                                        <!-- Name -->
-                                        <div class="col-lg-4">
-                                            <h5 class="product-name">
-                                                <a href="{%  url 'product_detail' item.product.slug %}" target="_blank">
-                                                    {{ item.product.name }}
-                                                </a>
-                                            </h5>
-                                        </div>
-
-                                        <!-- Quantity -->
-                                        <div class="col-lg-2">
-                                            <div class="count-input">
-                                                <form action="" method="POST">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
-                                                    <button type="submit" class="btn btn-sm mr-2 d-inline-block" name="submit" value="decrement">
-                                                        <i class="fa fa-minus text-danger"></i>
-                                                    </button>
-                                                    {{ item.quantity }}
-                                                    <button type="submit" class="btn btn-sm ml-2 d-inline-block" name="submit" value="increment">
-                                                        <i class="fa fa-plus text-success"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <!-- Subtotal -->
-                                        <div class="col-lg-2">
-                                            <p>৳ {{ item.total_price }}</p>
-                                        </div>
-
-                                        <!-- Remove -->
-                                        <div class="col-lg-1">
-                                            <form action="" method="POST">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="cart_item_id" value="{{ item.pk }}" />
-                                                <button class="border-0" type="submit" name="submit" value="remove">
-                                                    <i class="fa fa-times  text-danger"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <p class="text-center py-5">Your cart is empty 🛒</p>
-                        {% endif %}
+                    <!-- Success Icon -->
+                    <div class="mb-3">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
                     </div>
-                </div>
 
-                <div class="col-4">
-                    <!-- Total Amount -->
-                    <div class="total-amount">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="right pt-0 mt-0">
-                                    <h3 class="mb-3 mt-3">Order Summary</h3>
-                                    <ul>
-                                        <li>Subtotal<span>৳ {{ cart.subtotal|default_if_none:"0" }}</span></li>
-                                        <li class="shipping-row">
-                                            <span class="shipping-label">Shipping</span>
+                    <h3 class="fw-bold text-success">
+                        আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে 🎉
+                    </h3>
 
-                                            <span class="shipping-select">
-                                                <form id="district-form" action="" method="post">
-                                                    {% csrf_token %}
-                                                    <select name="district" id="district" class="d-inline-block">
-                                                        <option value="">Select District</option>
-                                                        {% for district in districts %}
-                                                            <option
-                                                                value="{{ district.pk }}"
-                                                                {% if cart.district and cart.district.pk == district.pk %}selected{% endif %}
-                                                            >
-                                                                {{ district }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </form>
-                                            </span>
+                    <p class="text-muted mb-2">
+                        অর্ডার নম্বর:
+                        <strong>{{ order.order_number }}</strong>
+                    </p>
 
-                                            <span class="shipping-price" id="shipping-charge">
-                                                ৳ {{cart.get_shipping_charge|default_if_none:"0" }}
-                                            </span>
-                                        </li>
+                    <!-- Confirmation Info -->
+                    <div class="alert alert-success mt-3">
+                        📞 <strong>অর্ডার নিশ্চিত করার জন্য আমাদের একজন প্রতিনিধি খুব শীঘ্রই আপনার সাথে ফোনে যোগাযোগ করবে।</strong><br>
+                        অনুগ্রহ করে আপনার ফোনটি চালু রাখুন।
+                    </div>
 
-                                        <li class="last">1% COD Charge<span> ৳{{ cart.cod_charge|default_if_none:"0" }}</span></li>
-                                        <li class="last">You Pay<span> ৳{{ cart.grand_total|default_if_none:"0" }}</span></li>
-                                    </ul>
-                                    <div class="button">
-                                        <a href="/checkout" class="btn">Checkout</a>
-                                        <a href="/" class="btn btn-alt">Continue shopping</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Order Summary -->
+                    <div class="text-start mt-4">
+                        <h5 class="fw-bold mb-3">অর্ডারের বিবরণ</h5>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>পণ্যের মূল্য</span>
+                            <span>৳{{ order.subtotal }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>ডেলিভারি চার্জ</span>
+                            <span>৳{{ order.shipping_cost }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>অর্ডারের অবস্থা</span>
+                            <span class="text-uppercase">{{ order.order_status }}</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>মোট পরিশোধযোগ্য</span>
+                            <span>৳{{ order.total_amount }}</span>
                         </div>
                     </div>
-                    <!--/ End Total Amount -->
-                </div>
 
-                <div class="col-12">
-                    <div style="padding: 30px;border: 1px solid #eee;background-color: #fff;border-radius: 4px;margin-top: 20px;">
-                        <h4 class="mb-1">Shipping Options:</h4>
-                        <ul class="normal-list">
+                    <!-- Payment Info -->
+                    <div class="mt-4">
+                        <p class="mb-1">
+                            পেমেন্ট পদ্ধতি:
+                            <strong>{{ order.get_payment_method_display }}</strong>
+                        </p>
 
-                            <li> <span>ঢাকার ভিতর:</span> ১ – ৩ কার্যদিবস, ৳৭০ (১ কেজি পর্যন্ত) </li>
-                            <li> <span>ঢাকার উপকণ্ঠ:</span> ২ – ৩ কার্যদিবস, ৳১০০ (১ কেজি পর্যন্ত) </li>
-                            <li> <span>ঢাকার বাইরে:</span> ৩ – ৫ কার্যদিবস, ৳১৩০ (১ কেজি পর্যন্ত) </li>
-                            {% comment %} <li> <span>সেইম ডে ডেলিভারি:</span> শুধুমাত্র ঢাকা শহর, ৳১২০+ </li> {% endcomment %}
-                            <li> <span>ক্যাশ অন ডেলিভারি (COD):</span> ১% COD চার্জ প্রযোজ্য </li>
-                            <li> <span>অতিরিক্ত চার্জ:</span> প্রতি অতিরিক্ত কেজিতে ২০ টাকা  ও ভ্যাট প্রযোজ্য হতে পারে </li>
-                            <li>
-                                পার্সেল সাইজের কারণে ডেলিভারি মাশুল পরিবর্তিত হতে পারে
-                            </li>
-                            <li>
-                                উক্ত চার্জসমূহ ভ্যাট ও ট্যাক্স ব্যাতিত
-                            </li>
-                            <li>
-                                অনাকাঙ্ক্ষিত কারণবশত ডেলিভারি সময়ের পরিবর্তন হতে পারে
-                            </li>
-                        </ul>
-                        <a href="https://steadfast.com.bd/pricing" target="_blank">ডেলিভারি চার্জ সম্পর্কে বিস্তারিত জানতে Steadfast ভিজিট করুন।</a>
+                        {% if order.payment_method == "cod" %}
+                        <small class="text-muted">
+                            ডেলিভারির সময় অনুগ্রহ করে পুরো টাকা প্রস্তুত রাখবেন।
+                        </small>
+                        {% endif %}
                     </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="/" class="btn btn-primary px-4">
+                            কেনাকাটা চালিয়ে যান
+                        </a>
+
+                        <a href="{% url 'order_detail' order.order_number %}" class="btn btn-outline-secondary px-4">
+                            অর্ডার দেখুন
+                        </a>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
-    <!--/ End Shopping Cart -->
-{% endblock %}
-
-{% block extra_js %}
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-    $(function() {
-        setTimeout(function() {
-            $("#message").hide()
-        }, 5000)
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#district').select2({
-            placeholder: 'Select your district',
-            allowClear: false
-        });
-
-        // calculation ajax
-        $("#district").on("change", function () {
-            var district_id = $(this).val();
-            var url = "{% url 'cart_shipping_ajax' %}";
-            console.log('district_id ', district_id);
-            console.log('district_id ', district_id);
-
-            $.ajax({
-                url: url,
-                data: {
-                    'district_id': district_id,
-                    'cart_id': "{{cart.id}}",
-                },
-                traditional: true,  // 👈 add this line
-                success: function (data) {
-                    console.log('ajax success', data);
-                    location.reload();
-                }
-            });
-        });
-    });
-</script>
+</div>
 {% endblock %}

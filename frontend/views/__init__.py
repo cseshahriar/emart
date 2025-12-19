@@ -6,7 +6,7 @@ from .cart import (
     cart_detail,
     cart_shipping_ajax,
 )
-from .checkout import checkout_start, order_success
+from .checkout import checkout_start, order_detail, order_success
 
 __all__ = [
     "HomePageView",
@@ -17,4 +17,5 @@ __all__ = [
     "cart_shipping_ajax",
     "checkout_start",
     "order_success",
+    "order_detail",
 ]

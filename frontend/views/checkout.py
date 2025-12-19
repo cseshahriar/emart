@@ -5,8 +5,9 @@ from django.shortcuts import redirect, render
 
 from cart.utils import get_or_create_cart
 from locations.models import District
+from orders.models import Order
 from orders.services import create_order_from_cart
-from orders.utils import get_order
+from users.models import Address
 
 logger = logging.getLogger(__name__)
 
@@ -22,35 +23,63 @@ def checkout_start(request):
         return redirect("cart_detail")
 
     if request.method == "POST":
-        payment_method = request.POST.get("payment_method")
-        shipping_address = request.user.addresses.filter(is_default=True).first()
+        payment_method = request.POST.get("payment_method") or "cod"
+        name = request.POST.get("name")
+        address_line1 = request.POST.get("address")
+        district = request.POST.get("district")
+        phone = request.POST.get("phone")
+        postal_code = request.POST.get("postal_code")
 
-        order = create_order_from_cart(
-            cart=cart,
-            payment_method=payment_method,
-            shipping_address=shipping_address,
-        )
+        shipping_address = request.user.addresses.filter(
+            is_default_shipping=True
+        ).first()
 
-        return redirect("order_success", order_number=order.order_number)
+        if not shipping_address:
+            shipping_address, _ = Address.objects.get_or_create(
+                phone=phone,
+                defaults={
+                    "session_key": cart.session_key,
+                    "full_name": name,
+                    "phone": phone,
+                    "address_line1": address_line1,
+                    "district": cart.district,
+                    "postal_code": postal_code,
+                    "is_default_shipping": True,
+                },
+            )
+
+        if name and phone and address_line1:
+            order = create_order_from_cart(
+                cart=cart,
+                payment_method=payment_method,
+                shipping_address=shipping_address,
+            )
+            messages.warning(
+                request,
+                "Order has been placed successfully. \
+                A person will call you for confirmation!",
+            )
+            return redirect("order_success", order_number=order.order_number)
+        else:
+            messages.warning(request, "Invalid form!")
 
     context = {
         "districts": districts,
         "district": district,
         "cart": cart,
     }
-    return render(
-        request,
-        "frontend/pages/checkout.html",
-        context
-    )
+    return render(request, "frontend/pages/checkout.html", context)
 
 
-def order_success(request):
-    ''' Order success page '''
-    order = get_order(request)
+def order_success(request, order_number):
+    """Order success page"""
+    order = Order.objects.filter(order_number=order_number).first()
     context = {"order": order}
-    return render(
-        request,
-        "frontend/pages/order_success.html",
-        context
-    )
+    return render(request, "frontend/pages/order_success.html", context)
+
+
+def order_detail(request, order_number):
+    """Order success page"""
+    order = Order.objects.filter(order_number=order_number).first()
+    context = {"order": order}
+    return render(request, "frontend/pages/order_details.html", context)

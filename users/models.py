@@ -160,7 +160,7 @@ class Address(models.Model):
         verbose_name_plural = "Addresses"
 
     def __str__(self):
-        return f"{self.full_name} - {self.address_line1}, {self.upazila}"
+        return f"{self.full_name} - {self.address_line1}"
 
     def save(self, *args, **kwargs):
         # Ensure only one default per type per customer

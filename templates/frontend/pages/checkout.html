@@ -4,6 +4,41 @@
 
 {% block extra_css %}
 <style>
+    .required {
+        color: red;
+        font-weight: 700;
+        border: 0
+    }
+    * {
+        color: #000 !important;
+    }
+    button {
+        color:#fff !important;
+    }
+    ul.payment_methods {
+        text-align: left;
+        padding: 1em;
+        border-bottom: 1px solid var(--ast-border-color);
+        margin: 0;
+        list-style: none outside;
+    }
+    .payment_box{
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 1em;
+        margin: 1em 0;
+        font-size: .92em;
+        border-radius: 2px;
+        line-height: 1.5;
+        background-color: #dfdcde;
+        color: #515151;
+    }
+    .stretched-link {
+        color: #0d6efd !important;
+        text-decoration: underline;
+        padding-bottom:5px;
+    }
 </style>
 {% endblock %}
 
@@ -12,10 +47,12 @@
     <form action="" method="post" style="width:100%">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="w-100 text-center py-3">
-                    <p>অর্ডারটি সম্পন্ন করতে <a href="#checkout">Proceed to checkout</a> এ ক্লিক করুন। ভুল বা বেশি প্রোডাক্ট সিলেক্ট হয়ে গেলে কাট পেজে গিয়ে, মাইনাস (-) এ ক্লিক করে রিমুভ করুন। <a href="/cart">View Cart</a></p>
+                <div class="col-12">
+                    <div class="w-100 text-center py-3 card mb-2">
+                        <h6 class="mb-2">অর্ডার করতে সমস্যা হলে WhatsApp করুন (+88) 01837-724712 (সকাল ১০টা–রাত ৯টা) বা আমাদের ফেসবুক পেজে মেসেজ দিন, একাধিক অর্ডার হলে আপডেট করতে <a class="stretched-link" href="https://www.facebook.com/shornamart" target="_blank">এখানে ক্লিক করুন</a>।</h6>
+                        <h6>অর্ডারটি সম্পন্ন করতে <a class="stretched-link" href="#checkout">Place order</a> এ ক্লিক করুন। ভুল বা বেশি প্রোডাক্ট সিলেক্ট হয়ে গেলে কার্ট পেজে গিয়ে, মাইনাস (-) এ ক্লিক করে রিমুভ করুন। <a class="stretched-link" href="/cart" target="_blank">View Cart</a></h6>
+                    </div>
                 </div>
-
                 {% csrf_token %}
                 <!-- personal details -->
                 <div class="col-lg-8">
@@ -23,16 +60,16 @@
                         <ul id="accordionExample">
                             <li>
                                 <h6 class="title" data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                    aria-expanded="true" aria-controls="collapseThree">Your Personal Details </h6>
+                                    aria-expanded="true" aria-controls="collapseThree">Shipping Details </h6>
                                 <section class="checkout-steps-form-content collapse show" id="collapseThree"
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="single-form form-default">
-                                                <label>User Name</label>
+                                                <label>Full name (নাম) <span class="required" aria-hidden="true">*</span></label>
                                                 <div class="row">
                                                     <div class="col-md-12 form-input form">
-                                                        <input type="text" placeholder="Full Name" required>
+                                                        <input type="text" placeholder="Full Name" required name="name">
                                                     </div>
                                                 </div>
                                             </div>
@@ -40,57 +77,18 @@
 
                                         <div class="col-md-12">
                                             <div class="single-form form-default">
-                                                <label>Phone Number</label>
+                                                <label>Full address (ঠিকানা) <span class="required" aria-hidden="true">*</span></label>
                                                 <div class="form-input form">
-                                                    <input type="text" placeholder="Phone Number" required>
+                                                    <input type="text" placeholder="Full address" required name="address">
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-12">
                                             <div class="single-form form-default">
-                                                <label>Shipping Address</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Shipping Address" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {% comment %}
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>City</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="City">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endcomment %}
-
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>Post Code</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Post Code">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {% comment %}
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>Country</label>
-                                                <div class="form-input form">
-                                                    <input type="text" placeholder="Country">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endcomment %}
-
-                                        <div class="col-md-6">
-                                            <div class="single-form form-default">
-                                                <label>Region/State</label>
+                                                <label>District (জেলার) <span class="required" aria-hidden="true">*</span></label>
                                                 <div class="select-items">
-                                                    <select class="form-control" disabled>
+                                                    <select class="form-control" readonly name="district" disabled>
                                                         <option value="{{district.pk}}">{{district}}</option>
                                                         {% comment %}
                                                         {% for district in districts %}
@@ -98,6 +96,34 @@
                                                         {% endfor %}
                                                         {% endcomment %}
                                                     </select>
+                                                    <input type="hidden" name="district" value="{{ district.pk }}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-form form-default">
+                                                <label>Phone (মোবাইল নাম্বার) <span class="required" aria-hidden="true">*</span></label>
+                                                <div class="form-input form">
+                                                    <input type="text" placeholder="Phone" required name="phone">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-form form-default">
+                                                <label>Post Code <span class="required" aria-hidden="true">*</span></label>
+                                                <div class="form-input form">
+                                                    <input type="text" placeholder="Post Code" required name="postal_code">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-form form-default">
+                                                <label>Order notes (optional)</label>
+                                                <div class="form-input form">
+                                                    <textarea name="note" rows="2"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,6 +137,7 @@
                 <!-- payment information -->
                 <div class="col-lg-4">
                     <div class="checkout-sidebar">
+                        {% comment %}
                         <div class="checkout-sidebar-coupon">
                             <p>Appy Coupon to get discount!</p>
                             <form action="checkout.html#">
@@ -124,15 +151,36 @@
                                 </div>
                             </form>
                         </div>
+                        {% endcomment %}
+
                         <div class="checkout-sidebar-price-table mt-30">
                             <h5 class="title">Order Summery</h5>
 
                             <div class="sub-total-price">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-total">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart.items.all %}
+                                        <tr class="cart_item">
+                                            <td class="product-name">
+                                                {{ item.product.name }} &nbsp;	<strong class="product-quantity">×&nbsp; {{ item.quantity }}</strong>											</td>
+                                            </td>
+                                            <td>৳ {{ item.total_price }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
                                 <div class="total-price">
-                                    <p class="value">Subtotal Price:</p>
+                                    <p class="value">Subtotal:</p>
                                     <p class="price fw-bold">৳ {{ cart.subtotal|default_if_none:"0" }}</p>
                                 </div>
-                                <div class="total-price shipping">
+                                <div class="total-price shipping" style="padding: 8px 0;padding: 10px 0;border-top: 1px solid #e6e6e6;margin-top: 10px;">
                                     <p class="value">Shipping Charge:</p>
                                     <p class="price fw-bold">৳ {{ cart.get_shipping_charge|default_if_none:"0"}}</p>
                                 </div>
@@ -148,8 +196,25 @@
                                     <p class="price fw-bold">৳{{ cart.grand_total|default_if_none:"0" }}</p>
                                 </div>
                             </div>
-                            <div class="price-table-btn button">
-                                <button type="submit" class="btn btn-bg-primary" id="checkout">Proceed to checkout </button>
+
+                            <div class="total-payable">
+                                <div class="payable-price">
+                                    <ul class="payment_methods">
+                                        <li class="wc_payment_method payment_method_cod">
+                                            <input id="payment_method_cod" type="radio" class="input-radio"
+                                                name="payment_method" value="cod" checked="checked" data-order_button_text=""
+                                            >
+                                            <label for="payment_method_cod"> ক্যাশ অন ডেলিভার </label>
+                                            <div class="payment_box payment_method_cod">
+                                                <p>পণ্য হাতে বুজে নিয়ে টাকা পরিশোধ করুন।</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="price-table-btn button mt-0">
+                                <button type="submit" class="btn btn-bg-primary w-100" id="checkout">Place order </button>
                             </div>
                         </div>
                     </div>

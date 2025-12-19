@@ -1,0 +1,77 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+{% block title %}অর্ডার সফল | {{ order.order_number }}{% endblock %}
+
+{% block extra_css %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Success Alert -->
+    <div class="alert alert-success text-center">
+        <h4 class="alert-heading mb-2">🎉 অর্ডার সফলভাবে গ্রহণ করা হয়েছে</h4>
+        <p class="mb-0">
+            আপনার অর্ডার নম্বর:
+            <strong>{{ order.order_number }}</strong>
+        </p>
+    </div>
+
+    <!-- Call Confirmation -->
+    <div class="alert alert-warning text-center">
+        📞 <strong>
+            অর্ডার নিশ্চিত করার জন্য আমাদের একজন প্রতিনিধি খুব শীঘ্রই আপনাকে ফোন করবে।
+        </strong><br>
+        অনুগ্রহ করে আপনার ফোনটি চালু রাখুন।
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card mb-4">
+        <div class="card-header fw-bold">
+            অর্ডার সারাংশ
+        </div>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>পণ্যের মূল্য</span>
+                <span>৳{{ order.subtotal }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>ডেলিভারি চার্জ</span>
+                <span>৳{{ order.shipping_cost }}</span>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-between fw-bold fs-5">
+                <span>মোট পরিশোধযোগ্য</span>
+                <span>৳{{ order.total_amount }}</span>
+            </div>
+
+            <div class="mt-3 text-muted">
+                পেমেন্ট পদ্ধতি:
+                <strong>{{ order.get_payment_method_display }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>অর্ডারের অবস্থা</span>
+                <span class="text-uppercase">{{ order.order_status }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="text-center">
+        <a href="/" class="btn btn-primary me-2">
+            কেনাকাটা চালিয়ে যান
+        </a>
+
+        <a href="{% url 'order_detail' order.order_number %}" class="btn btn-outline-secondary">
+            অর্ডার বিস্তারিত দেখুন
+        </a>
+    </div>
+
+</div>
+{% endblock %}

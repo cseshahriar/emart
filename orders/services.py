@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from django.db import transaction
 
 from .models import Order, OrderItem
@@ -7,7 +8,7 @@ from .models import Order, OrderItem
 def create_order_from_cart(
     *,
     cart,
-    payment_method='cod',
+    payment_method="cod",
     shipping_address=None,
     billing_address=None,
     shipping_method=None,
@@ -22,11 +23,9 @@ def create_order_from_cart(
         cod_charge = cart.get_cod_charge(payment_method)
 
         subtotal = cart.subtotal
-        total_amount = (
-            subtotal
-            + shipping_cost
-            + cod_charge
-        ).quantize(Decimal("0.01"))
+        total_amount = (subtotal + shipping_cost + cod_charge).quantize(
+            Decimal("0.01")
+        )
         order = Order.objects.create(
             customer=cart.customer,
             session_key=cart.session_key,

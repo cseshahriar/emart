@@ -6,6 +6,7 @@ from frontend.views import (
     cart_detail,
     cart_shipping_ajax,
     checkout_start,
+    order_detail,
     order_success,
 )
 from frontend.views.home_page import HomePageView, ProductDetailPageView
@@ -30,5 +31,10 @@ urlpatterns = [
         "order/success/<str:order_number>/",
         order_success,
         name="order_success",
+    ),
+    path(
+        "order/order_detail/<str:order_number>/",
+        order_detail,
+        name="order_detail",
     ),
 ]
