@@ -86,6 +86,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         upload_to="profile_pics/", blank=True, null=True
     )
     bio = models.TextField(blank=True)
+    otp = models.CharField(max_length=8, null=True, blank=True)
 
     objects = CustomUserManager()
 
