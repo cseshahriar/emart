@@ -1,11 +1,12 @@
 from django.urls import path
 
-from frontend.views.cart import (
+from frontend.views import (
     add_to_cart,
     buy_now,
     cart_detail,
     cart_shipping_ajax,
     checkout_start,
+    order_success,
 )
 from frontend.views.home_page import HomePageView, ProductDetailPageView
 
@@ -25,4 +26,9 @@ urlpatterns = [
     path("cart_shipping_ajax/", cart_shipping_ajax, name="cart_shipping_ajax"),
     # checkout
     path("checkout/", checkout_start, name="checkout"),
+    path(
+        "order/success/<str:order_number>/",
+        order_success,
+        name="order_success",
+    ),
 ]

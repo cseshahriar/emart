@@ -125,12 +125,6 @@ def cart_detail(request):
     return render(request, "frontend/pages/cart_detail.html", context)
 
 
-def checkout_start(request):
-    """checkout processing"""
-    cart = get_or_create_cart(request)
-    return render(request, "frontend/pages/checkout.html", {"cart": cart})
-
-
 def cart_shipping_ajax(request):
     logger.info(f"{'*' * 10} cart_shipping_ajax called\n")
     district_id = request.GET.get("district_id")
