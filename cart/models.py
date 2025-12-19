@@ -1,4 +1,5 @@
 import logging
+import math
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -46,6 +47,13 @@ class Cart(BaseModel):
         total = sum(item.total_price for item in self.items.all())
         return Decimal(total) or 0
 
+    @property
+    def cod_charge(self):
+        """
+        1% Cash On Delivery charge based on subtotal
+        """
+        return (self.subtotal * Decimal("0.01")).quantize(Decimal("0.01"))
+
     def get_shipping_weight(self):
         """Calculate total weight for shipping in KG"""
         total_weight = Decimal("0.00")
@@ -57,38 +65,89 @@ class Cart(BaseModel):
             total_weight += weight * item.quantity
         return total_weight
 
+    # def get_shipping_charge(self):
+    #     """
+    #     Calculate shipping charge based on:
+    #     - district -> shipping zone
+    #     - total weight
+    #     """
+    #     if not self.district:
+    #         return Decimal("0.00")
+
+    #     weight = self.get_shipping_weight()
+    #     logger.info(f"{'*' * 10} weight: {weight}\n")
+
+    #     # Find shipping zone for district
+    #     shipping_zone = self.district.shipping_zone
+    #     logger.info(f"{'*' * 10} shipping_zone: {shipping_zone}\n")
+    #     if not shipping_zone:
+    #         return Decimal("0.00")
+
+    #     # Find matching rate slab, by method
+    #     rate = ShippingRate.objects.filter(
+    #         shipping_zone=shipping_zone,
+    #         min_weight__lte=weight,
+    #         max_weight__gte=weight,
+    #     ).first()
+    #     logger.info(f"{'*' * 10} rate: {rate} {rate.rate_per_kg}\n")
+
+    #     if rate:
+    #         return rate.rate_per_kg
+
+    #     return Decimal("0.00")
+
     def get_shipping_charge(self):
         """
-        Calculate shipping charge based on:
-        - district -> shipping zone
-        - total weight
+        Shipping logic:
+        - 1st KG = 70৳
+        - Extra KG = 20৳ per KG
+        - Zone based
         """
+
         if not self.district:
             return Decimal("0.00")
 
-        weight = self.get_shipping_weight()
-        logger.info(f"{'*' * 10} weight: {weight}\n")
+        weight = Decimal(self.get_shipping_weight() or 0)
+        logger.info(f"Weight: {weight}")
 
-        # Find shipping zone for district
         shipping_zone = self.district.shipping_zone
-        logger.info(f"{'*' * 10} shipping_zone: {shipping_zone}\n")
         if not shipping_zone:
             return Decimal("0.00")
 
-        # Find matching rate slab, by method
-        rate = ShippingRate.objects.filter(
+        # Base rate (first 1 KG)
+        base_rate = ShippingRate.objects.filter(
             shipping_zone=shipping_zone,
+            calculation_type="weight",
+            min_weight=Decimal("0.00"),
+            max_weight=Decimal("1.00"),
         ).first()
-        logger.info(f"{'*' * 10} rate: {rate}\n")
 
-        if rate:
-            return rate.rate_per_kg
+        # Extra KG rate (above 1 KG)
+        extra_rate = ShippingRate.objects.filter(
+            shipping_zone=shipping_zone,
+            calculation_type="weight",
+            min_weight=Decimal("1.00"),
+            max_weight__isnull=True,
+        ).first()
 
-        return Decimal("0.00")
+        if not base_rate:
+            return Decimal("0.00")
+
+        total = base_rate.rate_per_kg
+        logger.info(f"{'*' * 10} base rate: {total}\n")
+
+        # Extra weight calculation
+        if weight > 1 and extra_rate:
+            extra_weight = Decimal(math.ceil(weight - 1))
+            extra_total = extra_weight * extra_rate.rate_per_kg
+            logger.info(f"{'*' * 10} extra_total: {extra_total}\n")
+            total += extra_total
+
+        return total.quantize(Decimal("0.01"))
 
     @property
     def grand_total(self):
-        return self.subtotal + self.get_shipping_charge()
+        return self.subtotal + self.get_shipping_charge() + self.cod_charge
 
 
 class CartItem(BaseModel):

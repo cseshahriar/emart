@@ -29,6 +29,42 @@
         text-align: right;
         font-weight: 600;
     }
+
+    .normal-list {
+        list-style-type: none; /* Remove default bullets */
+        padding-left: 0;
+        margin: 1rem 0;
+        font-family: 'Segoe UI', 'Noto Sans Bengali', 'Kalpurush', sans-serif;
+    }
+
+    .normal-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #e0e0e0; /* Optional: divider between items */
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .normal-list li:last-child {
+        border-bottom: none;
+    }
+
+    .normal-list li span {
+        font-weight: 600;
+        color: #333;
+        min-width: 180px; /* Adjust based on your longest label */
+        display: inline-block;
+        padding-right: 10px;
+    }
+
+    /* If you want custom bullet icons */
+    .normal-list li::before {
+        content: "•";
+        color: #007bff; /* Custom bullet color */
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-right: 10px;
+    }
 </style>
 {% endblock %}
 
@@ -126,7 +162,7 @@
                                 <div class="right pt-0 mt-0">
                                     <h3 class="mb-3 mt-3">Order Summary</h3>
                                     <ul>
-                                        <li>Subtotal<span>৳ {{ cart.subtotal }}</span></li>
+                                        <li>Subtotal<span>৳ {{ cart.subtotal|default_if_none:"0" }}</span></li>
                                         <li class="shipping-row">
                                             <span class="shipping-label">Shipping</span>
 
@@ -148,11 +184,12 @@
                                             </span>
 
                                             <span class="shipping-price" id="shipping-charge">
-                                                ৳ {{cart.get_shipping_charge }}
+                                                ৳ {{cart.get_shipping_charge|default_if_none:"0" }}
                                             </span>
                                         </li>
 
-                                        <li class="last">You Pay<span> ৳{{ cart.grand_total }}</span></li>
+                                        <li class="last">1% COD Charge<span> ৳{{ cart.cod_charge|default_if_none:"0" }}</span></li>
+                                        <li class="last">You Pay<span> ৳{{ cart.grand_total|default_if_none:"0" }}</span></li>
                                     </ul>
                                     <div class="button">
                                         <a href="/checkout" class="btn">Checkout</a>
@@ -169,30 +206,26 @@
                     <div style="padding: 30px;border: 1px solid #eee;background-color: #fff;border-radius: 4px;margin-top: 20px;">
                         <h4 class="mb-1">Shipping Options:</h4>
                         <ul class="normal-list">
+
+                            <li> <span>ঢাকার ভিতর:</span> ১ – ৩ কার্যদিবস, ৳৭০ (১ কেজি পর্যন্ত) </li>
+                            <li> <span>ঢাকার উপকণ্ঠ:</span> ২ – ৩ কার্যদিবস, ৳১০০ (১ কেজি পর্যন্ত) </li>
+                            <li> <span>ঢাকার বাইরে:</span> ৩ – ৫ কার্যদিবস, ৳১৩০ (১ কেজি পর্যন্ত) </li>
+                            {% comment %} <li> <span>সেইম ডে ডেলিভারি:</span> শুধুমাত্র ঢাকা শহর, ৳১২০+ </li> {% endcomment %}
+                            <li> <span>ক্যাশ অন ডেলিভারি (COD):</span> ১% COD চার্জ প্রযোজ্য </li>
+                            <li> <span>অতিরিক্ত চার্জ:</span> প্রতি অতিরিক্ত কেজিতে ২০ টাকা  ও ভ্যাট প্রযোজ্য হতে পারে </li>
                             <li>
-                                <span>Inside Dhaka:</span> 1 – 3 working days, ৳70 (up to 1kg)
+                                পার্সেল সাইজের কারণে ডেলিভারি মাশুল পরিবর্তিত হতে পারে
                             </li>
                             <li>
-                                <span>Dhaka Suburbs:</span> 2 – 3 working days, ৳100 (up to 1kg)
+                                উক্ত চার্জসমূহ ভ্যাট ও ট্যাক্স ব্যাতিত
                             </li>
                             <li>
-                                <span>Outside Dhaka:</span> 3 – 5 working days, ৳130 (up to 1kg)
-                            </li>
-                            <li>
-                                <span>Same Day Delivery:</span> Dhaka City only, ৳120+
-                            </li>
-                            <li>
-                                <span>Cash on Delivery (COD):</span> 1% COD charge applicable
-                            </li>
-                            <li>
-                                <span>Additional Charges:</span> Extra weight & VAT may apply
+                                অনাকাঙ্ক্ষিত কারণবশত ডেলিভারি সময়ের পরিবর্তন হতে পারে
                             </li>
                         </ul>
-
+                        <a href="https://steadfast.com.bd/pricing" target="_blank">ডেলিভারি চার্জ সম্পর্কে বিস্তারিত জানতে Steadfast ভিজিট করুন।</a>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

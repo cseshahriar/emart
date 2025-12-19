@@ -68,7 +68,9 @@ class ShippingRateAdmin(admin.ModelAdmin):
         "shipping_method",
         "shipping_zone",
         "calculation_type",
-        "flat_rate",
+        "min_weight",
+        "max_weight",
+        "rate_per_kg",
         "free_shipping_over",
     )
 
