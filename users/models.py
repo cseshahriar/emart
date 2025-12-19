@@ -59,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     # Status fields
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -163,6 +163,19 @@ class Address(models.Model):
         return f"{self.full_name} - {self.address_line1}"
 
     def save(self, *args, **kwargs):
+        # ================================
+        # AUTO CREATE / ASSIGN USER BY PHONE
+        # ================================
+        if self.phone and not self.customer:
+            user, created = User.objects.get_or_create(
+                phone=self.phone,
+                defaults={
+                    "username": self.phone,
+                    "email": self.email or "",
+                },
+            )
+            self.customer = user
+
         # Ensure only one default per type per customer
         if self.is_default_billing:
             Address.objects.filter(
