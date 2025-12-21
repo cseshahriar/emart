@@ -9,10 +9,10 @@ black==24.4.2
 flake8==7.1.0
 isort==5.13.2
 pre-commit==3.7.1
-mypy==1.19.1
 django-stubs==5.2.8
 djangorestframework-stubs==3.16.6
 
+mypy==1.19.1
 
 # Testing tools
 pytest==8.0.0

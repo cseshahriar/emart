@@ -3,7 +3,7 @@
 import os
 
 
-def get_logging_config(log_dir: str) -> dict:  # type: ignore
+def get_logging_config(log_dir) -> dict:  # type: ignore
     """Return logging configuration dictionary.
 
     Args:
