@@ -213,7 +213,8 @@ class StockMovement(BaseModel):
         ]
 
     def __str__(self):
-        return f"{self.get_movement_type_display()}: {self.product.name} ({self.quantity:+d})"
+        return f"{self.get_movement_type_display()}: {self.product.name} \
+            ({self.quantity:+d})"
 
     def save(self, *args, **kwargs):
         # Calculate total cost

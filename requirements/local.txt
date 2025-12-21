@@ -9,12 +9,20 @@ black==24.4.2
 flake8==7.1.0
 isort==5.13.2
 pre-commit==3.7.1
+mypy==1.19.1
+django-stubs==5.2.8
+djangorestframework-stubs==3.16.6
 
 
 # Testing tools
-coverage
-pytest-cov==4.0.0
 pytest==8.0.0
+pytest-cov==4.0.0
+coverage
 pytest-django==4.0.0
 model-bakery
 ipython
+
+# security scanning
+bandit==1.7.5
+safety==3.2.0
+semgrep==1.146.0

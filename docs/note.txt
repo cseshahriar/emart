@@ -111,3 +111,8 @@ make test         # Run tests
 
 # Clean up
 make clean        # Remove all cache files
+
+# tests run manually
+isort --settings-file=.isort.cfg --check-only --diff .
+flake8 --config=.flake8 --count --show-source --statistics .
+pre-commit run --all-files

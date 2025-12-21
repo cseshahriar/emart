@@ -1,6 +1,7 @@
 import re
 
 from allauth.account.adapter import DefaultAccountAdapter
+
 from django.core.exceptions import ValidationError
 
 

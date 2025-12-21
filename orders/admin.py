@@ -85,7 +85,10 @@ class OrderAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-
+    list_editable = (
+        "order_status",
+        "payment_status",
+    )
     fieldsets = (
         ("Order Info", {"fields": ("order_number", "customer")}),
         (

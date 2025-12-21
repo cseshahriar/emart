@@ -4,11 +4,13 @@
 # Workflow name (GitHub Actions UI তে দেখা যাবে)
 # ==========================================
 name: Django CI # Name of the workflow
-
+description: Run linter and formatting checks on the codebase
+run-name: Linter and Formatting check on the codebase for Django with PostgreSQL
 # ==========================================
 # কখন এই workflow রান করবে, Run on push to dev,
 #  main, release or PR targeting them
 # ==========================================
+
 on:
   # main, dev, release ব্রাঞ্চে push হলে রান করবে
   push:
@@ -23,15 +25,18 @@ on:
 # ==========================================
 jobs:
   # Job name: test
-  test:
+  linting-and-formatting:
     # GitHub-hosted runner (Ubuntu latest)
     runs-on: ubuntu-latest # CI environment
+    strategy:
+      matrix:  # loop
+        python-version: [3.12] # Python version matrix, 3.12, 3.13
 
     # ----------------------------------------
     # Environment variables (job-level)
     # Django settings থেকে DB config পড়ার জন্য
     # ----------------------------------------
-    env:
+    env: # env variables for DB connection
       DB_NAME: test_db
       DB_USER: postgres
       DB_PASS: postgres
@@ -72,22 +77,16 @@ jobs:
       # --------------------------------------
       # Step 1: Repository code checkout
       # --------------------------------------
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4  # repo checkout action, reusable actions
 
       # 2Step 2: Set up Python
-      - name: Set up Python
+      - name: Set up Python $ {{ matrix.python-version }}
         uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
 
-      # Step 9: Optional: Cache pip packages for faster runs
-      - name: Cache pip
-        uses: actions/cache@v3
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements/local.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          python-version: ${{ matrix.python-version }}  # 3.12
+          cache: 'pip'  # Cache pip packages automatically
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -95,13 +94,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements/local.txt
 
-      # Step 4: Run code format check with black
-      - name: Check code format with Black
-        run: black --check .
-
-      # Step 5: Run Lint code with Flake8
+      # Step 4: Run Lint code with Flake8
       - name: Lint code with Flake8
-        run: flake8
+        run: |
+          flake8 --config=.flake8 --count --show-source --statistics .
+
+      # Type checking with mypy
+      - name: Type check with Mypy
+        run: |
+          mypy --config-file=mypy.ini .
+
+      # Step 5: Run code format check with black
+      - name: Check code format with Black
+        run: black --check --diff .
+
+      - name: Check import sorting with isort
+        run: |
+          isort --settings-file=.isort.cfg --check-only --diff .
 
       # Step 6: Run test with coverage
       - name: Run pytest with coverage

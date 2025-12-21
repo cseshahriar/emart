@@ -51,7 +51,8 @@ class ShippingMethod(BaseModel):
         ordering = []
 
     def __str__(self):
-        return f"{self.name} ({self.estimated_days_min}-{self.estimated_days_max} days)"
+        return f"{self.name} ({self.estimated_days_min}-\
+            {self.estimated_days_max} days)"
 
 
 class ShippingRate(BaseModel):

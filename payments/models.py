@@ -153,7 +153,8 @@ class Payment(BaseModel):
         ]
 
     def __str__(self):
-        return f"Payment {self.payment_id} - {self.order.order_number} (৳{self.amount})"
+        return f"Payment {self.payment_id} - {self.order.order_number} \
+            (৳{self.amount})"
 
     def save(self, *args, **kwargs):
         if not self.payment_id:

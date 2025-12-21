@@ -352,7 +352,8 @@ class CustomUserAdmin(UserAdmin):
         badges = []
         for group in groups:
             badges.append(
-                f'<span class="badge badge-info" style="margin-right: 4px;">{group.name}</span>'
+                f'<span class="badge badge-info" style="margin-right: \
+                    4px;">{group.name}</span>'
             )
         return mark_safe(" ".join(badges))
 
@@ -392,7 +393,8 @@ class CustomUserAdmin(UserAdmin):
                 "admin:accounts_user_impersonate", args=[obj.id]
             )
             links.append(
-                f'<a href="{impersonate_url}" class="button" title="Impersonate">👤</a>'
+                f'<a href="{impersonate_url}" \
+                    class="button" title="Impersonate">👤</a>'
             )
 
         # Edit button

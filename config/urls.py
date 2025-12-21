@@ -1,14 +1,15 @@
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views.i18n import set_language
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
 
 SITE_HEADER = settings.SITE_HEADER
 SITE_TITLE = settings.SITE_TITLE
@@ -44,7 +45,7 @@ urlpatterns += i18n_patterns(
     path("", include("frontend.urls")),
     # Add the default django set_language as fallback
     path("i18n/", include("django.conf.urls.i18n")),
-    prefix_default_language=True,  # Important: This prefixes default language too
+    prefix_default_language=True,  # Important: This prefixes default lang too
 )
 
 
