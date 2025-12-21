@@ -323,7 +323,9 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+    "TOKEN_OBTAIN_SERIALIZER": (
+        "rest_framework_simplejwt.serializers." "TokenObtainPairSerializer"
+    ),
 }
 
 # =============== PRODUCTION SECURITY SETTINGS ===============
