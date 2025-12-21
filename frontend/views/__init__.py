@@ -1,12 +1,7 @@
 from frontend.views.home_page import HomePageView, ProductDetailPageView
 
 from .auth import login_view, logout_view, signup_view
-from .cart import (
-    add_to_cart,
-    buy_now,
-    cart_detail,
-    cart_shipping_ajax,
-)
+from .cart import add_to_cart, buy_now, cart_detail, cart_shipping_ajax
 from .checkout import checkout_start, order_detail, order_success
 from .dashboard import customer_dashboard
 
