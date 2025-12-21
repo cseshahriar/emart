@@ -1,3 +1,5 @@
-# shorna-mart
+# Emart
 
-Ecommerce Full stack with python, django, DRF
+E-commerce web application with Python, Django, DRF
+
+Note: Can not use without permission
