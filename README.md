@@ -1,5 +1,5 @@
 # Emart
 
-Ecommerce web appplication with python, django, DRF
+E-commerce web application with Python, Django, DRF
 
-Note: Can not use with out permission
+Note: Can not use without permission
