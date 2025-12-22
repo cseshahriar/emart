@@ -7,9 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# FIXED PERMISSIONS - Add actions: read and id-token: write
 permissions:
   contents: read
   security-events: write
+  actions: read
+  id-token: write
 
 jobs:
   docker-scan:
