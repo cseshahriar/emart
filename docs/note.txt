@@ -122,3 +122,17 @@ pre-commit clean
 pre-commit uninstall
 pre-commit install
 pre-commit run --all-files
+
+# .ev db conf for local without docker
+POSTGRES_DB=eshop_db
+POSTGRES_USER=eshop_user
+POSTGRES_PASSWORD=supersecret
+POSTGRES_HOST=d127.0.0.1
+POSTGRES_PORT=5432
+
+# db config for docker
+POSTGRES_DB=eshop_db
+POSTGRES_USER=eshop_user
+POSTGRES_PASSWORD=supersecret
+POSTGRES_HOST=db
+POSTGRES_PORT=5432

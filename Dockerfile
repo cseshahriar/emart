@@ -24,9 +24,9 @@ RUN apt-get update && apt-get install -y \
 # ----------------------------
 # Copy and install Python dependencies
 # ----------------------------
-COPY requirements.txt .
+COPY requirements/local.txt .
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install -r local.txt
 
 # ----------------------------
 # Copy project code
