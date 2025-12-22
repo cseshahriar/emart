@@ -98,7 +98,8 @@ def buy_now(request, slug):
 #             elif action == "remove":
 #                 product_name = cart_item.product.name
 #                 cart_item.delete()
-#                 messages.success(request, f"{product_name} removed from cart")
+#                 messages.success(
+#                     request, f"{product_name} removed from cart")
 #             elif action == "location":
 #                 district_id = request.POST.get("district")
 #                 print(f"{'*' * 10} district_id: {district_id}\n")

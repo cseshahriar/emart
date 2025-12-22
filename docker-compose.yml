@@ -1,0 +1,50 @@
+version: "3.9"  # Docker Compose file format version
+
+services:
+  # ===============================
+  # 1. Django web application
+  # ===============================
+  web:
+    build: .  # Build Docker image from current directory (Dockerfile is used)
+    container_name: django_app  # Optional, human-readable container name
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+      # Use Gunicorn to serve Django
+      # 0.0.0.0 binds inside the container to allow host access
+      # port 8000 inside the container
+    volumes:
+      - .:/app                   # Mount project code for live development
+      - media_volume:/app/media   # Persist user-uploaded media files
+      - static_volume:/app/staticfiles # Persist collected static files
+    ports:
+      - "8080:8000"  # Map host port 8080 → container port 8000
+                      # Access Django via http://localhost:8080
+    env_file:
+      - .env  # Load environment variables from .env file (DB credentials, secrets)
+    depends_on:
+      - db  # Ensure db container starts before web
+
+  # ===============================
+  # 2. PostgreSQL database
+  # ===============================
+  db:
+    image: postgres:15  # Use official Postgres 15 image
+    container_name: postgres_db  # Optional, human-readable name
+    restart: always  # Automatically restart container if it crashes
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+        # Persist database files so data is **not lost** on container restart
+    environment:
+      POSTGRES_DB: ${DB_NAME}       # DB name from .env
+      POSTGRES_USER: ${DB_USER}   # DB user from .env
+      POSTGRES_PASSWORD: ${DB_PASS} # DB password from .env
+    ports:
+      - "5433:5432"  # Optional: expose DB to host on port 5433
+                      # Inside container, Postgres still listens on 5432
+
+# ===============================
+# 3. Named volumes for persistence
+# ===============================
+volumes:
+  postgres_data:    # Stores Postgres data safely, survives container removal
+  media_volume:     # Stores uploaded media files persistently
+  static_volume:    # Stores collected static files persistently

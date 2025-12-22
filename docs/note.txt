@@ -116,3 +116,9 @@ make clean        # Remove all cache files
 isort --settings-file=.isort.cfg --check-only --diff .
 flake8 --config=.flake8 --count --show-source --statistics .
 pre-commit run --all-files
+
+Reset pre-commit cache (important)
+pre-commit clean
+pre-commit uninstall
+pre-commit install
+pre-commit run --all-files

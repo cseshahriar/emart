@@ -30,9 +30,10 @@ repos:
   # 3. Black – Python code formatter
   # ===============================
   - repo: https://github.com/psf/black
-    rev: 25.12.0
+    rev: 24.10.0
     hooks:
       - id: black
+        language_version: python3.12
       # Python code auto-format করে (PEP8 compatible)
       # line-length default 88 characters
 
