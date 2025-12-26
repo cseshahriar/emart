@@ -68,10 +68,10 @@
 
                                                 <h3>
                                                     <span>Now Only</span>
-                                                    <span class="text-primary">৳{{ product.base_price }}</span>
                                                     {% if product.compare_price %}
-                                                        <span><del>৳{{ product.compare_price }}</del></span>
+                                                    <span><del>৳{{ product.compare_price }}</del></span>
                                                     {% endif %}
+                                                    <span class="text-primary">৳{{ product.base_price }}</span>
                                                 </h3>
 
                                                 <div class="button">
@@ -163,11 +163,14 @@
                                         <!-- Price at the bottom -->
                                         <div class="mt-2 pt-1">
                                             <div class="text-success fw-bold text-white" style="font-size: 0.9rem;">
-                                                <h5 class="text-primary"> ৳{{ most_popular_product.base_price|default:"" }}
+                                                <h5 class="text-primary">
 
                                                     {% if most_popular_product.compare_price %}
                                                     <del class="text-secondary"> ৳ {{ most_popular_product.compare_price|default:"" }}</del>
                                                     {% endif %}
+
+                                                    ৳{{ most_popular_product.base_price|default:"" }}
+
                                                 </h5>
                                             </div>
                                         </div>
@@ -248,10 +251,10 @@
                                 </h4>
 
                                 <div class="price">
-                                    <span>৳ {{ product.base_price }}</span>
                                     {% if product.compare_price %}
                                     <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
                                     {% endif %}
+                                    <span>৳ {{ product.base_price }}</span>
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -307,10 +310,10 @@
                                 </h4>
 
                                 <div class="price">
-                                    <span>৳ {{ product.base_price }}</span>
                                     {% if product.compare_price %}
                                     <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
                                     {% endif %}
+                                    <span>৳ {{ product.base_price }}</span>
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -366,10 +369,10 @@
                                 </h4>
 
                                 <div class="price">
-                                    <span>৳ {{ product.base_price }}</span>
                                     {% if product.compare_price %}
-                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
                                     {% endif %}
+                                    <span>৳ {{ product.base_price }}</span>
                                 </div>
 
                                 <!-- Product Buttons -->
@@ -425,10 +428,10 @@
                                 </h4>
 
                                 <div class="price">
-                                    <span>৳ {{ product.base_price }}</span>
                                     {% if product.compare_price %}
-                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
                                     {% endif %}
+                                    <span>৳ {{ product.base_price }}</span>
                                 </div>
 
                                 <!-- Product Buttons -->
