@@ -1422,7 +1422,7 @@ ol {
 
 .header .topbar {
   background-color: #081828;
-  padding: 18px 0;
+  padding: 3px 0;
 }
 
 @media (max-width: 767px) {
@@ -1588,7 +1588,7 @@ ol {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 25px 0;
+  padding: 3px 0;
   border-bottom: 1px solid #eee;
 }
 
@@ -2807,7 +2807,6 @@ ol {
 ========================================*/
 .hero-area {
   position: relative;
-  background-color: #fff;
   margin-top: 12px;
 }
 
