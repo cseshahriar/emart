@@ -55,6 +55,9 @@ class OrderAdmin(admin.ModelAdmin):
         "payment_status",
         "payment_method",
         "total_amount",
+        "full_name",
+        "phone",
+        "address",
         "created_at",
     )
     list_filter = (
@@ -159,6 +162,24 @@ class OrderAdmin(admin.ModelAdmin):
         "mark_as_delivered",
         "bulk_print_invoice",
     ]
+
+    def full_name(self, obj):
+        try:
+            return obj.shipping_address.full_name
+        except Exception:
+            return ""
+
+    def address(self, obj):
+        try:
+            return obj.shipping_address.address_line1
+        except Exception:
+            return ""
+
+    def phone(self, obj):
+        try:
+            return obj.shipping_address.phone
+        except Exception:
+            return ""
 
     @admin.action(description="🖨️ Print Invoice (Exclude Pending)")
     def bulk_print_invoice(self, request, queryset):
