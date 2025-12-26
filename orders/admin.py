@@ -1,6 +1,12 @@
-from django.contrib import admin
+import logging
+
+from django.contrib import admin, messages
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 from .models import Order, OrderItem, OrderStatusHistory
+
+logger = logging.getLogger(__name__)
 
 # ==========================
 # ORDER ITEM INLINE
@@ -51,12 +57,11 @@ class OrderAdmin(admin.ModelAdmin):
         "total_amount",
         "created_at",
     )
-
     list_filter = (
+        "created_at",
         "order_status",
         "payment_status",
         "payment_method",
-        "created_at",
     )
 
     search_fields = (
@@ -148,7 +153,44 @@ class OrderAdmin(admin.ModelAdmin):
 
     inlines = [OrderItemInline, OrderStatusHistoryInline]
 
-    actions = ["mark_as_confirmed", "mark_as_shipped", "mark_as_delivered"]
+    actions = [
+        "mark_as_confirmed",
+        "mark_as_shipped",
+        "mark_as_delivered",
+        "bulk_print_invoice",
+    ]
+
+    @admin.action(description="🖨️ Print Invoice (Exclude Pending)")
+    def bulk_print_invoice(self, request, queryset):
+        # Exclude pending orders
+        printable_orders = queryset.exclude(order_status="pending")
+        logger.info(f"{'*' * 10} printable_orders: {printable_orders}\n")
+
+        if not printable_orders.exists():
+            self.message_user(
+                request,
+                "Pending order print করা যাবে না ❌",
+                level=messages.WARNING,
+            )
+            return
+
+        html = render_to_string(
+            "admin/order_bulk_invoice_print.html",
+            {
+                "orders": printable_orders,
+                "SITE_NAME": (
+                    request.site.name if hasattr(request, "site") else ""
+                ),
+                "SITE_DOMAIN": (
+                    request.site.domain if hasattr(request, "site") else ""
+                ),
+            },
+            request=request,
+        )
+
+        response = HttpResponse(html)
+        response["Content-Type"] = "text/html"
+        return response
 
     def save_model(self, request, obj, form, change):
         if change:
