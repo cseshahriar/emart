@@ -236,40 +236,39 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Start Single Product -->
                         <div class="single-product">
-
-                            <div class="product-image">
-                                <img
-                                    {% if product.feature_image %}
-                                        src="{{ product.feature_image.image.url }}"
-                                    {% endif %}
-                                    alt="#" />
-                            </div>
-
-                            <div class="product-info">
-                                <h4 class="title">
-                                    <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
-                                </h4>
-
-                                <div class="price">
-                                    {% if product.compare_price %}
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
-                                    {% endif %}
-                                    <span>৳ {{ product.base_price }}</span>
+                            <a href="{% url 'product_detail' product.slug %}" class="d-block">
+                                <div class="product-image">
+                                    <img
+                                        {% if product.feature_image %}
+                                            src="{{ product.feature_image.image.url }}"
+                                        {% endif %}
+                                        alt="#" />
                                 </div>
+                                <div class="product-info">
+                                    <h4 class="title">
+                                        <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                                    </h4>
 
-                                <!-- Product Buttons -->
-                                <div class="product-buttons">
-                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i> Buy Now
-                                    </a>
+                                    <div class="price">
+                                        {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                        {% endif %}
+                                        <span>৳ {{ product.base_price }}</span>
+                                    </div>
 
-                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
-                                        <i class="lni lni-cart-1"></i> Add to Cart
-                                    </a>
+                                    <!-- Product Buttons -->
+                                    <div class="product-buttons">
+                                        <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                            <i class="lni lni-cart"></i> Buy Now
+                                        </a>
+
+                                        <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                            <i class="lni lni-cart-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-
+                            </a>
                         </div>
                         <!-- End Single Product -->
                     </div>
@@ -295,40 +294,40 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Start Single Product -->
                         <div class="single-product">
-
-                            <div class="product-image">
-                                <img
-                                    {% if product.feature_image %}
-                                        src="{{ product.feature_image.image.url }}"
-                                    {% endif %}
-                                    alt="#" />
-                            </div>
-
-                            <div class="product-info">
-                                <h4 class="title">
-                                    <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
-                                </h4>
-
-                                <div class="price">
-                                    {% if product.compare_price %}
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
-                                    {% endif %}
-                                    <span>৳ {{ product.base_price }}</span>
+                            <a href="{% url 'product_detail' product.slug %}" class="d-block">
+                                <div class="product-image">
+                                    <img
+                                        {% if product.feature_image %}
+                                            src="{{ product.feature_image.image.url }}"
+                                        {% endif %}
+                                        alt="#" />
                                 </div>
 
-                                <!-- Product Buttons -->
-                                <div class="product-buttons">
-                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i> Buy Now
-                                    </a>
+                                <div class="product-info">
+                                    <h4 class="title">
+                                        <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                                    </h4>
 
-                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
-                                        <i class="lni lni-cart-1"></i> Add to Cart
-                                    </a>
+                                    <div class="price">
+                                        {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                        {% endif %}
+                                        <span>৳ {{ product.base_price }}</span>
+                                    </div>
+
+                                    <!-- Product Buttons -->
+                                    <div class="product-buttons">
+                                        <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                            <i class="lni lni-cart"></i> Buy Now
+                                        </a>
+
+                                        <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                            <i class="lni lni-cart-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-
+                            </a>
                         </div>
                         <!-- End Single Product -->
                     </div>
@@ -354,40 +353,40 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Start Single Product -->
                         <div class="single-product">
-
-                            <div class="product-image">
-                                <img
-                                    {% if product.feature_image %}
-                                        src="{{ product.feature_image.image.url }}"
-                                    {% endif %}
-                                    alt="#" />
-                            </div>
-
-                            <div class="product-info">
-                                <h4 class="title">
-                                    <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
-                                </h4>
-
-                                <div class="price">
-                                    {% if product.compare_price %}
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
-                                    {% endif %}
-                                    <span>৳ {{ product.base_price }}</span>
+                            <a href="{% url 'product_detail' product.slug %}" class="d-block">
+                                <div class="product-image">
+                                    <img
+                                        {% if product.feature_image %}
+                                            src="{{ product.feature_image.image.url }}"
+                                        {% endif %}
+                                        alt="#" />
                                 </div>
 
-                                <!-- Product Buttons -->
-                                <div class="product-buttons">
-                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i> Buy Now
-                                    </a>
+                                <div class="product-info">
+                                    <h4 class="title">
+                                        <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                                    </h4>
 
-                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
-                                        <i class="lni lni-cart-1"></i> Add to Cart
-                                    </a>
+                                    <div class="price">
+                                        {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                        {% endif %}
+                                        <span>৳ {{ product.base_price }}</span>
+                                    </div>
+
+                                    <!-- Product Buttons -->
+                                    <div class="product-buttons">
+                                        <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                            <i class="lni lni-cart"></i> Buy Now
+                                        </a>
+
+                                        <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                            <i class="lni lni-cart-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-
+                            </a>
                         </div>
                         <!-- End Single Product -->
                     </div>
@@ -413,40 +412,40 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Start Single Product -->
                         <div class="single-product">
-
-                            <div class="product-image">
-                                <img
-                                    {% if product.feature_image %}
-                                        src="{{ product.feature_image.image.url }}"
-                                    {% endif %}
-                                    alt="#" />
-                            </div>
-
-                            <div class="product-info">
-                                <h4 class="title">
-                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
-                                </h4>
-
-                                <div class="price">
-                                    {% if product.compare_price %}
-                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
-                                    {% endif %}
-                                    <span>৳ {{ product.base_price }}</span>
+                            <a href="{% url 'product_detail' product.slug %}" class="d-block">
+                                <div class="product-image">
+                                    <img
+                                        {% if product.feature_image %}
+                                            src="{{ product.feature_image.image.url }}"
+                                        {% endif %}
+                                        alt="#" />
                                 </div>
 
-                                <!-- Product Buttons -->
-                                <div class="product-buttons">
-                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
-                                        <i class="lni lni-cart"></i> Buy Now
-                                    </a>
+                                <div class="product-info">
+                                    <h4 class="title">
+                                        <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                    </h4>
 
-                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
-                                        <i class="lni lni-cart-1"></i> Add to Cart
-                                    </a>
+                                    <div class="price">
+                                        {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                        {% endif %}
+                                        <span>৳ {{ product.base_price }}</span>
+                                    </div>
+
+                                    <!-- Product Buttons -->
+                                    <div class="product-buttons">
+                                        <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                            <i class="lni lni-cart"></i> Buy Now
+                                        </a>
+
+                                        <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                            <i class="lni lni-cart-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-
+                            </a>
                         </div>
                         <!-- End Single Product -->
                     </div>
