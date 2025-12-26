@@ -1,4 +1,6 @@
 # core/context_processors.py
+from django.conf import settings
+
 from cart.utils import get_or_create_cart
 from catalog.models import Category
 
@@ -16,4 +18,5 @@ def common_data(request):
         "categories": categories,
         "main_menu_categories": main_menu_categories,
         "cart": cart,
+        "SITE_NAME": settings.SITE_NAME,
     }

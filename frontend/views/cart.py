@@ -63,82 +63,6 @@ def buy_now(request, slug):
     return redirect("checkout")  # 🔥 DIRECT CHECKOUT
 
 
-# def cart_detail(request):
-#     """Cart details with update functionality"""
-#     print(f"{'*' * 10} cart_detail called \n")
-#     districts = District.objects.filter(is_active=True).select_related(
-#         "shipping_zone"
-#     )
-#     cart = get_or_create_cart(request)
-
-#     if request.method == "POST":
-#         print(f"{'*' * 10} post block \n")
-#         action = request.POST.get("submit")
-#         cart_item_id = request.POST.get("cart_item_id")
-#         print("action ", action)
-#         print("cart_item_id ", cart_item_id)
-#         try:
-#             cart_item = CartItem.objects.get(id=cart_item_id, cart=cart)
-#             if action == "increment":
-#                 cart_item.quantity += 1
-#                 cart_item.save()
-#                 messages.success(
-#                     request, f"Quantity updated to {cart_item.quantity}"
-#                 )
-#             elif action == "decrement":
-#                 if cart_item.quantity > 1:
-#                     cart_item.quantity -= 1
-#                     cart_item.save()
-#                     messages.success(
-#                         request,
-#                         f"Quantity updated to {cart_item.quantity}",
-#                     )
-#                 else:
-#                     messages.warning(request, "Minimum quantity is 1")
-#             elif action == "remove":
-#                 product_name = cart_item.product.name
-#                 cart_item.delete()
-#                 messages.success(
-#                     request, f"{product_name} removed from cart")
-#             elif action == "location":
-#                 district_id = request.POST.get("district")
-#                 print(f"{'*' * 10} district_id: {district_id}\n")
-#                 if district_id:
-#                     district = District.objects.filter(
-#                         pk=int(district_id)
-#                     ).select_related("shipping_zone")
-#                     if district and cart:
-#                         cart.district = district
-#                         cart.save()
-#                         messages.success(request, "Deliver location changed")
-#             else:
-#                 messages.error(request, "Item not found")
-
-#         except CartItem.DoesNotExist:
-#             messages.error(request, "Cart item not found")
-#         except Exception as e:
-#             messages.error(request, f"Error: {str(e)}")
-
-#         # Redirect to refresh page and show messages
-#         return redirect("cart_detail")
-
-#     # get method
-#     # Calculate totals for the template
-#     cart_items = cart.items.all()
-#     cart_total = sum(item.total_price for item in cart_items)
-#     item_count = sum(item.quantity for item in cart_items)
-
-#     context = {
-#         "cart": cart,
-#         "districts": districts,
-#         "cart_items": cart_items,
-#         "cart_total": cart_total,
-#         "item_count": item_count,
-#     }
-
-#     return render(request, "frontend/pages/cart_detail.html", context)
-
-
 def cart_detail(request):
     """Cart details with update functionality"""
     districts = District.objects.filter(is_active=True).select_related(
@@ -189,16 +113,27 @@ def cart_shipping_ajax(request):
     district_id = request.GET.get("district_id")
     cart_id = request.GET.get("cart_id")
 
+    # name = request.GET.get("name")
+    # address = request.GET.get("address")
+    # phone = request.GET.get("phone")
+    # post_code = request.GET.get("post_code")
+    # note = request.GET.get("note")
+
     if district_id and cart_id:
         cart = Cart.objects.filter(pk=int(cart_id)).first()
         district = District.objects.filter(pk=district_id).first()
         if cart and district:
             cart.district = district
             cart.save()
-            logger.info(f"{'*' * 10} cart district updated \n")
-            data = {"message": "Success"}
-            return JsonResponse(data, status=200)
-
+            return JsonResponse(
+                {
+                    "success": True,
+                    "shipping_charge": cart.get_shipping_charge,
+                    "grand_total": cart.grand_total,
+                    "message": "আপনার ঠিকানা অনুযায়ী শিপিং চার্জ আপডেট হয়েছে।",
+                },
+                status=200,
+            )
     return JsonResponse(
         {"success": False, "message": "Cart not found"}, status=404
     )

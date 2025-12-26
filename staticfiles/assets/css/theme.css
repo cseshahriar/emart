@@ -50,7 +50,11 @@ Red only for sale/alert
     /* Borders */
     --color-border: #e5e7eb;
 }
-
+.required {
+    color: red !important;
+    font-weight: 700;
+    border: 0
+}
 bg-white {
     background-color: rgb(255 255 255 / 1); /* fully opaque */
 }
@@ -84,15 +88,15 @@ a:hover {
 }
 
 /* CTA Button (Add to Cart / Buy Now) */
-.btn-cta {
-    background-color: var(--color-cta);
+.btn-theme {
+    background-color: var(--color-cta) !important;
     color: #ffffff;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     font-weight: 700;
 }
-.btn-cta:hover {
-    background-color: var(--color-cta-hover);
+.btn-theme:hover {
+    background-color: var(--color-cta-hover) !important;
 }
 
 /* Cards */
@@ -107,7 +111,6 @@ a:hover {
 .price {
     color: var(--color-success);
     font-size: 1.25rem;
-    font-weight: 700;
 }
 
 /* Sale Badge */

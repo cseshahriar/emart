@@ -22,6 +22,7 @@ STATIC_DIR = os.getenv("STATIC_DIR")
 MEDIA_DIR = os.getenv("MEDIA_DIR")
 LOGS_DIR = os.getenv("LOGS_DIR", BASE_DIR / "logs")
 
+SITE_NAME = os.getenv("SITE_NAME")
 
 # Logging config
 os.makedirs(LOGS_DIR, exist_ok=True)

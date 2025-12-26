@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}" />
 
-    <title>{% block title %}Home Page{% endblock %}</title>
+    <title>{% block title %}{% endblock %} | {{ SITE_NAME }}</title>
 
     <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />

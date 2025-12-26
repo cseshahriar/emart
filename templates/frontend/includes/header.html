@@ -62,7 +62,7 @@
                                 {% if user.is_authenticated %}
                                     <div class="user">
                                         <i class="lni lni-user"></i>
-                                        {{ user.get_full_name|default:user.phone }}
+                                        {{ user.get_full_name|default_if_none:"Username" }}
                                     </div>
                                     {% if user.is_superuser %}
                                         <li>
@@ -219,12 +219,16 @@
                         <div class="col-3">
                             <!-- nav cart -->
                             <div class="navbar-cart">
+
+                                {% comment %}
                                 <div class="wishlist">
                                     <a href="javascript:void(0)">
                                         <i class="lni lni-heart"></i>
                                         <span class="total-items">0</span>
                                     </a>
                                 </div>
+                                {% endcomment %}
+
                                 <div class="cart-items">
                                     <a href="javascript:void(0)" class="main-btn">
                                         <i class="lni lni-cart"></i>
@@ -237,7 +241,7 @@
                                     <div class="shopping-item">
                                         <div class="dropdown-cart-header">
                                             <span>{{ cart.total_items }} {% trans "Items" %}</span>
-                                            <a href="/cart">{% trans "View Cart" %} </a>
+                                            <a href="/cart" class="text-primary">{% trans "View Cart" %} </a>
                                         </div>
 
                                         <ul class="shopping-list">
@@ -273,7 +277,7 @@
                                                 <span class="total-amount">৳ {{ cart.grand_total|default_if_none:"0" }}</span>
                                             </div>
                                             <div class="button">
-                                                <a href="/checkout" class="btn animate">{% trans "Checkout" %}</a>
+                                                <a href="/checkout" class="btn animate btn-theme">{% trans "Checkout" %}</a>
                                             </div>
                                         </div>
                                     </div>

@@ -118,6 +118,7 @@ class Cart(BaseModel):
 
     #     return Decimal("0.00")
 
+    @property
     def get_shipping_charge(self):
         """
         Shipping logic:
@@ -173,7 +174,8 @@ class Cart(BaseModel):
 
     @property
     def grand_total(self):
-        return self.subtotal + self.get_shipping_charge() + self.cod_charge
+        # + self.cod_charge for Merchant
+        return self.subtotal + self.get_shipping_charge
 
 
 class CartItem(BaseModel):

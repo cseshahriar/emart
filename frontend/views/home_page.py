@@ -38,15 +38,12 @@ class HomePageView(View):
         slider_products = base_product_queryset.filter(is_slider=True)
         most_popular_product = base_product_queryset.filter(
             is_most_popular=True
-        ).first()
+        ).first()  # only one item for home page slider right section
         categories = Category.objects.filter(is_active=True, is_featured=True)
         featured_products = base_product_queryset.filter(is_featured=True)
         new_products = base_product_queryset.filter(is_new=True)
         bestseller_products = base_product_queryset.filter(is_bestseller=True)
         top_rated_products = base_product_queryset.filter(is_top_rated=True)
-        most_popular_products = base_product_queryset.filter(
-            is_most_popular=True
-        )
 
         exclude_product_ids = (  # remove when show category
             slider_products.values_list("id", flat=True).union(
@@ -54,7 +51,6 @@ class HomePageView(View):
                 new_products.values_list("id", flat=True),
                 bestseller_products.values_list("id", flat=True),
                 top_rated_products.values_list("id", flat=True),
-                most_popular_products.values_list("id", flat=True),
             )
         )
         logger.info(f"{'*' * 10} exclude_product_ids:{exclude_product_ids}\n")
@@ -67,7 +63,6 @@ class HomePageView(View):
             "new_products": new_products,
             "bestseller_products": bestseller_products,
             "top_rated_products": top_rated_products,
-            "most_popular_products": most_popular_products,
         }
         return render(request, self.template_name, context)
 

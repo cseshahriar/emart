@@ -1,3 +1,4 @@
+import logging
 import re
 
 from django.contrib.auth.models import (
@@ -7,6 +8,8 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
+
+logger = logging.getLogger(__name__)
 
 
 class CustomUserManager(BaseUserManager):
@@ -107,7 +110,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email or self.phone or str(self.id)
 
     def get_full_name(self):
-        return f"{self.first_name} {self.last_name}".strip()
+        name = f"{self.first_name} {self.last_name}".strip()
+        if not name:
+            if self.email:
+                name = self.email
+            elif self.phone:
+                name = self.phone
+
+        return name
 
     def get_short_name(self):
         return self.first_name
