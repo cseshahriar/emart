@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <!-- language -->
-                    <div class="col-lg-4 col-md-4 col-12">
+                    <div class="col-lg-3 col-md-3 col-12">
                         <div class="top-left">
                             <ul class="menu-top-link">
                                 <div class="col-lg-4 col-md-4 col-12">
@@ -19,7 +19,9 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ redirect_to }}">
 
-                                            <select name="language" class="form-select" onchange="this.form.submit()">
+                                            <select name="language" class="form-select" onchange="this.form.submit()"
+                                                style="padding:3px !important"
+                                            >
                                                 {% get_current_language as LANGUAGE_CODE %}
                                                 {% get_available_languages as LANGUAGES %}
 
@@ -36,14 +38,24 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4 col-12">
+                    <div class="col-lg-5 col-md-5 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
                                 <li><a href="index.html">{% trans "Offers" %}</a></li>
                                 <li><a href="index.html">{% trans "Track your order" %} </a></li>
+
+                                <li>
+                                    <a href="tel:01837724712">
+                                        <i class="lni lni-phone"></i>
+                                        {% trans "Hotline" %} <span> {% trans "(+88) 01837-724712" %}</span>
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
+
+                    <!-- auth buttons -->
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-end">
                             <ul class="user-login">
@@ -82,47 +94,130 @@
         </div>
         <!-- End Topbar -->
 
-        <!-- Start Header Middle -->
-        <div class="header-middle">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-3 col-7">
-                        <!-- Start Header Logo -->
-                        <a class="navbar-brand" href="/">
-                            <img src="{% static 'assets/images/logo/logo.png' %}"
-                                alt="Shorna Mart"
-                                class="img-fluid site-logo"
-                            >
-                        </a>
+        <!-- Start Header Bottom -->
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-7 col-12">
+                    <div class="nav-inner">
+                        <!-- Start Mega Category Menu -->
+                        <div class="mega-category-menu">
+                            <span class="cat-button">
+                                <i class="lni lni-menu"></i>
+                                {% trans "All Categories" %}
+                            </span>
+                            <ul class="sub-category">
+                            {% for category in categories %}
+                                <li>
+                                    <a href="category/{{ category.slug }}">
+                                        {{ category.name }}
 
-                        <!-- End Header Logo -->
-                    </div>
-                    <div class="col-lg-5 col-md-7 d-xs-none">
-                        <!-- Start Main Menu Search -->
-                        <div class="main-menu-search">
-                            <!-- navbar search start -->
-                            <div class="navbar-search search-style-5">
-                                <div class="search-input">
-                                    <input type="text" placeholder="Search">
-                                </div>
-                                <div class="search-btn">
-                                    <button><i class="lni lni-search-alt"></i></button>
-                                </div>
-                            </div>
-                            <!-- navbar search Ends -->
+                                        {% if category.children.all %}
+                                            <i class="lni lni-chevron-right"></i>
+                                        {% endif %}
+                                    </a>
+
+                                    {% if category.children.exists %}
+                                        <ul class="inner-sub-category">
+                                            {% for child in category.children.all %}
+                                                <li>
+                                                    <a href="category/{{ child.slug }}">
+                                                        {{ child.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
                         </div>
-                        <!-- End Main Menu Search -->
+                        <!-- End Mega Category Menu -->
+
+                        <!-- Start Navbar -->
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                                <ul id="nav" class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        {% comment %} <a href="/" class="active" aria-label="Toggle navigation">{% trans "Home" %}</a> {% endcomment %}
+                                        <a class="active p-0 m-0 pt-2" href="/">
+                                            <img src="{% static 'assets/images/logo/logo.png' %}"
+                                                alt="Shorna Mart"
+                                                class="img-fluid site-logo"
+                                            >
+                                        </a>
+                                    </li>
+
+                                    {% for category in main_menu_categories %}
+                                        {% if category.children.exists %}
+                                        <!-- DROPDOWN -->
+                                        <li class="nav-item">
+                                            <a class="dd-menu collapsed"
+                                            href="javascript:void(0)"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#submenu-{{ category.id }}"
+                                            aria-expanded="false"
+                                            aria-label="Toggle navigation">
+
+                                                {{ category.name }}
+                                            </a>
+
+                                            <ul class="sub-menu collapse" id="submenu-{{ category.id }}">
+                                                {% for child in category.children.all %}
+                                                    <li class="nav-item">
+                                                        <a href="category/{{ child.slug }}">
+                                                            {{ child.name }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <!-- SINGLE LINK -->
+                                        <li class="nav-item">
+                                            <a href="category/{{category.slug }}"
+                                            aria-label="Toggle navigation">
+                                                {{ category.name }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                </ul>
+                            </div> <!-- navbar collapse -->
+                        </nav>
+                        <!-- End Navbar -->
                     </div>
+                </div>
 
-                    <div class="col-lg-4 col-md-2 col-5">
-                        <div class="middle-right-area">
-                            <div class="nav-hotline">
-                                <i class="lni lni-phone"></i>
-                                <h3>{% trans "Hotline" %}:
-                                    <span> {% trans "(+88) 01837-724712" %}</span>
-                                </h3>
+                <div class="col-lg-5 col-md-5 col-12">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-9">
+                            <!-- Start Main Menu Search -->
+                            <div class="main-menu-search">
+                                <!-- navbar search start -->
+                                <div class="navbar-search search-style-5">
+                                    <div class="search-input">
+                                        <input type="text" placeholder="Search">
+                                    </div>
+                                    <div class="search-btn">
+                                        <button><i class="lni lni-search-alt"></i></button>
+                                    </div>
+                                </div>
+                                <!-- navbar search Ends -->
                             </div>
+                            <!-- End Main Menu Search -->
+                        </div>
 
+                        <div class="col-3">
+                            <!-- nav cart -->
                             <div class="navbar-cart">
                                 <div class="wishlist">
                                     <a href="javascript:void(0)">
@@ -185,129 +280,11 @@
                                     <!--/ End Shopping Item -->
                                 </div>
                             </div>
+                            <!-- / nav cart -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- End Header Middle -->
 
-        <!-- Start Header Bottom -->
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-6 col-12">
-                    <div class="nav-inner">
-                        <!-- Start Mega Category Menu -->
-                        <div class="mega-category-menu">
-                            <span class="cat-button">
-                                <i class="lni lni-menu"></i>
-                                {% trans "All Categories" %}
-                            </span>
-                            <ul class="sub-category">
-                            {% for category in categories %}
-                                <li>
-                                    <a href="category/{{ category.slug }}">
-                                        {{ category.name }}
-
-                                        {% if category.children.all %}
-                                            <i class="lni lni-chevron-right"></i>
-                                        {% endif %}
-                                    </a>
-
-                                    {% if category.children.exists %}
-                                        <ul class="inner-sub-category">
-                                            {% for child in category.children.all %}
-                                                <li>
-                                                    <a href="category/{{ child.slug }}">
-                                                        {{ child.name }}
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        </div>
-                        <!-- End Mega Category Menu -->
-
-                        <!-- Start Navbar -->
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
-                                <ul id="nav" class="navbar-nav ms-auto">
-                                    <li class="nav-item">
-                                        <a href="/" class="active" aria-label="Toggle navigation">{% trans "Home" %}</a>
-                                    </li>
-                                    {% for category in main_menu_categories %}
-                                        {% if category.children.exists %}
-                                        <!-- DROPDOWN -->
-                                        <li class="nav-item">
-                                            <a class="dd-menu collapsed"
-                                            href="javascript:void(0)"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#submenu-{{ category.id }}"
-                                            aria-expanded="false"
-                                            aria-label="Toggle navigation">
-
-                                                {{ category.name }}
-                                            </a>
-
-                                            <ul class="sub-menu collapse" id="submenu-{{ category.id }}">
-                                                {% for child in category.children.all %}
-                                                    <li class="nav-item">
-                                                        <a href="category/{{ child.slug }}">
-                                                            {{ child.name }}
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        <!-- SINGLE LINK -->
-                                        <li class="nav-item">
-                                            <a href="category/{{category.slug }}"
-                                            aria-label="Toggle navigation">
-                                                {{ category.name }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-
-                                </ul>
-                            </div> <!-- navbar collapse -->
-                        </nav>
-                        <!-- End Navbar -->
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Start Nav Social -->
-                    <div class="nav-social">
-                        <h5 class="title">{% trans "Follow Us:" %} </h5>
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-instagram"></i></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-skype"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End Nav Social -->
-                </div>
             </div>
         </div>
         <!-- End Header Bottom -->

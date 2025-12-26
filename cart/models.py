@@ -39,6 +39,13 @@ class Cart(BaseModel):
         return f"Cart {self.id} - {self.customer or self.session_key}"
 
     @property
+    def shipping_charge_items(self):
+        """
+        Items that are NOT free shipping
+        """
+        return self.items.exclude(product__is_free_shipping=True)
+
+    @property
     def total_items(self):
         return sum(item.quantity for item in self.items.all())
 
@@ -52,27 +59,32 @@ class Cart(BaseModel):
         """
         1% Cash On Delivery charge based on subtotal
         """
-        if payment_method == "cod":
-            return (self.subtotal * Decimal("0.01")).quantize(Decimal("0.01"))
-        return Decimal("0.00")
+        if payment_method != "cod":
+            return Decimal("0.00")
 
-    def get_cod_charge(self, payment_method="cod"):
-        """
-        1% Cash On Delivery charge based on subtotal
-        """
-        if payment_method == "cod":
-            return (self.subtotal * Decimal("0.01")).quantize(Decimal("0.01"))
-        return Decimal("0.00")
+        chargeable_subtotal = sum(
+            item.total_price for item in self.shipping_charge_items
+        )
+
+        if chargeable_subtotal <= 0:
+            return Decimal("0.00")
+
+        return (Decimal(chargeable_subtotal) * Decimal("0.01")).quantize(
+            Decimal("0.01")
+        )
 
     def get_shipping_weight(self):
         """Calculate total weight for shipping in KG"""
         total_weight = Decimal("0.00")
-        for item in self.items.all():
+
+        for item in self.shipping_charge_items:
             if item.variant:
                 weight = item.variant.weight or item.product.weight or 0
             else:
                 weight = item.product.weight or 0
+
             total_weight += weight * item.quantity
+
         return total_weight
 
     # def get_shipping_charge(self):
@@ -119,6 +131,10 @@ class Cart(BaseModel):
 
         weight = Decimal(self.get_shipping_weight() or 0)
         logger.info(f"Weight: {weight}")
+
+        # 🚫 No chargeable items
+        if weight <= 0:
+            return Decimal("0.00")
 
         shipping_zone = self.district.shipping_zone
         if not shipping_zone:

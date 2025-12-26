@@ -200,6 +200,9 @@ class Product(BaseModel):
     is_most_popular = models.BooleanField(default=False)
     # is_most_popular, for slider right side show
     is_slider = models.BooleanField(default=False)  # for home slider
+    is_free_shipping = models.BooleanField(
+        default=False
+    )  # for zero shipping cost
 
     # Timestamps
     # created_at = models.DateTimeField(auto_now_add=True)

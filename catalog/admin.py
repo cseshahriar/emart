@@ -141,6 +141,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "is_featured",
         "is_most_popular",
         "is_bestseller",
+        "is_free_shipping",
         "published_at",
     )
 
@@ -166,6 +167,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "is_featured",
         "is_most_popular",
         "is_bestseller",
+        "is_free_shipping",
     )
     fieldsets = (
         (
