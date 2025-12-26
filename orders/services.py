@@ -12,6 +12,7 @@ def create_order_from_cart(
     shipping_address=None,
     billing_address=None,
     shipping_method=None,
+    customer_notes=None,
 ):
     """
     Convert Cart → Order safely
@@ -19,13 +20,12 @@ def create_order_from_cart(
 
     with transaction.atomic():
 
-        shipping_cost = cart.get_shipping_charge()
+        shipping_cost = cart.get_shipping_charge
         cod_charge = cart.get_cod_charge(payment_method)
+        # cod charge for merchant
 
         subtotal = cart.subtotal
-        total_amount = (subtotal + shipping_cost + cod_charge).quantize(
-            Decimal("0.01")
-        )
+        total_amount = (subtotal + shipping_cost).quantize(Decimal("0.01"))
         order = Order.objects.create(
             customer=cart.customer,
             session_key=cart.session_key,
@@ -38,6 +38,8 @@ def create_order_from_cart(
             shipping_method=shipping_method,
             shipping_address=shipping_address,
             billing_address=billing_address,
+            customer_notes=customer_notes,
+            cod_charge=cod_charge,
         )
 
         # Copy cart items → order items

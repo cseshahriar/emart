@@ -17,19 +17,19 @@ def checkout_start(request):
     districts = District.objects.filter(is_active=True)
     cart = get_or_create_cart(request)
     district = cart.district
-    logger.info(f"{'*' * 10} cart: {cart}\n")
-
     if not cart or not cart.items.exists():
         return redirect("cart_detail")
 
-    if request.method == "POST":
+    if request.method == "POST":  # checkout post make order
         payment_method = request.POST.get("payment_method") or "cod"
         name = request.POST.get("name")
         address_line1 = request.POST.get("address")
         district = request.POST.get("district")
         phone = request.POST.get("phone")
         postal_code = request.POST.get("postal_code")
+        customer_notes = request.POST.get("note")
 
+        # Get user default shipping address
         shipping_address = request.user.addresses.filter(
             is_default_shipping=True
         ).first()
@@ -48,11 +48,12 @@ def checkout_start(request):
                 },
             )
 
-        if name and phone and address_line1:
+        if name and address_line1 and district and phone and postal_code:
             order = create_order_from_cart(
                 cart=cart,
                 payment_method=payment_method,
                 shipping_address=shipping_address,
+                customer_notes=customer_notes,
             )
             messages.warning(
                 request,

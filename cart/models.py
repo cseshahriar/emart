@@ -73,6 +73,24 @@ class Cart(BaseModel):
             Decimal("0.01")
         )
 
+    def get_cod_charge(self, payment_method="cod"):  # order create
+        """
+        1% Cash On Delivery charge based on subtotal
+        """
+        if payment_method != "cod":
+            return Decimal("0.00")
+
+        chargeable_subtotal = sum(
+            item.total_price for item in self.shipping_charge_items
+        )
+
+        if chargeable_subtotal <= 0:
+            return Decimal("0.00")
+
+        return (Decimal(chargeable_subtotal) * Decimal("0.01")).quantize(
+            Decimal("0.01")
+        )
+
     def get_shipping_weight(self):
         """Calculate total weight for shipping in KG"""
         total_weight = Decimal("0.00")

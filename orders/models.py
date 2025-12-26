@@ -71,7 +71,7 @@ class Order(BaseModel):
     shipping_cost = models.DecimalField(
         max_digits=10, decimal_places=2, default=Decimal(0)
     )
-    cod_charge = models.DecimalField(
+    cod_charge = models.DecimalField(  # for merchant
         max_digits=10, decimal_places=2, default=Decimal(0)
     )
     tax_amount = models.DecimalField(

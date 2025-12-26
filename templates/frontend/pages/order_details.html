@@ -4,72 +4,162 @@
 
 {% block extra_css %}
 <style>
+/* -------- Invoice Style -------- */
+.invoice-box {
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #e5e5e5;
+    max-width: 900px;
+    margin: auto;
+    font-size: 14px;
+    color: #333;
+}
+
+.invoice-header {
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.invoice-header h2 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.invoice-details p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.table th {
+    background: #f8f9fa;
+}
+
+/* -------- Print Style -------- */
+@media print {
+    body {
+        background: #fff;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .invoice-box {
+        border: none;
+        padding: 0;
+    }
+    header, footer {
+        display: none !important;
+    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container my-5">
-    <!-- Success Alert -->
-    <div class="alert alert-success text-center">
-        <h4 class="alert-heading mb-2">🎉 অর্ডার সফলভাবে গ্রহণ করা হয়েছে</h4>
-        <p class="mb-0">
-            আপনার অর্ডার নম্বর:
-            <strong>{{ order.order_number }}</strong>
-        </p>
+
+    <!-- Success Message (Not Printed) -->
+    <div class="alert alert-success text-center no-print">
+        <h4>অর্ডার সফলভাবে গ্রহণ করা হয়েছে</h4>
+        <p>অর্ডার নম্বর: <strong>{{ order.order_number }}</strong></p>
     </div>
 
-    <!-- Call Confirmation -->
-    <div class="alert alert-warning text-center">
-        📞 <strong>
-            অর্ডার নিশ্চিত করার জন্য আমাদের একজন প্রতিনিধি খুব শীঘ্রই আপনাকে ফোন করবে।
-        </strong><br>
-        অনুগ্রহ করে আপনার ফোনটি চালু রাখুন।
-    </div>
+    <!-- Invoice -->
+    <div class="invoice-box">
 
-    <!-- Order Summary -->
-    <div class="card mb-4">
-        <div class="card-header fw-bold">
-            অর্ডার সারাংশ
-        </div>
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>পণ্যের মূল্য</span>
-                <span>৳{{ order.subtotal }}</span>
+        <!-- Header -->
+        <div class="invoice-header d-flex justify-content-between">
+            <div>
+                <h2>{{ SITE_NAME }}</h2>
+                <small>
+                    📞  01837-724712 <br>
+                    🌐 {{ SITE_DOMAIN }}
+                </small>
             </div>
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>ডেলিভারি চার্জ</span>
-                <span>৳{{ order.shipping_cost }}</span>
-            </div>
-
-            <hr>
-
-            <div class="d-flex justify-content-between fw-bold fs-5">
-                <span>মোট পরিশোধযোগ্য</span>
-                <span>৳{{ order.total_amount }}</span>
-            </div>
-
-            <div class="mt-3 text-muted">
-                পেমেন্ট পদ্ধতি:
-                <strong>{{ order.get_payment_method_display }}</strong>
-            </div>
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>অর্ডারের অবস্থা</span>
-                <span class="text-uppercase">{{ order.order_status }}</span>
+            <div class="text-end">
+                <strong>Invoice</strong><br>
+                Order #: {{ order.order_number }}<br>
+                Date: {{ order.created_at|date:"d M Y" }}
             </div>
         </div>
+
+        <!-- Customer Info -->
+        <div class="row mb-4 invoice-details">
+            <div class="col-md-6">
+                <strong>Customer Information</strong>
+                <p>
+                    {{ order.shipping_address.full_name|default_if_none:"" }}<br>
+                    📞 {{ order.shipping_address.phone|default_if_none:"" }}<br>
+                    📍 {{ order.shipping_address.address_line1|default_if_none:"" }}
+                </p>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <strong>Payment Method</strong>
+                <p>{{ order.get_payment_method_display }}</p>
+                <strong>Status</strong>
+                <p class="text-uppercase">{{ order.order_status }}</p>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>পণ্য</th>
+                    <th class="text-center">পরিমাণ</th>
+                    <th class="text-end">মূল্য</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-end">৳{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Summary -->
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>Subtotal</th>
+                        <td class="text-end">৳{{ order.subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <th>Delivery Charge</th>
+                        <td class="text-end">৳{{ order.shipping_cost }}</td>
+                    </tr>
+                    <tr class="fw-bold">
+                        <th>Total</th>
+                        <td class="text-end">৳{{ order.total_amount }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4">
+            <small>
+                ধন্যবাদ আমাদের সাথে কেনাকাটা করার জন্য ❤️ <br>
+                This is a system generated invoice.
+            </small>
+        </div>
+
     </div>
 
-    <!-- Actions -->
-    <div class="text-center">
-        <a href="/" class="btn btn-primary me-2">
+    <!-- Action Buttons -->
+    <div class="text-center mt-4 no-print">
+        <button onclick="window.print()" class="btn btn-dark me-2">
+            🖨️ প্রিন্ট করুন
+        </button>
+
+        <a href="/" class="btn btn-primary">
             কেনাকাটা চালিয়ে যান
-        </a>
-
-        <a href="{% url 'order_detail' order.order_number %}" class="btn btn-outline-secondary">
-            অর্ডার বিস্তারিত দেখুন
         </a>
     </div>
 
