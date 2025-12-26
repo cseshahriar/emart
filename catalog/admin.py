@@ -136,15 +136,25 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "base_price",
         "stock_quantity",
         "is_active",
-        "is_new",
         "is_slider",
         "is_featured",
-        "is_most_popular",
+        "is_new",
         "is_bestseller",
+        "is_most_popular",
+        "is_top_rated",
         "is_free_shipping",
         "published_at",
     )
-
+    list_editable = (
+        "is_active",
+        "is_slider",
+        "is_featured",
+        "is_new",
+        "is_bestseller",
+        "is_most_popular",
+        "is_top_rated",
+        "is_free_shipping",
+    )
     list_filter = (
         "category",
         "brand",
@@ -155,20 +165,10 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         "is_new",
         "is_bestseller",
     )
-
     search_fields = ("name", "sku")
     prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ("category", "brand")
     readonly_fields = ("view_count", "sale_count")
-    list_editable = (
-        "is_active",
-        "is_slider",
-        "is_new",
-        "is_featured",
-        "is_most_popular",
-        "is_bestseller",
-        "is_free_shipping",
-    )
     fieldsets = (
         (
             "Basic Info",

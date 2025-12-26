@@ -3251,7 +3251,7 @@ ol {
   border-radius: 4px;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
-  margin-top: 30px;
+  margin-top: 15px;
   -webkit-box-shadow: 0px 0px 20px #00000012;
           box-shadow: 0px 0px 20px #00000012;
   padding: 8px;
@@ -3332,7 +3332,7 @@ ol {
 }
 
 .single-product .product-info {
-  padding: 20px;
+  padding: 5px 10px;
   background-color: #fff;
 }
 
@@ -3380,7 +3380,7 @@ ol {
 }
 
 .single-product .product-info .price {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .single-product .product-info .price span {

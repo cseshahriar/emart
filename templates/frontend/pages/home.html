@@ -205,7 +205,7 @@
                 </div>
             </div>
 
-            <div class="row g-3 mb-5">
+            <div class="row g-3 mb-1">
                 {% for category in categories %}
                 <!-- Category Item -->
                 <div class="col-lg-2 col-md-3 col-4">
@@ -456,6 +456,66 @@
     </section>
     <!-- End Top Rated Product Area -->
     {% endif %}
+
+    {% if most_popular_products %}
+    <!-- Start Top Rated Product Area -->
+    <section class="trending-product section">
+        <div class="container bg-white p-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Most Popular Products</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for product in most_popular_products %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
+
+                            <div class="product-image">
+                                <img
+                                    {% if product.feature_image %}
+                                        src="{{ product.feature_image.image.url }}"
+                                    {% endif %}
+                                    alt="#" />
+                            </div>
+
+                            <div class="product-info">
+                                <h4 class="title">
+                                    <a href="/product-detail/{{ product.slug}}">{{ product.name }}</a>
+                                </h4>
+
+                                <div class="price">
+                                    {% if product.compare_price %}
+                                    <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                    {% endif %}
+                                    <span>৳ {{ product.base_price }}</span>
+                                </div>
+
+                                <!-- Product Buttons -->
+                                <div class="product-buttons">
+                                    <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                        <i class="lni lni-cart"></i> Buy Now
+                                    </a>
+
+                                    <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                        <i class="lni lni-cart-1"></i> Add to Cart
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- End Single Product -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- End Top Rated Product Area -->
+    {% endif %}
+
 {% endblock %}
 
 {% block extra_js %}{% endblock %}
