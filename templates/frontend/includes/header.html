@@ -108,7 +108,7 @@
                             <ul class="sub-category">
                             {% for category in categories %}
                                 <li>
-                                    <a href="category/{{ category.slug }}">
+                                    <a href="{% url 'category_products' category.slug %}">
                                         {{ category.name }}
 
                                         {% if category.children.all %}
@@ -120,7 +120,7 @@
                                         <ul class="inner-sub-category">
                                             {% for child in category.children.all %}
                                                 <li>
-                                                    <a href="category/{{ child.slug }}">
+                                                    <a href="{% url 'category_products' child.slug %}">
                                                         {{ child.name }}
                                                     </a>
                                                 </li>
@@ -165,14 +165,13 @@
                                             data-bs-target="#submenu-{{ category.id }}"
                                             aria-expanded="false"
                                             aria-label="Toggle navigation">
-
                                                 {{ category.name }}
                                             </a>
 
                                             <ul class="sub-menu collapse" id="submenu-{{ category.id }}">
                                                 {% for child in category.children.all %}
                                                     <li class="nav-item">
-                                                        <a href="category/{{ child.slug }}">
+                                                        <a href="{% url 'category_products' child.slug %}">
                                                             {{ child.name }}
                                                         </a>
                                                     </li>
@@ -182,7 +181,7 @@
                                     {% else %}
                                         <!-- SINGLE LINK -->
                                         <li class="nav-item">
-                                            <a href="category/{{category.slug }}"
+                                            <a href="{% url 'category_products' category.slug %}"
                                             aria-label="Toggle navigation">
                                                 {{ category.name }}
                                             </a>

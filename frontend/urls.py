@@ -13,6 +13,7 @@ from frontend.views import (
     order_success,
     signup_view,
 )
+from frontend.views.category import CategoryProductView
 from frontend.views.home_page import HomePageView, ProductDetailPageView
 
 urlpatterns = [
@@ -59,4 +60,10 @@ urlpatterns = [
     ),
     # dashboard
     path("dashboard/", customer_dashboard, name="customer_dashboard"),
+    # category product
+    path(
+        "category/<str:slug>/",
+        CategoryProductView.as_view(),
+        name="category_products",
+    ),
 ]

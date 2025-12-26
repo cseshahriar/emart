@@ -1,0 +1,120 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Slider background */
+    .single-slider {
+        padding: 60px 0;
+    }
+    /* Ensure image stays right */
+    .single-slider .image {
+        text-align: right;
+    }
+    /* Prevent image overflow */
+    .single-slider .image img {
+        max-width: 100%;
+        height: auto;
+    }
+    /* Optional: better text contrast */
+    .single-slider .content h2,
+    .single-slider .content p,
+    .single-slider .content h3 {
+        color: #111;
+    }
+    span.text-danger.d-inline-block.ml-2 {
+        margin-left: 50px !important;
+    }
+    .slider-head.border {
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% if object_list %}
+        <!-- Start Featured Product Area -->
+        <section class="trending-product section">
+            <div class="container bg-white p-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title">
+                            <h2>{{ category }} Products</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for product in object_list %}
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <!-- Start Single Product -->
+                            <div class="single-product">
+
+                                <div class="product-image">
+                                    <img
+                                        {% if product.feature_image %}
+                                            src="{{ product.feature_image.image.url }}"
+                                        {% endif %}
+                                        alt="#" />
+                                </div>
+
+                                <div class="product-info">
+                                    <h4 class="title">
+                                        <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                                    </h4>
+
+                                    <div class="price">
+                                        {% if product.compare_price %}
+                                        <span class="text-secondary d-inline-block ml-2"><del>৳ {{ product.compare_price }}</del></span>
+                                        {% endif %}
+                                        <span>৳ {{ product.base_price }}</span>
+                                    </div>
+
+                                    <!-- Product Buttons -->
+                                    <div class="product-buttons">
+                                        <a href="{% url 'buy_now' product.slug %}" class="btn btn-primary">
+                                            <i class="lni lni-cart"></i> Buy Now
+                                        </a>
+
+                                        <a href="{% url 'add_to_cart' product.slug %}" class="btn btn-outline-secondary">
+                                            <i class="lni lni-cart-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- End Single Product -->
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- End Featured Product Area -->
+    {% else %}
+        <section class="trending-product section">
+            <div class="container bg-white p-5 text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 col-12">
+                        <div class="empty-category">
+                            <i class="lni lni-search-alt" style="font-size:60px; color:#ccc;"></i>
+                            <h3 class="mt-4">No Products Found</h3>
+                            <p class="text-muted mt-2">
+                                We couldn’t find any products in the
+                                <strong>{{ category }}</strong> category right now.
+                            </p>
+                            <p class="text-muted">
+                                Please check back later or explore other categories.
+                            </p>
+
+                            <a href="{% url 'home' %}" class="btn btn-primary mt-3">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}{% endblock %}

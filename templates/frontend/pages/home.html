@@ -211,7 +211,7 @@
                 <div class="col-lg-2 col-md-3 col-4">
                     <div class="category-card">
                         {% comment %} <img src="{% static 'assets/images/products/product-1.jpg' %}" alt="Anklets"> {% endcomment %}
-                        <h6><a href="/category/{{category.slug}}">{{ category }}</a></h6>
+                        <h6><a href="{% url 'category_products' category.slug %}">{{ category }}</a></h6>
                     </div>
                 </div>
                 {% endfor %}
