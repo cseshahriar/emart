@@ -19,6 +19,7 @@ class HomePageView(View):
 
     def get(self, request):
         """Home page get"""
+        search = request.GET.get("q", None)
         base_product_queryset = (
             Product.objects.filter(is_active=True)
             .select_related("category", "brand")
@@ -40,10 +41,22 @@ class HomePageView(View):
             is_most_popular=True
         ).first()  # only one item for home page slider right section
         categories = Category.objects.filter(is_active=True, is_featured=True)
+
         featured_products = base_product_queryset.filter(is_featured=True)
         new_products = base_product_queryset.filter(is_new=True)
         bestseller_products = base_product_queryset.filter(is_bestseller=True)
         top_rated_products = base_product_queryset.filter(is_top_rated=True)
+        if search:
+            featured_products = featured_products.filter(
+                name__icontains=search
+            )
+            new_products = new_products.filter(name__icontains=search)
+            bestseller_products = bestseller_products.filter(
+                name__icontains=search
+            )
+            top_rated_products = top_rated_products.filter(
+                name__icontains=search
+            )
 
         exclude_product_ids = (  # remove when show category
             slider_products.values_list("id", flat=True).union(

@@ -199,20 +199,22 @@
                 <div class="col-lg-5 col-md-5 col-12">
                     <div class="row g-2 align-items-center">
                         <div class="col-9">
-                            <!-- Start Main Menu Search -->
-                            <div class="main-menu-search">
-                                <!-- navbar search start -->
-                                <div class="navbar-search search-style-5">
-                                    <div class="search-input">
-                                        <input type="text" placeholder="Search">
+                            <form action="" method="get">
+                                <!-- Start Main Menu Search -->
+                                <div class="main-menu-search">
+                                    <!-- navbar search start -->
+                                    <div class="navbar-search search-style-5">
+                                        <div class="search-input">
+                                            <input type="text" placeholder="Search" name="q" value="{{ request.GET.q }}">
+                                        </div>
+                                        <div class="search-btn">
+                                            <button type="submit"><i class="lni lni-search-alt"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="search-btn">
-                                        <button><i class="lni lni-search-alt"></i></button>
-                                    </div>
+                                    <!-- navbar search Ends -->
                                 </div>
-                                <!-- navbar search Ends -->
-                            </div>
-                            <!-- End Main Menu Search -->
+                                <!-- End Main Menu Search -->
+                            </form>
                         </div>
 
                         <div class="col-3">

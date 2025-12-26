@@ -19,6 +19,7 @@ class CategoryProductView(View):
 
     def get(self, request, slug):
         """Home page get"""
+        search = request.GET.get("q", None)
         category = get_object_or_404(Category, slug=slug)
         object_list = (
             Product.objects.filter(is_active=True, category__slug=slug)
@@ -35,5 +36,8 @@ class CategoryProductView(View):
                 ),
             )
         )
+        if search:
+            object_list = object_list.filter(name__icontains=search)
+
         context = {"object_list": object_list, "category": category}
         return render(request, self.template_name, context)
