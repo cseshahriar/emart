@@ -34,10 +34,10 @@ Note: Can not use without permission
 - User dashboard for order tracking
 
 ## Order Management
-- Order placement without account (guest order)
+- Order placement without an account (guest order)
 - Order history for logged-in users
 - Order status tracking (Pending, Confirmed, Shipped, Delivered)
-- Printable order / invoice
+- Printable order/invoice
 - Admin order management panel
 
 ## 🧑‍💼 Admin & Management
@@ -64,8 +64,8 @@ Note: Can not use without permission
 
 ## ⚙️ Tech Stack
 - Backend: Python, Django, Django REST Framework
-- Frontend: HTML, CSS, JavaScript (Tailwind / Bootstrap)
-- Database: PostgreSQL / SQLite
+- Frontend: HTML, CSS, JavaScript (Bootstrap)
+- Database: PostgreSQL
 - Authentication: Django Auth
 - Deployment Ready (Docker / AWS compatible)
 
@@ -74,8 +74,6 @@ Note: Can not use without permission
 - Supports guest checkout (rare & in-demand)
 - Shipping calculation logic (business-ready)
 - Product variant system (industry standard)
-- Ideal for local jobs, freelancing, and SaaS scaling
-
 
 <h2>📸 Screenshots</h2>
 
